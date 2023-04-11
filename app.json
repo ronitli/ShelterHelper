@@ -1,5 +1,6 @@
 {
   "expo": {
+    
     "name": "DogShelter",
     "slug": "DogShelter",
     "version": "1.0.0",
@@ -15,9 +16,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.DogShelter.DogShelter",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.DogShelter.DogShelter",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

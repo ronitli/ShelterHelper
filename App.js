@@ -1,20 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Button, View, Text } from 'react-native';
+import Start from './src/components/Start';
+import { styles } from './src/styles';
+import Home from './src/components/Home'; 
+import Register from './src/components/Register';
+import AddDog from './src/components/AddDog';
+import Alerts from './src/components/Alerts';
+import Requests from './src/components/Requests';
+import Search from './src/components/Search';
+const Stack = createStackNavigator();
 
-export default function App() {
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+       <Stack.Navigator initialRouteName="Start">
+       <Stack.Screen name="Start" component={Start} />
+        <Stack.Screen name="Home" component={Home} />   
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="AddDog" component={AddDog} />
+        <Stack.Screen name="Alerts" component={Alerts} />
+        <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name="Requests" component={Requests} />
+       </Stack.Navigator>
+    </NavigationContainer>
   );
 }
+export default App;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

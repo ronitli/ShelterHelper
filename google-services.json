@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "650377746192",
+    "project_id": "test-78257",
+    "storage_bucket": "test-78257.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650377746192:android:9ad7ef484609e6159d7795",
+        "android_client_info": {
+          "package_name": "com.DogShelter.DogShelter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650377746192-8b3b4e2k5sb83g1d4qrdb59fdj1ncbbt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3finvrEOoIEm0kIQ-bTPgUjxLwHMkNGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650377746192-8b3b4e2k5sb83g1d4qrdb59fdj1ncbbt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
