@@ -24,17 +24,44 @@ const Register = ({ navigation }) => {
       alert('Please enter all the fields.');
     return;
     }
-    if(password !== checkpswd)
-    {
-      alert('The passwords do not match!');
-      return;
-    }
-
-    //data base validation
-
+    
+    checkIfUserExist(email)
+    createUserWithEmailAndPassword(email,password); //return user refernce
     alert('Registration completed! Please login with your new user.');
     navigation.navigate('Start');
   };
+
+  const checkIfUserExist =  (userEmail) =>{
+    const usersRef = firebase.database().ref('users');
+    usersRef.orderByChild('email').equalTo(userEmail).once('value', snapshot => {
+    if (snapshot.exists()) {
+      console.log('User with email ' + userEmail + ' already exists. Please try again');
+      return;
+    }
+    }); 
+  };
+
+  }
+  const createUserWithEmailAndPassword = async (email, password) => {
+    try {
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      console.log('User account created successfully:', user.uid);
+      user.update({
+        UserNam: username,
+        FirstName: fname,
+        LastName: lname
+      }).then(() => {
+        console.log('Field added to user successfully!');
+      }).catch(error => {
+        console.error(error);
+      });
+      return user;
+    } catch (error) {
+      console.log('Error creating user account:', error.message);
+      throw error;
+    }
+    };
   const options = [
     { label: 'Manager', value: 'Manager' },
     { label: 'Worker', value: 'Worker' },
@@ -96,6 +123,6 @@ const Register = ({ navigation }) => {
     
     </View>
   );
-};
+//};
 
 export default Register;

@@ -12,23 +12,35 @@ const Start = () => {
 
   const handleLogin = () => {
     //backend validation
-    console.log(`Username: ${username}, Password: ${password}`);
+    console.log(`Username: ${username}, password: ${password}`);
     if (username === '' || password === '') {
     alert('Please enter both username and password.');
     return;
   }
-  if (username !== 'test' || password !== 'test') {
+  //database validation
+  auth()
+  .signInWithEmailAndPassword(email, password)
+  .then(() => {
+    console.log('User signed in!');
+
+    // Clear the form fields after data is saved
+    setUsername('');
+    setPassword('');
+  
+    navigation.navigate('Home');
+  })
+  .catch(error => {
+    console.error(error);
+    alert('Email or password is worng');
+  });
+
+     // Clear the form fields after data is saved
+
+  /*if (username !== 'test' || password !== 'test') {
     alert('Invalid username or password.');
     return;
-  }
-  //database validation
+  }*/
 
-  // Clear the form fields after data is saved
-  setUsername('');
-  setPassword('');
-
-  navigation.navigate('Home');
-  
   };
   
   const handleRegister= () => {
