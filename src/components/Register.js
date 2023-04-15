@@ -41,7 +41,7 @@ const Register = ({ navigation }) => {
     }); 
   };
 
-  }
+ 
   const createUserWithEmailAndPassword = async (email, password) => {
     try {
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
@@ -61,7 +61,7 @@ const Register = ({ navigation }) => {
       console.log('Error creating user account:', error.message);
       throw error;
     }
-    };
+  };
   const options = [
     { label: 'Manager', value: 'Manager' },
     { label: 'Worker', value: 'Worker' },
@@ -123,6 +123,7 @@ const Register = ({ navigation }) => {
     
     </View>
   );
-//};
+};
 
 export default Register;
+
