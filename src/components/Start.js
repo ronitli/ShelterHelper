@@ -12,10 +12,10 @@ const Start = () => {
 
   const handleLogin = () => {
     //backend validation
-<<<<<<< HEAD
-    console.log(`Username: ${username}, password: ${password}`);
-    if (username === '' || password === '') {
-    alert('Please enter both username and password.');
+
+    console.log(`Email: ${email}, password: ${password}`);
+    if (email === '' || password === '') {
+    alert('Please enter both email and password.');
     return;
   }
   //database validation
@@ -25,7 +25,7 @@ const Start = () => {
     console.log('User signed in!');
 
     // Clear the form fields after data is saved
-    setUsername('');
+    setEmail('');
     setPassword('');
   
     navigation.navigate('Home');
@@ -37,8 +37,8 @@ const Start = () => {
 
      // Clear the form fields after data is saved
 
-  /*if (username !== 'test' || password !== 'test') {
-    alert('Invalid username or password.');
+  /*if (email !== 'test' || password !== 'test') {
+    alert('Invalid email or password.');
     return;
   }*/
     console.log(`Email: ${email}, Password: ${password}`);
