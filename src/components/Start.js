@@ -6,12 +6,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
 const Start = () => {
-  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const navigation = useNavigation();
 
   const handleLogin = () => {
     //backend validation
+<<<<<<< HEAD
     console.log(`Username: ${username}, password: ${password}`);
     if (username === '' || password === '') {
     alert('Please enter both username and password.');
@@ -40,25 +41,37 @@ const Start = () => {
     alert('Invalid username or password.');
     return;
   }*/
+    console.log(`Email: ${email}, Password: ${password}`);
+    if (email === '' || password === '') {
+    alert('Please enter both email and password.');
+    return;
+  }
+  
+  //database validation
 
+  // Clear the form fields after data is saved
+  setEmail('');
+  setPassword('');
+
+  navigation.navigate('Home');
   };
   
   const handleRegister= () => {
     console.log('Register button pressed');
      // Clear the form fields 
-  setUsername('');
+  setEmail('');
   setPassword('');
 
     navigation.navigate('Register');
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Username:</Text>
+      <Text style={styles.label}>Email:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter your username:"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Enter your email:"
+        value={email}
+        onChangeText={setEmail}
         keyboardType="default"
         autoCapitalize="none"
         autoCorrect={false}
