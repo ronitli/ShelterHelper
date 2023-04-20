@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import { View, Text, TextInput, Button } from 'react-native';
 import { styles } from '../styles';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 const Start = () => {
   const [email, setEmail] = React.useState('');
@@ -16,24 +19,17 @@ const Start = () => {
     console.log(`Email: ${email}, password: ${password}`);
     if (email === '' || password === '') {
     alert('Please enter both email and password.');
+    
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+          const user = userCredentials.user;
+          console.log('Logged in with:', user.email);
+        })
+        .catch(error => alert(error.message))
     return;
   }
   //database validation
-  auth()
-  .signInWithEmailAndPassword(email, password)
-  .then(() => {
-    console.log('User signed in!');
-
-    // Clear the form fields after data is saved
-    setEmail('');
-    setPassword('');
-  
-    navigation.navigate('Home');
-  })
-  .catch(error => {
-    console.error(error);
-    alert('Email or password is worng');
-  });
 
      // Clear the form fields after data is saved
 
@@ -41,12 +37,7 @@ const Start = () => {
     alert('Invalid email or password.');
     return;
   }*/
-    console.log(`Email: ${email}, Password: ${password}`);
-    if (email === '' || password === '') {
-    alert('Please enter both email and password.');
-    return;
-  }
-  
+
   //database validation
 
   // Clear the form fields after data is saved

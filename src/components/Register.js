@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
+import { auth } from 'firebase/app';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState('');
@@ -25,43 +26,18 @@ const Register = ({ navigation }) => {
     return;
     }
     
-    checkIfUserExist(email)
-    createUserWithEmailAndPassword(email,password); //return user refernce
+    auth
+    .createUserWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log('Registered with:', user.email);
+    })
+    .catch(error => alert(error.message))
+    
     alert('Registration completed! Please login with your new user.');
     navigation.navigate('Start');
   };
-
-  const checkIfUserExist =  (userEmail) =>{
-    const usersRef = firebase.database().ref('users');
-    usersRef.orderByChild('email').equalTo(userEmail).once('value', snapshot => {
-    if (snapshot.exists()) {
-      console.log('User with email ' + userEmail + ' already exists. Please try again');
-      return;
-    }
-    }); 
-  };
-
  
-  const createUserWithEmailAndPassword = async (email, password) => {
-    try {
-      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      console.log('User account created successfully:', user.uid);
-      user.update({
-        UserNam: username,
-        FirstName: fname,
-        LastName: lname
-      }).then(() => {
-        console.log('Field added to user successfully!');
-      }).catch(error => {
-        console.error(error);
-      });
-      return user;
-    } catch (error) {
-      console.log('Error creating user account:', error.message);
-      throw error;
-    }
-  };
   const options = [
     { label: 'Manager', value: 'Manager' },
     { label: 'Worker', value: 'Worker' },
