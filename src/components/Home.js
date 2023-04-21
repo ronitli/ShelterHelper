@@ -15,6 +15,7 @@ const Home = ({ navigation }) => {
     <Text onPress={() => navigation.navigate('AddDog')}>AddDog</Text>
     <Text onPress={() => navigation.navigate('Requests')}>Requests</Text>
     <Text onPress={() => navigation.navigate('Alerts')}>Alerts</Text>
+    <Text onPress={() => navigation.navigate('UpdateMedicalData')}>UpdateMedicalData</Text>
     </View>
 );
 };

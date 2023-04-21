@@ -11,6 +11,7 @@ import AddDog from './src/components/AddDog';
 import Alerts from './src/components/Alerts';
 import Requests from './src/components/Requests';
 import Search from './src/components/Search';
+import UpdateMedicalData from './src/components/UpdateMedicalData';
 const Stack = createStackNavigator();
 
 
@@ -25,9 +26,9 @@ function App() {
         <Stack.Screen name="Alerts" component={Alerts} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Requests" component={Requests} />
+        <Stack.Screen name="UpdateMedicalData" component={UpdateMedicalData} />
        </Stack.Navigator>
     </NavigationContainer>
   );
 }
 export default App;
-
