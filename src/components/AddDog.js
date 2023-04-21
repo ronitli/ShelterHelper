@@ -11,9 +11,9 @@ import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const AddDog= ({ navigation }) => {
-  const [name, setName] = React.useState('');
-  const [breed, setBreed] = React.useState('');
+const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
+  const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
+  const [breed, setBreed] = React.useState('');// return array with 2 att 
   const [profilePicture, setProfilePicture] = React.useState(null);
   const [colors, setColors] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -21,9 +21,9 @@ const AddDog= ({ navigation }) => {
   const [enterdate, setEnterdate] = React.useState(new Date());
   const [status, setStatus] = React.useState('');
   const [info, setInfo] = React.useState('');
-  const [showPicker, setShowPicker] = React.useState(false);
+  const [showPicker, setShowPicker] = React.useState(false);//defalt val is flase
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (event, selectedDate) => { // prperty 
     const currentDate = selectedDate || enterdate;
     setShowPicker(false);
     setEnterdate(currentDate);
@@ -73,7 +73,7 @@ const AddDog= ({ navigation }) => {
     }
   };
 
-  const genders = [
+  const genders = [// array with two argu
     { label: 'Male', value: 'Male' },
     { label: 'Female', value: 'Female' },
   ];
@@ -92,7 +92,7 @@ const AddDog= ({ navigation }) => {
       <TextInput style={styles.input} value={breed} onChangeText={setBreed} placeholder='Bread:' />
       <TextInput style={styles.input} value={colors} onChangeText={setColors} placeholder='Colors:' />
       <Text>Choose dog gender:</Text>
-       {genders.map((option) => (
+       {genders.map((option) => (//function when finish create new array and return it
         <View key={option.value} style={styles.radioButtonContainer}>
           <RadioButton
             value={option.value}
