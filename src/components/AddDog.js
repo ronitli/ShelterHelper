@@ -10,6 +10,7 @@ import pickImage from './pickImage';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Dogs from './Dogs';
 
 const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
@@ -72,7 +73,6 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
       setProfilePicture(result.uri);
     }
   };
-
   const genders = [// array with two argu
     { label: 'Male', value: 'Male' },
     { label: 'Female', value: 'Female' },
@@ -80,7 +80,6 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
   return (
     
     <View style={styles.container}>
-      
       <Button title="Pick Image" onPress={handlePickImage} />
       {profilePicture && (
         <Image

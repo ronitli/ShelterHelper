@@ -11,7 +11,7 @@ import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 //from start page
 
-const UpdateMedicalData= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
+const Update_medical_data= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
     const [name, setName] = React.useState('');
     const [vaccination, setvacccintaion] = React.useState('');
     const [fleaTreatment, setfleaTreatment] = React.useState('');
@@ -88,4 +88,4 @@ const UpdateMedicalData= ({ navigation }) => {// func declaration argugemnt navi
     );
 
 };
-export default UpdateMedicalData;
+export default Update_medical_data;
