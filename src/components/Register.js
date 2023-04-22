@@ -102,4 +102,3 @@ const Register = ({ navigation }) => {
 };
 
 export default Register;
-
