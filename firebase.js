@@ -1,7 +1,11 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
-import 'firebase/storage';
+// // import firebase from 'firebase/app';
+// // import 'firebase/auth';
+// // import 'firebase/database';
+// // import 'firebase/storage';
+// import * as firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 
 const firebaseConfigAndroid = {
   apiKey: 'AIzaSyA3finvrEOoIEm0kIQ-bTPgUjxLwHMkNGA',
@@ -22,9 +26,21 @@ const firebaseConfigIOS = {
   messagingSenderId: '650377746192',
   appId: '1:650377746192:ios:6cb85db0352e30079d7795',
 };
+// const iosApp= initializeApp(firebaseConfigIOS);
+// console.log({iosApp});
+// const auth = getAuth(iosApp);
+// console.log({auth});
 
+const androidApp= initializeApp(firebaseConfigAndroid);
+console.log({androidApp});
+const auth = getAuth(androidApp);
+console.log({auth});
 
-firebase.initializeApp(firebaseConfigAndroid);
-firebase.initializeApp(firebaseConfigIOS);
+// export default firebase;
+export {
+  auth,
+  signInWithEmailAndPassword  
+};
+// fg
 
-export default firebase;
+export const a = 5;
