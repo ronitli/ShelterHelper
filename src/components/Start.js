@@ -1,60 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, TextInput, Button } from 'react-native';
 import { styles } from '../styles';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth, signInWithEmailAndPassword } from '../../firebase';
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 
 const Start = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const handleLogin = () => {
-    //backend validation
 
     console.log(`Email: ${email}, password: ${password}`);
     if (email === '' || password === '') {
     alert('Please enter both email and password.');
+    }
     
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Logged in with:', user.email);
-        })
-        .catch(error => alert(error.message))
+      signInWithEmailAndPassword(auth,email,password).then(() =>{
+        console.log("loged in")
+
+        setEmail('');
+        setPassword('');
+        navigation.navigate('Home');
+
+      }).catch(err => {
+        console.error(err);
+        alert(err.message)
+      })
+
     return;
-  }
-  //database validation
 
-     // Clear the form fields after data is saved
-
-  /*if (email !== 'test' || password !== 'test') {
-    alert('Invalid email or password.');
-    return;
-  }*/
-
-  //database validation
-
-  // Clear the form fields after data is saved
-  setEmail('');
-  setPassword('');
-
-  navigation.navigate('Home');
   };
   
   const handleRegister= () => {
     console.log('Register button pressed');
-     // Clear the form fields 
-  setEmail('');
-  setPassword('');
+    setEmail('');
+    setPassword('');
 
     navigation.navigate('Register');
+
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Email:</Text>
