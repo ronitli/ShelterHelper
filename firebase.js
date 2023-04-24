@@ -4,8 +4,26 @@
 // // import 'firebase/storage';
 // import * as firebase from "firebase";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+//import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+    GoogleAuthProvider,
+    getAuth,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut,
+  } from "firebase/auth";
 
+import {
+    getFirestore,
+    query,
+    getDocs,
+    collection,
+    where,
+    addDoc
+  } from "firebase/firestore";
+ 
 
 const firebaseConfigAndroid = {
   apiKey: 'AIzaSyA3finvrEOoIEm0kIQ-bTPgUjxLwHMkNGA',
@@ -35,11 +53,16 @@ const androidApp= initializeApp(firebaseConfigAndroid);
 console.log({androidApp});
 const auth = getAuth(androidApp);
 console.log({auth});
+const db = getFirestore(androidApp);
 
 // export default firebase;
 export {
   auth,
-  signInWithEmailAndPassword  
+  db,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  addDoc,
+  collection
 };
 // fg
 

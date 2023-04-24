@@ -5,7 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
-import { auth } from 'firebase/app';
+//import { auth } from 'firebase/app';
+import {auth,createUserWithEmailAndPassword, addDoc, collection, db } from '../../firebase';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState('');
@@ -25,19 +26,33 @@ const Register = ({ navigation }) => {
       alert('Please enter all the fields.');
     return;
     }
+    else if(password!=checkpswd)
+    {
+      alert('Not the same password.');
+      return;
+    }
     
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-      const user = userCredentials.user;
-      console.log('Registered with:', user.email);
-    })
-    .catch(error => alert(error.message))
-    
-    alert('Registration completed! Please login with your new user.');
-    navigation.navigate('Start');
+    try {
+      const res =  createUserWithEmailAndPassword(auth, email, password);
+      setProperty();
+      navigation.navigate('Home');
+      console.log("user register");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+
   };
- 
+
+ const setProperty= () =>{
+    setUsername('');
+    setEmail('');
+    setPassword('');
+    setFname('');
+    setLname('');
+    setCheckPswd('');
+    setSelectedOption('');
+ };
   const options = [
     { label: 'Manager', value: 'Manager' },
     { label: 'Worker', value: 'Worker' },
