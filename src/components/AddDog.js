@@ -69,8 +69,8 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setProfilePicture(result.uri);
+    if (!result.canceled) {
+      setProfilePicture(result.assets[0].uri);
     }
   };
   const genders = [// array with two argu

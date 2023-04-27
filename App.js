@@ -15,6 +15,7 @@ import Update_medical_data from './src/components/Update_medical_data';
 import Dogs from './src/components/Dogs';
 import Update_trip from './src/components/Update_trip';
 import Calender from './src/components/Calender';
+import Update_Dog_Details from './src/components/Update_Dog_Details';
 const Stack = createStackNavigator();
 
 
@@ -33,6 +34,7 @@ function App() {
         <Stack.Screen name="Dogs" component={Dogs} />
         <Stack.Screen name="Calender" component={Calender} />
         <Stack.Screen name="Update_trip" component={Update_trip} />
+        <Stack.Screen name="Update_Dog_Details" component={Update_Dog_Details} />
        </Stack.Navigator>
     </NavigationContainer>
   );
