@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, TextInput, Button, TouchableOpacity  } from 'react-native';
 import { styles } from '../styles';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { auth, signInWithEmailAndPassword } from '../../firebase';
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
-//import Icon from 'react-native-ico-material-design';
-import { Icon } from 'react-native-elements';
-//import { useCustomFonts } from './styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const Start = () => {
  
@@ -51,9 +48,13 @@ const Start = () => {
   
   return (
     <View style={styles.container}>
-       
+       <Icon name="paw" size={60} color="#A0522D" />
+
         <Text style={styles.title}>ShelterHelper</Text>
-      <Text style={styles.label}>Email:</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text style={[styles.label, { marginLeft: 10 }]}>Email:</Text>
+       
+       </View>
       
       <TextInput
       
