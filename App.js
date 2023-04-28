@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Button, View, Text } from 'react-native';
@@ -16,10 +17,35 @@ import Dogs from './src/components/Dogs';
 import Update_trip from './src/components/Update_trip';
 import Calender from './src/components/Calender';
 import Update_Dog_Details from './src/components/Update_Dog_Details';
+import * as Font from 'expo-font';
+//import { loadFonts } from './styles';
+import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
+
 const Stack = createStackNavigator();
 
 
 function App() {
+  const [isReady, setIsReady] = React.useState(false);
+
+  React.useEffect(() => {
+    async function prepare() {
+      // Hide the splash screen
+      await SplashScreen.hideAsync();
+      // Load any necessary assets here
+      await Font.loadAsync({
+       'LilitaOne-Regular': require('./assets/fonts/LilitaOne-Regular.ttf'),
+       'Mukta-Bold':require('./assets/fonts/Mukta-Bold.ttf'),
+      });
+      setIsReady(true);
+    }
+    prepare();
+  }, []);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
        <Stack.Navigator initialRouteName="Start">

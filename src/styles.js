@@ -1,6 +1,16 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 
 
+export const loadFonts = async () => {
+  await Font.loadAsync({
+    'LilitaOne-Regular': require('../assets/fonts/LilitaOne-Regular.ttf'),
+    'Mukta-Bold':require('../assets/fonts/Mukta-Bold.ttf'),
+  });
+};
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,18 +19,17 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FCEFEF',
   },
   title: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#A0522D',
+    fontFamily: 'LilitaOne-Regular',
+    fontSize: 43,
+     color: '#A0522D',
     marginBottom: 50,
-   // fontFamily: 'Nunito-Bold',
   },
   input: {
     width: '80%',
     height: 50,
     padding: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'sienna',
     marginBottom: 20,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -46,9 +55,9 @@ export const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontWeight: 'bold',
     marginBottom: 10,
     color: '#6F4E37',
+    fontFamily: 'Mukta-Bold',
   },
   loginButton: {
     backgroundColor: '#E59C8A',
