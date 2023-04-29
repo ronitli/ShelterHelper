@@ -9,7 +9,10 @@ import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Update_Dog_Details from './Update_Dog_Details';
+import { db } from '../../firebase';
+import { getFirestore, collection, setDoc, addDoc, getDocs } from "firebase/firestore";
 //from home page
+
 const dogs = [
   {
     name: 'shoko',
@@ -38,6 +41,7 @@ const dogs = [
   }
 ];
 const Dogs = ({navigation}) => {
+
     return (
         <View style={styles.container}>
         {dogs.map(dog =>

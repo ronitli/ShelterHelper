@@ -11,6 +11,9 @@ import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Dogs from './Dogs';
+import { db } from '../../firebase';
+import { getFirestore, collection, setDoc, addDoc } from "firebase/firestore";
+
 
 const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
@@ -42,8 +45,25 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
       }
       
     //save to database & validate
+    const dbRef = collection(db, 'Dogs');
+    
+    const newDog = {
+      name: name,
+      breed: breed,
+      profilePicture: profilePicture,
+      colors: colors,
+      gender: gender,
+      age: age,
+      enterdate: enterdate,
+      status: status,
+      info: info
+   };
+    addDoc(dbRef, newDog).then(docRef => {
+      console.log("Successfully added a new dog!");
+      alert('Successfully added a new dog!');
+    })
+.catch(error => {console.log(error);})
 
-    alert('Successfully added a new dog!');
     // Clear the form fields after data is saved
     setName('');
     setBreed('');
