@@ -36,6 +36,8 @@ function App() {
       await Font.loadAsync({
        'LilitaOne-Regular': require('./assets/fonts/LilitaOne-Regular.ttf'),
        'Mukta-Bold':require('./assets/fonts/Mukta-Bold.ttf'),
+       'CormorantUpright-Bold':require('./assets/fonts/CormorantUpright-Bold.ttf'),
+       
       });
       setIsReady(true);
     }

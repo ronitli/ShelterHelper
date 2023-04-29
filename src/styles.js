@@ -9,6 +9,7 @@ export const loadFonts = async () => {
   await Font.loadAsync({
     'LilitaOne-Regular': require('../assets/fonts/LilitaOne-Regular.ttf'),
     'Mukta-Bold':require('../assets/fonts/Mukta-Bold.ttf'),
+    'CormorantUpright-Bold':require('../assets/fonts/CormorantUpright-Bold.ttf'),
   });
 };
 export const styles = StyleSheet.create({
@@ -24,6 +25,12 @@ export const styles = StyleSheet.create({
      color: '#A0522D',
     marginBottom: 50,
   },
+  registertitle: {
+    fontFamily: 'CormorantUpright-Bold',
+    fontSize: 45,
+    color: '#8B5A33',
+    marginBottom: 30,
+  },
   input: {
     width: '80%',
     height: 50,
@@ -34,6 +41,33 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
   },
+  radioButtonText: {
+    fontFamily: 'CormorantUpright-Bold',
+    fontSize: 18,
+    color: '#8B5A33',
+    marginLeft: 5,
+    },
+    radioButtonTextRight: {
+      marginLeft: 10,
+      fontSize: 16,
+      fontFamily: 'CormorantUpright-Bold',
+      color: '#8B5A33',
+    },
+    radioCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#8B5A33',
+    alignItems: 'center',
+    justifyContent: 'center',
+    },
+    selectedRadioCircle: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: '#8B5A33',
+    },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -46,7 +80,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
    // justifyContent: 'space-between',
     width: '80%',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   profilePicture: {
     width: 150,

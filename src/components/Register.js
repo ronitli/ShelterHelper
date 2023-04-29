@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button , TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 //import { auth } from 'firebase/app';
 import {auth,createUserWithEmailAndPassword, addDoc, collection, db } from '../../firebase';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState('');
@@ -59,35 +60,42 @@ const Register = ({ navigation }) => {
     { label: 'Volunteer', value: 'Volunteer' },
   ];
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.title}>Registration</Text>
+      <Icon name="pencil" size={50} color='sienna' />
+      <Text style={styles.registertitle}>Registration</Text>
       <TextInput
         style={styles.input}
         placeholder="First Name"
+        placeholderTextColor="sienna"
         value={fname}
         onChangeText={setFname}
       />
        <TextInput
         style={styles.input}
         placeholder="Last Name"
+        placeholderTextColor="sienna"
         value={lname}
         onChangeText={setLname}
       />
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor="sienna"
         value={username}
         onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="sienna"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="sienna"
         secureTextEntry={true}
         value={password}
         onChangeText={setPassword}
@@ -95,23 +103,34 @@ const Register = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Retype Password"
+        placeholderTextColor="sienna"
         secureTextEntry={true}
         value={checkpswd}
         onChangeText={setCheckPswd}
       />
-      <Text>Choose your role:</Text>
+      <Text style={styles.radioButtonText}>Choose your role:</Text>
+      <View style={{ height: 10 }} />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
        {options.map((option) => (
-        <View key={option.value} style={styles.radioButtonContainer}>
-          <RadioButton
-            value={option.value}
-            status={selectedOption === option.value ? 'checked' : 'unchecked'}
-            onPress={() => setSelectedOption(option.value)}
-          />
-          <Text>{option.label}</Text>
-          </View>
+      <TouchableOpacity
+      key={option.value}
+      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 30 }}
+      onPress={() => setSelectedOption(option.value)}
+    >
+      <View style={styles.radioCircle}>
+        {selectedOption === option.value && (
+          <View style={styles.selectedRadioCircle} />
+        )}
+      </View>
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+    </TouchableOpacity>
       ))}
-      <Button title="Register" onPress={handleRegister} />
-    
+      </View>
+      <View style={{ height: 40 }} />
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+      
     </View>
   );
 };
