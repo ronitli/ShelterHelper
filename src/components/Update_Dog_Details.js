@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Image, StyleSheet,SafeAreaView,ScrollView, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import pickImage from './pickImage';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Update_Dog_Details = ({ route, navigation }) => {
     const { dog } = route.params;
@@ -51,35 +51,60 @@ const Update_Dog_Details = ({ route, navigation }) => {
         }
       };
     return (
-        <View>
-          <Text>Welcome to the update details for specific dog screen!</Text>
-          <Text>Name:</Text>
-      <TextInput value={name} onChangeText={setName} />
-      <Text>Color:</Text>
-      <TextInput value={colors} onChangeText={setColors} />
-      <Text>Gender:</Text>
-      <TextInput value={gender} onChangeText={setGender} />
-      <Text>Breed:</Text>
-      <TextInput value={breed} onChangeText={setBreed} />
-      <Text>Age:</Text>
-      <TextInput value={age} onChangeText={setAge} />
-      <Text>Shelter Entry Date:</Text>
-      <TextInput value={enterdate} onChangeText={setEnterdate} />
-      <Text>Status:</Text>
-      <TextInput value={status} onChangeText={setStatus} />
-      <Text>Additional Information:</Text>
-      <TextInput value={info} onChangeText={setInfo} />
-      <Text>Picture:</Text>
+      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
+        <View style={styles.container}>
+          <Icon name="pencil" size={50} color='sienna' />
+          <Text style={styles.title}>Update Dog Details</Text>
+
+          <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Name:</Text>
+      <TextInput style={styles.input} value={name} onChangeText={setName} color='#8B5A33'/>
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Colors:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={colors} onChangeText={setColors} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Gender:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={gender} onChangeText={setGender} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Breed:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={breed} onChangeText={setBreed} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Age:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={age} onChangeText={setAge} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Shelter Entry Date:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={enterdate} onChangeText={setEnterdate} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Status:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={status} onChangeText={setStatus} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Additional Information:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={info} onChangeText={setInfo} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Picture:</Text>
       {profilePicture && (
         <Image
           source={{ uri:profilePicture }}
           style={styles.profilePicture}
         />
       )}
-      <Button title="Pick Image" onPress={handlePickImage} />
-      
-      <Button title="Save" onPress={onSave} />
+      <TouchableOpacity style={styles.loginButton} onPress={handlePickImage}>
+        <Text style={styles.buttonText}>Pick Image</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.registerButton} onPress={onSave}>
+        <Text style={styles.buttonText}>Save</Text>
+      </TouchableOpacity>
         </View>
+        </ScrollView>
+    </SafeAreaView>
       );
 
 };
