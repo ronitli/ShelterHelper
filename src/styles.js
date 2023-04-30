@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text ,StatusBar} from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
@@ -18,7 +18,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FCEFEF',
+    paddingTop: StatusBar.currentHeight,
   },
+  scrollContainer: {
+    width: '100%',
+    paddingHorizontal: 10,
+  },
+
   title: {
     fontFamily: 'LilitaOne-Regular',
     fontSize: 43,

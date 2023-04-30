@@ -1,7 +1,7 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Image, StyleSheet,ScrollView ,SafeAreaView, StatusBar,TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Dogs from './Dogs';
 import { db } from '../../firebase';
 import { getFirestore, collection, setDoc, addDoc } from "firebase/firestore";
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
@@ -98,33 +98,48 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
     { label: 'Female', value: 'Female' },
   ];
   return (
-    
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
     <View style={styles.container}>
-      <Button title="Pick Image" onPress={handlePickImage} />
+    <Icon name="paw" size={50} color='sienna' />
+    <Text style={styles.title}>Add a New Dog</Text>
+    <TouchableOpacity style={styles.loginButton} onPress={handlePickImage}>
+        <Text style={styles.buttonText}>Pick Image</Text>
+      </TouchableOpacity>
       {profilePicture && (
         <Image
           source={{ uri: profilePicture }}
           style={styles.profilePicture}
         />
       )}
-      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder='Name:' />
-      <TextInput style={styles.input} value={breed} onChangeText={setBreed} placeholder='Bread:' />
-      <TextInput style={styles.input} value={colors} onChangeText={setColors} placeholder='Colors:' />
-      <Text>Choose dog gender:</Text>
-       {genders.map((option) => (//function when finish create new array and return it
-        <View key={option.value} style={styles.radioButtonContainer}>
-          <RadioButton
-            value={option.value}
-            status={gender === option.value ? 'checked' : 'unchecked'}
-            onPress={() => setGender(option.value)}
-          />
-          <Text>{option.label}</Text>
-          </View>
+      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder='Name:' placeholderTextColor="#8B5A33"/>
+      <TextInput style={styles.input} value={breed} onChangeText={setBreed} placeholder='Bread:' placeholderTextColor="#8B5A33"/>
+      <TextInput style={styles.input} value={colors} onChangeText={setColors} placeholder='Colors:' placeholderTextColor="#8B5A33"/>
+      <Text style={styles.radioButtonText}>Choose dog gender:</Text>
+      <View style={{ height: 10 }} />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+       {genders.map((option) => (
+      <TouchableOpacity
+      key={option.value}
+      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 30 }}
+      onPress={() => setGender(option.value)}
+    >
+      <View style={styles.radioCircle}>
+        {gender === option.value && (
+          <View style={styles.selectedRadioCircle} />
+        )}
+      </View>
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+    </TouchableOpacity>
       ))}
+      </View>
+      <View style={{ height: 10 }} />
        <TextInput keyboardType="numeric" style={styles.input} value={age} onChangeText={setAge} 
-       placeholder='Age (in years):' />
-         <Text>Shelter Enter Date: {enterdate.toDateString()}</Text>
-       <Button title="Show Date Picker" onPress={showDateTimePicker} />
+       placeholder='Age (in years):' placeholderTextColor="#8B5A33" />
+         <Text style={styles.radioButtonText}>Shelter Enter Date: {enterdate.toDateString()}</Text>
+         <TouchableOpacity style={styles.loginButton} onPress={showDateTimePicker}>
+        <Text style={styles.buttonText}>Show Date Picker</Text>
+      </TouchableOpacity>
       {showPicker && (
         <DateTimePicker
           value={enterdate}
@@ -134,10 +149,14 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
           onChange={onChange}
         />
       )}
-         <TextInput style={styles.input} value={status} onChangeText={setStatus} placeholder='Status:' />
-         <TextInput style={styles.input} value={info} onChangeText={setInfo} placeholder='Additional information:' />
-      <Button title="Create Profile" onPress={handleCreateProfile} />
+         <TextInput style={styles.input} value={status} onChangeText={setStatus} placeholder='Status:' placeholderTextColor="#8B5A33"/>
+         <TextInput style={styles.input} value={info} onChangeText={setInfo} placeholder='Additional information:' placeholderTextColor="#8B5A33" />
+      <TouchableOpacity style={styles.registerButton} onPress={handleCreateProfile}>
+        <Text style={styles.buttonText}>Create Profile</Text>
+      </TouchableOpacity>
     </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 };
 
