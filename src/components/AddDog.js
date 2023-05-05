@@ -155,7 +155,7 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
         <Text style={styles.buttonText}>Create Profile</Text>
       </TouchableOpacity>
     </View>
-    </ScrollView>
+    </ScrollView> 
     </SafeAreaView>
   );
 };

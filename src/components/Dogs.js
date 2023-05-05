@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { View, Text,TouchableOpacity, TextInput, Button, Image, StyleSheet ,ScrollView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -43,27 +44,42 @@ const dogs = [
 const Dogs = ({navigation}) => {
 
     return (
-        <View style={styles.container}>
-        {dogs.map(dog =>
-        <View>
-            <Image source={{ uri: dog.profilePicture }} style={{ width: 200, height: 200 }} />
-            <Text>Name: {dog.name}</Text>
-            <Text>Color: {dog.colors}</Text>
-            <Text>Gender: {dog.gender}</Text>
-            <Text>breed: {dog.breed}</Text>
-            <Text>Age: {dog.age}</Text>
-            <Text>Shelter entry date: {dog.enterdate}</Text>
-            <Text>Medical information: {dog.medical_info}</Text> 
-            <Text> Status: {dog.status}</Text>
-            <Text> Additional information: {dog.info}</Text>
-            
-            <Text onPress={() => navigation.navigate('Update_Dog_Details',{dog})}>Update Dog Details</Text>
-            <Text onPress={() => navigation.navigate('Update_trip')}>Update trip</Text>
-            <Text onPress={() => navigation.navigate('Update_medical_data')}>Update medical data</Text>
-        </View>
-        )}
-      </View>
-    );
-  };
-  
+  <SafeAreaView style={styles.container}>
+  <ScrollView style={styles.scrollContainer}>
+  <View style={styles.container}>
+  <Text style={styles.title}>Our Dogs</Text>
+  <View style={styles.reqContainer}>
+  {dogs.map(dog =>
+    <View style={styles.request}>
+      <Image source={{ uri: dog.profilePicture }} style={{ width: 200, height: 200 }} />
+      <Text style={styles.reqText}>Name: {dog.name}</Text>
+      <Text style={styles.reqText}>Color: {dog.colors}</Text>
+      <Text style={styles.reqText}>Gender: {dog.gender}</Text>
+      <Text style={styles.reqText}>breed: {dog.breed}</Text>
+      <Text style={styles.reqText}>Age: {dog.age}</Text>
+      <Text style={styles.reqText}>Shelter entry date: {dog.enterdate}</Text>
+      <Text style={styles.reqText}>Medical information: {dog.medical_info}</Text> 
+      <Text style={styles.reqText}> Status: {dog.status}</Text>
+      <Text style={styles.reqText}> Additional information: {dog.info}</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Update_Dog_Details',{dog})}>
+        <Text style={styles.buttonText}>Update Dog Details</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Update_trip',{dog})}>
+        <Text style={styles.buttonText}>Update trip</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Update_medical_data',{dog})}>
+        <Text style={styles.buttonText}>Update medical data</Text>
+      </TouchableOpacity>
+      {/* <Text onPress={() => navigation.navigate('Update_Dog_Details',{dog})}>Update Dog Details</Text>
+      <Text onPress={() => navigation.navigate('Update_trip')}>Update trip</Text>
+      <Text onPress={() => navigation.navigate('Update_medical_data')}>Update medical data</Text> */}
+<View style={styles.underline}/>
+    </View>
+)}
+    </View>
+  </View>
+  </ScrollView> 
+  </SafeAreaView>
+);
+}
   export default Dogs;

@@ -20,9 +20,39 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FCEFEF',
     paddingTop: StatusBar.currentHeight,
   },
+
+
   scrollContainer: {
     width: '100%',
     paddingHorizontal: 10,
+  },
+
+  reqContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+
+  request: {
+    paddingTop: 10,
+    paddingBottom: 30,
+    backgroundColor: '#FCEFEF',
+    textAlign: 'left'
+
+  },
+
+  reqText: {
+    fontFamily: 'CormorantUpright-Bold',
+    fontSize: 22,
+    color: '#8B5A33',
+    marginBottom: 3
+  },
+
+  underline: {
+    borderStyle: 'solid',
+    borderBottomWidth: 2,
+    borderColor: '#8B5A33',
+    marginTop: 70
   },
 
   title: {
@@ -121,5 +151,17 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold',
+  },
+  acceptButton: {
+    backgroundColor: '#B08975',
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  denyButton: {
+    backgroundColor: '#B08975',
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
 });
