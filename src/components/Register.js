@@ -32,16 +32,32 @@ const Register = ({ navigation }) => {
       alert('Not the same password.');
       return;
     }
+
+    const newUser={
+      username: username,
+      password: password,
+      email: email,
+      fname: fname,
+      lname: lname,
+      selectedOption: selectedOption
+    };
+
+    const dbRef = collection(db, 'Users wait list');
+    addDoc(dbRef, newUser).then(docRef => {
+      console.log("new user add to waiting list");
+      alert('we have got your request! soon the manager approve you');
+    })
+.catch(error => {console.log(error);})
     
-    try {
-      const res =  createUserWithEmailAndPassword(auth, email, password);
-      setProperty();
-      navigation.navigate('Home');
-      console.log("user register");
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-    }
+    // try {
+    //   const res =  createUserWithEmailAndPassword(auth, email, password);
+    //   setProperty();
+    //   navigation.navigate('Home');
+    //   console.log("user register");
+    // } catch (err) {
+    //   console.error(err);
+    //   alert(err.message);
+    // }
 
   };
 
