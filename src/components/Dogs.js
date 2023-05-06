@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Update_Dog_Details from './Update_Dog_Details';
 import { db } from '../../firebase';
 import { getFirestore, collection, setDoc, addDoc, getDocs } from "firebase/firestore";
+import { useEffect } from 'react';
 //from home page
 
 const dogs = [
@@ -41,13 +42,21 @@ const dogs = [
     profilePicture: 'https://images.unsplash.com/photo-1615233500064-caa995e2f9dd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGdvbGRlbiUyMGRvZ3xlbnwwfHwwfHw%3D&w=1000&q=80'
   }
 ];
-const Dogs = async ({navigation}) => {
+const Dogs = ({navigation}) => {
 
-  const q = collection(db, "Dogs")
-  const querySnapshot = await getDocs(q) 
+   const [dogs, setDogs] = useState([]);
 
-  const arr = querySnapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
-  console.log(arr);
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, 'Dogs');
+      const querySnapshot = await getDocs(q);
+      const dogsArray = querySnapshot.docs.map(doc => doc.data());
+      setDogs(dogsArray);
+    };
+    fetchData();
+  }, []);
+
+  console.log(dogs);
 
     return (
   <SafeAreaView style={styles.container}>
@@ -56,7 +65,7 @@ const Dogs = async ({navigation}) => {
   <Text style={styles.title}>Our Dogs</Text>
   <View style={styles.reqContainer}>
     
-    {arr.map(dog =>
+    {dogs.map(dog =>
     <View style={styles.request}>
       <Image source={{ uri: dog.profilePicture }} style={{ width: 200, height: 200 }} />
       <Text style={styles.reqText}>Name: {dog.name}</Text>
@@ -64,7 +73,6 @@ const Dogs = async ({navigation}) => {
       <Text style={styles.reqText}>Gender: {dog.gender}</Text>
       <Text style={styles.reqText}>breed: {dog.breed}</Text>
       <Text style={styles.reqText}>Age: {dog.age}</Text>
-      //<Text style={styles.reqText}>Shelter entry date: {dog.enterdate}</Text>
       <Text style={styles.reqText}>Medical information: {dog.medical_info}</Text> 
       <Text style={styles.reqText}> Status: {dog.status}</Text>
       <Text style={styles.reqText}> Additional information: {dog.info}</Text>
