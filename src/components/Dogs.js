@@ -64,7 +64,7 @@ const Dogs = async ({navigation}) => {
       <Text style={styles.reqText}>Gender: {dog.gender}</Text>
       <Text style={styles.reqText}>breed: {dog.breed}</Text>
       <Text style={styles.reqText}>Age: {dog.age}</Text>
-      <Text style={styles.reqText}>Shelter entry date: {dog.enterdate}</Text>
+      //<Text style={styles.reqText}>Shelter entry date: {dog.enterdate}</Text>
       <Text style={styles.reqText}>Medical information: {dog.medical_info}</Text> 
       <Text style={styles.reqText}> Status: {dog.status}</Text>
       <Text style={styles.reqText}> Additional information: {dog.info}</Text>
