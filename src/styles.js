@@ -21,6 +21,15 @@ export const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
 
+  tripContainer: {
+    marginLeft: 10,
+    marginRight: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
 
   scrollContainer: {
     width: '100%',

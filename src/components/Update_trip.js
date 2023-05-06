@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View,TimePickerAndroid,ScrollView,TouchableOpacity, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Platform, DatePickerIOS,TimePickerAndroid,ScrollView,TouchableOpacity, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -12,14 +12,11 @@ import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 //from page of a dog 
 // in here needs with cookies pass the dog details that we chose in order to update that he went on trip
-
+//needs to fix time choosing and update in database
 const Update_trip = ({route,navigation}) => {
   const { dog } = route.params;
-  const [tripdate, setTripdate] = React.useState(new Date());
-  const [tripTime, setTripTime] = React.useState('');
-  const [madeUrine, setUrine] = useState(false);
-  const [madeFeces, setFeces] = useState(false);
-  
+  const [tripdate, setTripDate] = React.useState(new Date());
+  const [tripTime, setTripTime] = React.useState(new Date());
   const [showPicker, setShowPicker] = React.useState(false);//defalt val is flase
   const showDateTimePicker = () => {
     setShowPicker(true);
@@ -32,11 +29,17 @@ const Update_trip = ({route,navigation}) => {
   const onChangeTime = (event, selectedTime) => { // prperty 
     const currentTime = selectedTime || tripTime;
     setTripTime(currentTime);
-    setShowPicker(false);
   };
+  const onSave = () => {
+    //save to database+alert acoordingly
+    // Navigate back to the profile screen with the updated information
+    navigation.goBack();
+  };
+
     return (
       <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
+      <View style={styles.tripContainer}>
       <Icon name="paw" size={50} color='sienna' />
       <Text style={styles.title}>Update Trip</Text>
       <Text style={styles.radioButtonText}>Trip Date: {tripdate.toDateString()}</Text>
@@ -52,10 +55,28 @@ const Update_trip = ({route,navigation}) => {
           onChange={onChangeDate}
         />
       )}
-      <Text style={styles.radioButtonText}>Choose at least one:</Text>
-      </ScrollView>
-      </SafeAreaView>
-      );
-
+      <Text style={styles.radioButtonText}>Trip Time: {tripdate.toTimeString()}</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={showDateTimePicker}>
+        <Text style={styles.buttonText}>Choose time</Text>
+      </TouchableOpacity>
+      {showPicker && (
+        <View>
+          <DateTimePicker
+            value={tripTime}
+            mode="time"
+            is24Hour={true}
+            display="spinner"
+            onChange={onChangeTime}
+          ></DateTimePicker>
+          <Button  title="OK" onPress={() => setShowPicker(false)}></Button>
+        </View> )
+      }
+    <TouchableOpacity style={styles.registerButton} onPress={onSave}>
+        <Text style={styles.buttonText}>Save</Text>
+    </TouchableOpacity>
+    </View>
+    </ScrollView>
+    </SafeAreaView>
+    );
 };
 export default Update_trip;

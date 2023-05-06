@@ -23,12 +23,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [info, setInfo] = React.useState(dog.info);
     const onSave = () => {
         //save to database+alert acoordingly
-       
-    
-
-    
         // Navigate back to the profile screen with the updated information
-
         navigation.goBack();
       };
       const handlePickImage = async () => {

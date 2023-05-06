@@ -61,12 +61,6 @@ const Requests = ({ navigation }) => {
       <Text style={styles.reqText}>Name: {request.Name}</Text>
       <Text style={styles.reqText}>Email: {request.Email}</Text>
       <Text style={styles.reqText}>Title: {request.Title}</Text>
-    {/* <TouchableOpacity style={styles.registerButton} onPress={handleApprovedRequest}>
-      <Text style={styles.buttonText}>Approve</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.registerButton} onPress={handleRejectRequest}>
-      <Text style={styles.buttonText}>Reject</Text>
-    </TouchableOpacity> */}
   <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
   <TouchableOpacity style={[styles.acceptButton,{marginRight: 10}]} onPress={handleApprovedRequest}>
     <Text style={styles.buttonText}>Approve</Text>
