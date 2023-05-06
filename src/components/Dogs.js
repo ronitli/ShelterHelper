@@ -41,7 +41,13 @@ const dogs = [
     profilePicture: 'https://images.unsplash.com/photo-1615233500064-caa995e2f9dd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGdvbGRlbiUyMGRvZ3xlbnwwfHwwfHw%3D&w=1000&q=80'
   }
 ];
-const Dogs = ({navigation}) => {
+const Dogs = async ({navigation}) => {
+
+  const q = collection(db, "Dogs")
+  const querySnapshot = await getDocs(q) 
+
+  const arr = querySnapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
+  console.log(arr);
 
     return (
   <SafeAreaView style={styles.container}>
@@ -49,7 +55,8 @@ const Dogs = ({navigation}) => {
   <View style={styles.container}>
   <Text style={styles.title}>Our Dogs</Text>
   <View style={styles.reqContainer}>
-  {dogs.map(dog =>
+    
+    {arr.map(dog =>
     <View style={styles.request}>
       <Image source={{ uri: dog.profilePicture }} style={{ width: 200, height: 200 }} />
       <Text style={styles.reqText}>Name: {dog.name}</Text>
