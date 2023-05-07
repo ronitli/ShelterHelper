@@ -48,56 +48,26 @@ const Requests = ({ navigation }) => {
     fetchData();
   }, []);
 
-  const [users, setUserss] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = collection(db, "Users");
-      const querySnapshot = await getDocs(q);
-      const usersArray = querySnapshot.docs.map((doc) => doc.data());
-      setUserss(usersArray);
-    };
-    fetchData();
-  }, []);
-
   const handleApprovedRequest = async (request) => {
-    var User = request.Name;
-    var Email = request.Email;
-    let email = "razbc@mta.ac.il"; // אני צריכה רק את המייל, וגם בפונקציה השניה :)
-
-    //search user in users request
+    let email = request?.email;
     const user = requests.find((user) => user.email === email);
-    const exist = users.find((user) => user.email === email);
 
-    if (exist) {
-      console.log("ERROR: user already exist");
-      alert("Email already is used.");
-    } else {
-      //insert to firebase auth
-      insertUserToFirebaseAuth(user);
+    await insertUserToFirebaseAuth(user);
+    await insertUserToUsersTable(user);
 
-      //inseret to users table
-      insertUserToUsersTable(user);
-    }
+    await deleteUserFromWaitList(user.email);//doesnt work
 
-    //delete from users waiting list the request
-    deleteUserFromWaitList(user.email);
-    deleteUserFromFirebaseAuth(email);
     return;
   };
 
   const handleRejectRequest = async (request) =>
-    //גם כאן צריכה את המייל
     {
-      var User = request.Name;
-      var Email = request.Email;
-      let email;
-      //in here needs to delete from the waiting list the request.
-      deleteUserFromWaitList(email);
+      let email = request?.email;
+      await deleteUserFromWaitList(email);//doesnt work
       return;
     };
 
-  const insertUserToFirebaseAuth = (user) => {
+  const insertUserToFirebaseAuth = async (user) => {
     try {
       const res = createUserWithEmailAndPassword(
         auth,
@@ -111,39 +81,33 @@ const Requests = ({ navigation }) => {
     }
   };
 
-  const insertUserToUsersTable = (user) => {
+  const insertUserToUsersTable = async (user) => {
     const dbRef = collection(db, "Users");
-    addDoc(dbRef, user)
-      .then((docRef) => {
-        console.log("SUCCESS: User add to users table");
-        alert("New user add to user list");
+    addDoc(dbRef, user).then((docRef) => {
+      console.log("SUCCESS: User add to users table");
+      alert("New user add to user list");
       })
-      .catch((error) => {
+  .catch((error) => {
         console.log(error);
       });
   };
 
-  const deleteUserFromWaitList = (email) => {
+  const deleteUserFromWaitList = async (email) => {
     console.log("in delete function");
     const user = requests.find((user) => user.email === email);
-    console.log(user);
-    const q = doc(collection(db, "Users wait list"), user.email);
-    deleteDoc(q)
-      .then(() => {
-        console.log("SUCCESS: User deleted from wait list!");
-      })
-      .catch((error) => {
-        console.error("Error removing User from wait list: ", error);
-      });
+    const q = doc(collection(db, "Users wait list"), user.id);
+    try {
+      await deleteDoc(q);
+      console.log("SUCCESS: User deleted from wait list!");
+    } catch (error) {
+      console.error("Error removing User from wait list: ", error);
+    }
 
     //update the requsts temp array
     const updatedRequests = requests.filter((user) => user.id !== user.id);
     setRequests(updatedRequests);
   };
 
-  const deleteUserFromFirebaseAuth = (email) => {
-    //todo
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -152,7 +116,7 @@ const Requests = ({ navigation }) => {
           <Text style={styles.title}>Upcomming Requests</Text>
           <View style={styles.reqContainer}>
             {requests.map((request) => (
-              <View style={styles.request}>
+              <View key={request.email} style={styles.request}>
                 <Text style={styles.reqText}>Request: {request.Request}</Text>
                 <Text style={styles.reqText}>Name: {request.username}</Text>
                 <Text style={styles.reqText}>Email: {request.email}</Text>
@@ -167,13 +131,13 @@ const Requests = ({ navigation }) => {
                 >
                   <TouchableOpacity
                     style={[styles.acceptButton, { marginRight: 10 }]}
-                    onPress={handleApprovedRequest(request)}
+                    onPress={() => handleApprovedRequest(request)}
                   >
                     <Text style={styles.buttonText}>Approve</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.denyButton, { marginLeft: 10 }]}
-                    onPress={handleRejectRequest(request)}
+                    onPress={() =>handleRejectRequest(request)}
                   >
                     <Text style={styles.buttonText}>Reject</Text>
                   </TouchableOpacity>
