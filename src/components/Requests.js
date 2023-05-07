@@ -33,38 +33,43 @@ const Requests = ({ navigation }) => {
     fetchData();
   }, []);
 
+  const [users, setUserss] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, 'Users');
+      const querySnapshot = await getDocs(q);
+      const usersArray = querySnapshot.docs.map(doc => doc.data());
+      setUserss(usersArray);
+    };
+    fetchData();
+  }, []);
+
   const handleApprovedRequest = async () =>
   {
     let email='razbc@mta.ac.il';// אני צריכה רק את המייל, וגם בפונקציה השניה :)
 
-    //backend and data store 
     //search user in users request
     const user = requests.find(user => user.email === email);
+    const exist = users.find(user => user.email === email);
 
-    //insert to firebase auth
-    try {
-      const res =  createUserWithEmailAndPassword(auth, user.email, user.password);
-      console.log("user add to firebase auth user list");
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
+    if(exist)
+    {
+      console.log("ERROR: user already exist");
+      alert("Email already is used.");
     }
+    else
+    {
+      //insert to firebase auth
+      insertUserToFirebaseAuth(user);
 
-    //inseret to users table
-    const dbRef = collection(db, 'Users');
-    addDoc(dbRef, user).then(docRef => {
-      console.log("new user add successfully to user list");
-      alert('new user add to user list');
-    })
-.catch(error => {console.log(error);})
-
-    //in here needs to delete from users waiting list the request
-    console.log(user.email)
-    console.log("hiiiiiiiiiiiiiiii")
-
+      //inseret to users table
+      insertUserToUsersTable(user);
+    }
+    
+    //delete from users waiting list the request
     deleteUserFromWaitList(user.email);
     deleteUserFromFirebaseAuth(email);
-    console.log(" AFTER DELETE FUNC")
     return;
   }
 
@@ -76,17 +81,38 @@ const Requests = ({ navigation }) => {
     return;
   }
 
+  const insertUserToFirebaseAuth = (user) =>
+  {
+    try {
+      const res =  createUserWithEmailAndPassword(auth, user.email, user.password);
+      console.log("SUCCESS: User add to firebase auth user list");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  }
+
+  const insertUserToUsersTable = (user) =>
+  {
+    const dbRef = collection(db, 'Users');
+    addDoc(dbRef, user).then(docRef => {
+      console.log("SUCCESS: User add to users table");
+      alert('New user add to user list');
+    })
+.catch(error => {console.log(error);})
+  }
+
   const deleteUserFromWaitList=(email)=>
   {
-    console.log("in dlete function")
+    console.log("in delete function")
     const user = requests.find(user => user.email === email);
     console.log(user)
     const q = doc(collection(db, 'Users wait list'), user.email);
     deleteDoc(q)
   .then(() => {
-    console.log('User successfully deleted from wait list!');
+    console.log('SUCCESS: User deleted from wait list!');
   })
-  .catch((error) => {
+.catch((error) => {
     console.error('Error removing User from wait list: ', error);
   });
 
