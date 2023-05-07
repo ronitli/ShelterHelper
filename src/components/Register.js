@@ -41,7 +41,7 @@ const Register = ({ navigation }) => {
       lname: lname,
       selectedOption: selectedOption
     };
-
+    //check if user already exist befor
     const dbRef = collection(db, 'Users wait list');
     addDoc(dbRef, newUser).then(docRef => {
       console.log("new user add to waiting list");

@@ -15,33 +15,6 @@ import { getFirestore, collection, setDoc, addDoc, getDocs } from "firebase/fire
 import { useEffect } from 'react';
 //from home page
 
-const dogs = [
-  {
-    name: 'shoko',
-    colors:'brown',
-    breed: 'pitball',
-    age: '2',
-    gender: 'male',
-    enterdate :'13.1.2012',
-    medical_info:'vaccinated',
-    status:'waiting for adopation',
-    info:'very friendly',
-    profilePicture: 'https://www.thesprucepets.com/thmb/VkoI1kidVIiQQnAezIYE_IPU-D8=/2781x0/filters:no_upscale():strip_icc()/pitbull-dog-breeds-4843994-hero-db6922b6c8294b45b19c07aff5865790.jpg'
-  },
-  {
-    name: 'mocha',
-    colors:"brown",
-    race: 'golden retreiver',
-    age: '1',
-    gender: 'female',
-    breed: 'golden retreiver',
-    enterdate :'14.9.2023',
-    medical_info:' not vaccinated',
-    status:'waiting for adopation',
-    info:'very friendly and caring',
-    profilePicture: 'https://images.unsplash.com/photo-1615233500064-caa995e2f9dd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGdvbGRlbiUyMGRvZ3xlbnwwfHwwfHw%3D&w=1000&q=80'
-  }
-];
 const Dogs = ({navigation}) => {
 
    const [dogs, setDogs] = useState([]);
@@ -56,8 +29,6 @@ const Dogs = ({navigation}) => {
     fetchData();
   }, []);
 
-  console.log(dogs);
-
     return (
   <SafeAreaView style={styles.container}>
   <ScrollView style={styles.scrollContainer}>
@@ -66,7 +37,7 @@ const Dogs = ({navigation}) => {
   <View style={styles.reqContainer}>
     
     {dogs.map(dog =>
-    <View style={styles.request}>
+    <View key={dog.id} style={styles.request}>
       <Image source={{ uri: dog.profilePicture }} style={{ width: 200, height: 200 }} />
       <Text style={styles.reqText}>Name: {dog.name}</Text>
       <Text style={styles.reqText}>Color: {dog.colors}</Text>
