@@ -21,6 +21,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [enterdate, setEnterdate] = React.useState(dog.enterdate);
   const [status, setStatus] = React.useState(dog.status);
   const [info, setInfo] = React.useState(dog.info);
+  const[cell,setCell]=React.useState(dog.cell);
     const onSave = () => {
         //save to database+alert acoordingly
         // Navigate back to the profile screen with the updated information
@@ -45,6 +46,10 @@ const Update_Dog_Details = ({ route, navigation }) => {
           
         }
       };
+      const genders = [// array with two argu
+      { label: 'Male', value: 'Male' },
+      { label: 'Female', value: 'Female' },
+    ];
     return (
       <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -60,9 +65,25 @@ const Update_Dog_Details = ({ route, navigation }) => {
       <TextInput style={styles.input} color='#8B5A33' value={colors} onChangeText={setColors} />
       <View style={{ height: 10 }} />
 
-      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Gender:</Text>
-      <TextInput style={styles.input} color='#8B5A33' value={gender} onChangeText={setGender} />
+      <Text style={styles.radioButtonText}>Choose dog gender:</Text>
       <View style={{ height: 10 }} />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+       {genders.map((option) => (
+      <TouchableOpacity
+      key={option.value}
+      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+      onPress={() => setGender(option.value)}
+    >
+      <View style={styles.radioCircle}>
+        {gender === option.value && (
+          <View style={styles.selectedRadioCircle} />
+        )}
+      </View>
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+    </TouchableOpacity>
+      ))}
+      </View>
+      <View style={{ height: 20 }} />
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Breed:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={breed} onChangeText={setBreed} />
@@ -74,6 +95,10 @@ const Update_Dog_Details = ({ route, navigation }) => {
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Shelter Entry Date:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={enterdate} onChangeText={setEnterdate} />
+      <View style={{ height: 10 }} />
+
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Cell Number:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={cell} onChangeText={setCell} />
       <View style={{ height: 10 }} />
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Status:</Text>

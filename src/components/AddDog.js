@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
   const [breed, setBreed] = React.useState('');// return array with 2 att 
+  const[cell,setCell]= React.useState('');
   const [profilePicture, setProfilePicture] = React.useState(null);
   const [colors, setColors] = React.useState('');
   const [gender, setGender] = React.useState('');
@@ -73,6 +74,7 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
     setAge('');
     setStatus('');
     setInfo('');
+    setCell('');
   }
 
   const handlePickImage = async () => {
@@ -149,6 +151,8 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
           onChange={onChange}
         />
       )}
+       <TextInput keyboardType="numeric" style={styles.input} value={cell} onChangeText={setCell} 
+       placeholder='Cell number:' placeholderTextColor="#8B5A33" />
          <TextInput style={styles.input} value={status} onChangeText={setStatus} placeholder='Status:' placeholderTextColor="#8B5A33"/>
          <TextInput style={styles.input} value={info} onChangeText={setInfo} placeholder='Additional information:' placeholderTextColor="#8B5A33" />
       <TouchableOpacity style={styles.registerButton} onPress={handleCreateProfile}>
