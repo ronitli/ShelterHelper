@@ -12,6 +12,12 @@ export const loadFonts = async () => {
   });
 };
 export const styles = StyleSheet.create({
+  checkbox: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+  },
+
   container: {
     flex: 1,
     alignItems: "center",
@@ -20,16 +26,38 @@ export const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
 
+  menuCOntainer: {
+    flex: 1,
+  },
+
   searchBar: {
     width: 300,
-    marginLeft: 15,
-    marginRight: 30,
+    marginLeft: 80,
+  },
+
+  filtersMenu: {
+    width: 250,
+    height: 250,
+    backgroundColor: "#eeeeee",
+    fontSize: 30,
+    marginLeft: 40,
     display: "flex",
-    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   filterIcon: {
-    marginRight: 25,
+    marginLeft: 25,
+    fontSize: 30,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+
+  filterIconContainer: {
+    marginLeft: 25,
+    fontSize: 30,
+    display: "flex",
+    flexDirection: "column",
   },
 
   tripContainer: {
@@ -47,6 +75,8 @@ export const styles = StyleSheet.create({
   },
 
   reqContainer: {
+    zIndex: 1,
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
