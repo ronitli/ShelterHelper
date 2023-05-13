@@ -55,7 +55,7 @@ const Requests = ({ navigation }) => {
     await insertUserToFirebaseAuth(user);
     await insertUserToUsersTable(user);
 
-    await deleteUserFromWaitList(user.email);//doesnt work
+    await deleteUserFromWaitList(user.email);//doesnt work------------>RAZ
 
     return;
   };

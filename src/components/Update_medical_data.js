@@ -11,6 +11,8 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
+import { collection, doc, getDoc, setDoc, addDoc,updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
@@ -92,8 +94,45 @@ const Update_medical_data = ({ route, navigation }) => {
   const onChangeMedicalTreatment = (event, selected) => {
     tempTreatments = selected || medicalTreatment;
   };
-  const onSave = () => {
+  const onSave = async () => {
     //save to database+alert acoordingly
+const newMedicalData={
+  dogName : dog.name,
+  rabiesVaccineDate: rabiesVaccineDate,
+  chipDate: chipDate,
+  canineHepatitisDate: canineHepatitisDate,
+  spirocercaLupiDate: spirocercaLupiDate,
+  castration: castration,
+  dewormingDate: dewormingDate,
+  fleaTreatmentDate: fleaTreatmentDate,
+  alergies: alergies,
+  medications: medications,
+  medicalTreatment : medicalTreatment
+}
+const MedicalDatabdRef = collection(db, 'MedicalData');
+const docRef = doc(db, "MedicalData", dog.id);
+
+const docSnap = await getDoc(docRef);
+console.log(docSnap.exists())
+if (docSnap.exists())
+{
+  await updateDoc(docRef, newMedicalData)
+.then(docRef => {
+    console.log("SUCCESS: Medical Data has been updated successfully");
+})
+.catch(error => {
+    console.log(error);
+})
+}
+else {
+  await addDoc(MedicalDatabdRef, newMedicalData).then((docRef) => {
+    console.log("SUCCESS: new Medical Data add");
+    })
+.catch((error) => {
+      console.log(error);
+    });
+}
+
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };
