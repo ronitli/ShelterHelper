@@ -10,6 +10,9 @@ import { styles } from '../styles';
 import { SafeAreaView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { collection, doc, getDoc, setDoc, addDoc,updateDoc } from "firebase/firestore";
+import { db } from '../../firebase';
+
 //from page of a dog 
 // in here needs with cookies pass the dog details that we chose in order to update that he went on trip
 //needs to fix time choosing and update in database
@@ -32,6 +35,20 @@ const Update_trip = ({route,navigation}) => {
   };
   const onSave = () => {
     //save to database+alert acoordingly
+    const updateDetails = {
+      tripdate: tripdate,
+      tripTime: tripTime
+    }
+    const dogsRef = collection(db, 'Dogs');
+    const docRef = doc(db, 'Dogs', dog.id);
+    const docSnap = getDoc(docRef);
+    updateDoc(docRef, updateDetails)  
+    .then(() => {
+      console.log('Document successfully updated!');
+    })
+    .catch((error) => {
+      console.error('Error updating document:', error);
+    });
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };

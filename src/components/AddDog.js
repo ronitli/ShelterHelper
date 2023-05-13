@@ -59,7 +59,8 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
       status: status,
       info: info,
       cell : cell,
-      lastTrip : "",
+      tripdate : "",
+      tripTime : "",
       id : ""
    };
 
