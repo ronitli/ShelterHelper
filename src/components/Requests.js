@@ -40,7 +40,7 @@ const Requests = ({ navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const q = collection(db, "Users wait list");
+      const q = collection(db, "UsersWaitList");
       const querySnapshot = await getDocs(q);
       const requestsArray = querySnapshot.docs.map((doc) => doc.data());
       setRequests(requestsArray);
@@ -55,15 +55,14 @@ const Requests = ({ navigation }) => {
     await insertUserToFirebaseAuth(user);
     await insertUserToUsersTable(user);
 
-    await deleteUserFromWaitList(user.email);//doesnt work------------>RAZ
+    await deleteUserFromWaitList(request);
 
     return;
   };
 
   const handleRejectRequest = async (request) =>
     {
-      let email = request?.email;
-      await deleteUserFromWaitList(email);//doesnt work
+      await deleteUserFromWaitList(request);
       return;
     };
 
@@ -86,16 +85,17 @@ const Requests = ({ navigation }) => {
     addDoc(dbRef, user).then((docRef) => {
       console.log("SUCCESS: User add to users table");
       alert("New user add to user list");
+      
       })
   .catch((error) => {
         console.log(error);
       });
   };
 
-  const deleteUserFromWaitList = async (email) => {
+  const deleteUserFromWaitList = async (user) => {
     console.log("in delete function");
-    const user = requests.find((user) => user.email === email);
-    const q = doc(collection(db, "Users wait list"), user.id);
+    const q = doc(collection(db, 'UsersWaitList'), user.id);
+    console.log(q);
     try {
       await deleteDoc(q);
       console.log("SUCCESS: User deleted from wait list!");
