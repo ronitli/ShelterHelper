@@ -6,8 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 //import { auth } from 'firebase/app';
-import {auth,createUserWithEmailAndPassword, addDoc, collection, db } from '../../firebase';
+import {db } from '../../firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getFirestore, collection, setDoc, addDoc,query, where,getDocs } from "firebase/firestore";
+
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState('');
@@ -20,7 +22,7 @@ const Register = ({ navigation }) => {
 
   const Stack = createStackNavigator();
   const handleRegister = () => {
-    //backend validation
+
     if (username === '' || password === '' || email === '' || fname === ''
     || lname === '' || checkpswd === '' || selectedOption ==='')
     {
@@ -39,25 +41,58 @@ const Register = ({ navigation }) => {
       email: email,
       fname: fname,
       lname: lname,
-      selectedOption: selectedOption
+      selectedOption: selectedOption,
+      id: ""
     };
     //check if user already exist befor
-    const dbRef = collection(db, 'Users wait list');
-    addDoc(dbRef, newUser).then(docRef => {
-      console.log("new user add to waiting list");
-      alert('we have got your request! soon the manager approve you');
+    const usersCollection = collection(db, 'Users');
+    checkEmailAvailability(email)  
+    .then((isEmailUsed) => {
+      if (isEmailUsed) {
+        console.log('Email is already used');
+        alert('Email is already used. please try another one');
+      } else {
+        console.log('Email is available');
+        insertUserToWaitList(newUser);
+      }
     })
-.catch(error => {console.log(error);})
+    .catch((error) => {
+      console.log('Error checking email availability:', error);
+      // Handle the error
+    });
+
+ 
+    async function checkEmailAvailability(email) {
+      const q = query(usersCollection, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
     
-    // try {
-    //   const res =  createUserWithEmailAndPassword(auth, email, password);
-    //   setProperty();
-    //   navigation.navigate('Home');
-    //   console.log("user register");
-    // } catch (err) {
-    //   console.error(err);
-    //   alert(err.message);
-    // }
+      return !querySnapshot.empty;
+    }
+
+    const insertUserToWaitList = (newUser)=>
+    {
+      const dbRef = collection(db, 'UsersWaitList');
+      addDoc(dbRef, newUser).then(docRef => {
+        const newUserId = docRef.id;
+        console.log("new user add to waiting list");
+        alert('we have got your request! soon the manager approve you');
+        const data = { ...newUser, id: newUserId };
+        setDoc(docRef, data).then(docRef => {
+        console.log("id has been updated successfully");
+      })
+      .catch(error => {
+          console.log(error);
+      })
+      
+        })
+        .then(() => {
+          console.log('Successfully updated the ID field of the document');
+        })
+        .catch((error) => {
+          console.log('Error updated the ID field:', error);
+        });
+    }
+    
 
   };
 

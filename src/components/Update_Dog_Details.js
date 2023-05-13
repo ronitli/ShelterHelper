@@ -41,7 +41,14 @@ const Update_Dog_Details = ({ route, navigation }) => {
         const dogsRef = collection(db, 'Dogs');
         const docRef = doc(db, 'Dogs', dog.id);
         const docSnap = getDoc(docRef);
-        updateDoc(docRef, updateDetails)
+        updateDoc(docRef, updateDetails)  
+        .then(() => {
+          console.log('Document successfully updated!');
+        })
+        .catch((error) => {
+          console.error('Error updating document:', error);
+        });
+
         // Navigate back to the profile screen with the updated information
         navigation.goBack();
       };
