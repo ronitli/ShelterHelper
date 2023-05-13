@@ -57,13 +57,39 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
       age: age,
       enterdate: enterdate,
       status: status,
-      info: info
+      info: info,
+      cell : cell,
+      lastTrip : "",
+      id : ""
    };
-    addDoc(dbRef, newDog).then(docRef => {
-      console.log("Successfully added a new dog!");
-      alert('Successfully added a new dog!');
-    })
-.catch(error => {console.log(error);})
+
+//     addDoc(dbRef, newDog).then(docRef => {
+//       console.log("Successfully added a new dog!");
+//       alert('Successfully added a new dog!');
+//     })
+// .catch(error => {console.log(error);})
+
+addDoc(dbRef, newDog)
+  .then((docRef) => {
+    const newDogId = docRef.id; // Retrieve the auto-generated ID
+    console.log("Successfully added a new dog with ID:", newDogId);
+    alert('Successfully added a new dog with ID: ' + newDogId);
+    const data = { ...newDog, id: newDogId };
+    setDoc(docRef, data)
+.then(docRef => {
+    console.log("id has been updated successfully");
+})
+.catch(error => {
+    console.log(error);
+})
+
+  })
+  .then(() => {
+    console.log('Successfully updated the ID field of the document');
+  })
+  .catch((error) => {
+    console.log('Error adding a new dog:', error);
+  });
 
     // Clear the form fields after data is saved
     setName('');

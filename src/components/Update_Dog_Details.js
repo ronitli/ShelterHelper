@@ -9,6 +9,10 @@ import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { collection, doc, getDoc, setDoc, addDoc,updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
+
 
 const Update_Dog_Details = ({ route, navigation }) => {
     const { dog } = route.params;
@@ -21,9 +25,23 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [enterdate, setEnterdate] = React.useState(dog.enterdate);
   const [status, setStatus] = React.useState(dog.status);
   const [info, setInfo] = React.useState(dog.info);
-  const[cell,setCell]=React.useState(dog.cell);
     const onSave = () => {
-        //save to database+alert acoordingly
+        //save to database+alert acoordingly ---------------------------------->RAZ - update database
+        const updateDetails = {
+          name: name,
+          breed: breed,
+          profilePicture: profilePicture,
+          colors: colors,
+          gender: gender,
+          age: age,
+          enterdate: enterdate,
+          status: status,
+          info: info
+        }
+        const dogsRef = collection(db, 'Dogs');
+        const docRef = doc(db, 'Dogs', dog.id);
+        const docSnap = getDoc(docRef);
+        updateDoc(docRef, updateDetails)
         // Navigate back to the profile screen with the updated information
         navigation.goBack();
       };
@@ -46,10 +64,6 @@ const Update_Dog_Details = ({ route, navigation }) => {
           
         }
       };
-      const genders = [// array with two argu
-      { label: 'Male', value: 'Male' },
-      { label: 'Female', value: 'Female' },
-    ];
     return (
       <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -65,25 +79,9 @@ const Update_Dog_Details = ({ route, navigation }) => {
       <TextInput style={styles.input} color='#8B5A33' value={colors} onChangeText={setColors} />
       <View style={{ height: 10 }} />
 
-      <Text style={styles.radioButtonText}>Choose dog gender:</Text>
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Gender:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={gender} onChangeText={setGender} />
       <View style={{ height: 10 }} />
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-       {genders.map((option) => (
-      <TouchableOpacity
-      key={option.value}
-      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-      onPress={() => setGender(option.value)}
-    >
-      <View style={styles.radioCircle}>
-        {gender === option.value && (
-          <View style={styles.selectedRadioCircle} />
-        )}
-      </View>
-      <Text style={styles.radioButtonText}>{option.label}</Text>
-    </TouchableOpacity>
-      ))}
-      </View>
-      <View style={{ height: 20 }} />
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Breed:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={breed} onChangeText={setBreed} />
@@ -95,10 +93,6 @@ const Update_Dog_Details = ({ route, navigation }) => {
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Shelter Entry Date:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={enterdate} onChangeText={setEnterdate} />
-      <View style={{ height: 10 }} />
-
-      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Cell Number:</Text>
-      <TextInput style={styles.input} color='#8B5A33' value={cell} onChangeText={setCell} />
       <View style={{ height: 10 }} />
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Status:</Text>
