@@ -46,7 +46,7 @@ const Requests = ({ navigation }) => {
       setRequests(requestsArray);
     };
     fetchData();
-  }, []);
+  }, [requests]);
 
   const handleApprovedRequest = async (request) => {
     let email = request?.email;
@@ -60,11 +60,10 @@ const Requests = ({ navigation }) => {
     return;
   };
 
-  const handleRejectRequest = async (request) =>
-    {
-      await deleteUserFromWaitList(request);
-      return;
-    };
+  const handleRejectRequest = async (request) => {
+    await deleteUserFromWaitList(request);
+    return;
+  };
 
   const insertUserToFirebaseAuth = async (user) => {
     try {
@@ -82,19 +81,19 @@ const Requests = ({ navigation }) => {
 
   const insertUserToUsersTable = async (user) => {
     const dbRef = collection(db, "Users");
-    addDoc(dbRef, user).then((docRef) => {
-      console.log("SUCCESS: User add to users table");
-      alert("New user add to user list");
-      
+    addDoc(dbRef, user)
+      .then((docRef) => {
+        console.log("SUCCESS: User add to users table");
+        alert("New user add to user list");
       })
-  .catch((error) => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
   const deleteUserFromWaitList = async (user) => {
     console.log("in delete function");
-    const q = doc(collection(db, 'UsersWaitList'), user.id);
+    const q = doc(collection(db, "UsersWaitList"), user.id);
     console.log(q);
     try {
       await deleteDoc(q);
@@ -107,7 +106,6 @@ const Requests = ({ navigation }) => {
     const updatedRequests = requests.filter((user) => user.id !== user.id);
     setRequests(updatedRequests);
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -137,7 +135,7 @@ const Requests = ({ navigation }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.denyButton, { marginLeft: 10 }]}
-                    onPress={() =>handleRejectRequest(request)}
+                    onPress={() => handleRejectRequest(request)}
                   >
                     <Text style={styles.buttonText}>Reject</Text>
                   </TouchableOpacity>

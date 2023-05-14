@@ -11,7 +11,14 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import { collection, doc, getDoc, setDoc, addDoc,updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -35,18 +42,20 @@ const Update_medical_data = ({ route, navigation }) => {
     tempCastration,
     tempDeworming,
     tempfleaTreatment;
-  const [rabiesVaccineDate, setRabiesVaccine] = React.useState(new Date());
-  const [chipDate, setChip] = React.useState(dog.chip);
+  const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
+    dog.rabiesVaccineDate
+  );
+  const [chipDate, setChip] = React.useState(dog.chipDate);
   const [canineHepatitisDate, setCanineHepatitis] = React.useState(
     dog.canineHepatitis
   );
   const [spirocercaLupiDate, setSpirocercaLupi] = React.useState(
-    dog.spirocercaLupi
+    dog.spirocercaLupiDate
   );
   const [castration, setcastration] = React.useState(dog.castration);
-  const [dewormingDate, setDeworming] = React.useState(dog.deworming);
+  const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate);
   const [fleaTreatmentDate, setfleaTreatment] = React.useState(
-    dog.fleaTreatment
+    dog.fleaTreatmentDate
   );
   const [alergies, setAlergies] = React.useState(dog.alergies);
   const [medications, setMedications] = React.useState(dog.medications);
@@ -63,21 +72,27 @@ const Update_medical_data = ({ route, navigation }) => {
   };
   const onChangeDateRabbisVaccine = (event, selectedDate) => {
     tempRabiesVaccine = selectedDate || rabiesVaccineDate;
+    setRabiesVaccine(tempRabiesVaccine);
   };
   const onChangeDatecanineHepatitis = (event, selectedDate) => {
     tempCanineHepatitis = selectedDate || canineHepatitisDate;
+    setCanineHepatitis(tempCanineHepatitis);
   };
   const onChangeDateSpirocercaLupi = (event, selectedDate) => {
     tempSpirocercaLupi = selectedDate || spirocercaLupiDate;
+    setSpirocercaLupi(tempSpirocercaLupi);
   };
   const onChangeDateDeworming = (event, selectedDate) => {
     tempDeworming = selectedDate || dewormingDate;
+    setDeworming(tempDeworming);
   };
   const onChangeDateChip = (event, selectedDate) => {
     tempChip = selectedDate || chipDate;
+    setChip(tempChip);
   };
   const onChangeDatefleaTreatment = (event, selectedDate) => {
     tempfleaTreatment = selectedDate || fleaTreatmentDate;
+    setfleaTreatment(tempfleaTreatment);
   };
   const onChangeMedications = (event, selected) => {
     tempMedications = selected || medications;
@@ -96,42 +111,41 @@ const Update_medical_data = ({ route, navigation }) => {
   };
   const onSave = async () => {
     //save to database+alert acoordingly
-const newMedicalData={
-  dogName : dog.name,
-  rabiesVaccineDate: rabiesVaccineDate,
-  chipDate: chipDate,
-  canineHepatitisDate: canineHepatitisDate,
-  spirocercaLupiDate: spirocercaLupiDate,
-  castration: castration,
-  dewormingDate: dewormingDate,
-  fleaTreatmentDate: fleaTreatmentDate,
-  alergies: alergies,
-  medications: medications,
-  medicalTreatment : medicalTreatment
-}
-const MedicalDatabdRef = collection(db, 'MedicalData');
-const docRef = doc(db, "MedicalData", dog.id);
+    const newMedicalData = {
+      dogName: dog.name,
+      rabiesVaccineDate: rabiesVaccineDate,
+      chipDate: chipDate,
+      canineHepatitisDate: canineHepatitisDate,
+      spirocercaLupiDate: spirocercaLupiDate,
+      castration: castration,
+      dewormingDate: dewormingDate,
+      fleaTreatmentDate: fleaTreatmentDate,
+      alergies: alergies,
+      medications: medications,
+      medicalTreatment: medicalTreatment,
+    };
+    const MedicalDatabdRef = collection(db, "MedicalData");
+    const docRef = doc(db, "MedicalData", dog.id);
 
-const docSnap = await getDoc(docRef);
-console.log(docSnap.exists())
-if (docSnap.exists())
-{
-  await updateDoc(docRef, newMedicalData)
-.then(docRef => {
-    console.log("SUCCESS: Medical Data has been updated successfully");
-})
-.catch(error => {
-    console.log(error);
-})
-}
-else {
-  await addDoc(MedicalDatabdRef, newMedicalData).then((docRef) => {
-    console.log("SUCCESS: new Medical Data add");
-    })
-.catch((error) => {
-      console.log(error);
-    });
-}
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.exists());
+    if (docSnap.exists()) {
+      await updateDoc(docRef, newMedicalData)
+        .then((docRef) => {
+          console.log("SUCCESS: Medical Data has been updated successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      await addDoc(MedicalDatabdRef, newMedicalData)
+        .then((docRef) => {
+          console.log("SUCCESS: new Medical Data add");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
