@@ -22,9 +22,20 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [colors, setColors] = React.useState(dog.colors);
   const [gender, setGender] = React.useState(dog.gender);
   const [age, setAge] = React.useState(dog.age);
-  const [enterdate, setEnterdate] = React.useState(dog.enterdate);
+  const [enterdate, setEnterdate] = React.useState(new Date());
   const [status, setStatus] = React.useState(dog.status);
   const [info, setInfo] = React.useState(dog.info);
+  const [showPicker, setShowPicker] = React.useState(false);
+
+  const onChange = (event, selectedDate) => { // prperty 
+    const currentDate = selectedDate || enterdate;
+    setShowPicker(false);
+    setEnterdate(currentDate);
+  };
+
+  const showDateTimePicker = () => {
+    setShowPicker(true);
+  };
     const onSave = () => {
         //save to database+alert acoordingly ---------------------------------->RAZ - update database
         const updateDetails = {
@@ -71,6 +82,11 @@ const Update_Dog_Details = ({ route, navigation }) => {
           
         }
       };
+      const genders = [// array with two argu
+    { label: 'Male', value: 'Male' },
+    { label: 'Female', value: 'Female' },
+  ];
+  
     return (
       <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -86,9 +102,8 @@ const Update_Dog_Details = ({ route, navigation }) => {
       <TextInput style={styles.input} color='#8B5A33' value={colors} onChangeText={setColors} />
       <View style={{ height: 10 }} />
 
-      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Gender:</Text>
-      <TextInput style={styles.input} color='#8B5A33' value={gender} onChangeText={setGender} />
-      <View style={{ height: 10 }} />
+     
+      
 
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Breed:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={breed} onChangeText={setBreed} />
@@ -98,10 +113,42 @@ const Update_Dog_Details = ({ route, navigation }) => {
       <TextInput style={styles.input} color='#8B5A33' value={age} onChangeText={setAge} />
       <View style={{ height: 10 }} />
 
-      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Shelter Entry Date:</Text>
-      <TextInput style={styles.input} color='#8B5A33' value={enterdate} onChangeText={setEnterdate} />
+      <Text style={styles.radioButtonText}>Choose dog gender:</Text>
       <View style={{ height: 10 }} />
-
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+       {genders.map((option) => (
+      <TouchableOpacity
+      key={option.value}
+      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft:20}}
+      onPress={() => setGender(option.value)}
+    >
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+      <View style={{ width: 7 }} />
+      <View style={styles.radioCircle}>
+        {gender === option.value && (
+          <View style={styles.selectedRadioCircle} />
+        )}
+      </View>
+      
+    </TouchableOpacity>
+      ))}
+      </View>
+      <View style={{ height: 20 }} />
+         <TouchableOpacity style={styles.loginButton} onPress={showDateTimePicker}>
+        <Text style={styles.buttonText}>Change Shelter Entry Date</Text>
+      </TouchableOpacity>
+      {showPicker && (
+        <DateTimePicker
+          value={enterdate}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+       <View style={{ marginTop: -15 }} />
+ <Text style={styles.radioButtonText}>Shelter Entery Date: {enterdate.toDateString()}</Text>
+ <View style={{ height: 20 }} />
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Status:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={status} onChangeText={setStatus} />
       <View style={{ height: 10 }} />
@@ -118,7 +165,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
         />
       )}
       <TouchableOpacity style={styles.loginButton} onPress={handlePickImage}>
-        <Text style={styles.buttonText}>Pick Image</Text>
+        <Text style={styles.buttonText}>Change Image</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.registerButton} onPress={onSave}>
         <Text style={styles.buttonText}>Save</Text>

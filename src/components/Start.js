@@ -46,6 +46,11 @@ const Start = () => {
 
   };
   
+  const handleHome=()=>{
+    navigation.navigate('Home');
+  }
+
+  
   return (
     <View style={styles.container}>
        <Icon name="paw" size={60} color="#A0522D" />
@@ -87,6 +92,9 @@ const Start = () => {
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
+      <Text style={styles.buttonText}>Home</Text>
+     </TouchableOpacity> */}
     </View>
   );
 };

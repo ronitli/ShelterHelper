@@ -1,12 +1,12 @@
 
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet,ScrollView ,SafeAreaView, StatusBar,TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, Button, Image, StyleSheet,ScrollView ,SafeAreaView, StatusBar,TouchableOpacity, Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import pickImage from './pickImage';
+//import pickImage from './pickImage';
 import { styles } from '../styles';
 import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,6 +14,11 @@ import Dogs from './Dogs';
 import { db } from '../../firebase';
 import { getFirestore, collection, setDoc, addDoc } from "firebase/firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
+// import * as ImageManipulator from 'expo-image-manipulator';
+// import { manipulateAsync } from 'expo-image-manipulator';
+// import * as FileSystem from 'expo-file-system';
+// import { Asset } from 'expo-asset';
+// import * as ExpoAsset from 'expo-asset';
 
 const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
@@ -142,32 +147,34 @@ addDoc(dbRef, newDog)
         />
       )}
       <TextInput style={styles.input} value={name} onChangeText={setName} placeholder='Name:' placeholderTextColor="#8B5A33"/>
-      <TextInput style={styles.input} value={breed} onChangeText={setBreed} placeholder='Bread:' placeholderTextColor="#8B5A33"/>
+      <TextInput style={styles.input} value={breed} onChangeText={setBreed} placeholder='Breed:' placeholderTextColor="#8B5A33"/>
       <TextInput style={styles.input} value={colors} onChangeText={setColors} placeholder='Colors:' placeholderTextColor="#8B5A33"/>
+      <TextInput keyboardType="numeric" style={styles.input} value={age} onChangeText={setAge} 
+       placeholder='Age (in years):' placeholderTextColor="#8B5A33" />
       <Text style={styles.radioButtonText}>Choose dog gender:</Text>
       <View style={{ height: 10 }} />
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
        {genders.map((option) => (
       <TouchableOpacity
       key={option.value}
-      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 30 }}
+      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft:20}}
       onPress={() => setGender(option.value)}
     >
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+      <View style={{ width: 7 }} />
       <View style={styles.radioCircle}>
         {gender === option.value && (
           <View style={styles.selectedRadioCircle} />
         )}
       </View>
-      <Text style={styles.radioButtonText}>{option.label}</Text>
+      
     </TouchableOpacity>
       ))}
       </View>
-      <View style={{ height: 10 }} />
-       <TextInput keyboardType="numeric" style={styles.input} value={age} onChangeText={setAge} 
-       placeholder='Age (in years):' placeholderTextColor="#8B5A33" />
-         <Text style={styles.radioButtonText}>Shelter Enter Date: {enterdate.toDateString()}</Text>
+      <View style={{ height: 20 }} />
+      
          <TouchableOpacity style={styles.loginButton} onPress={showDateTimePicker}>
-        <Text style={styles.buttonText}>Show Date Picker</Text>
+        <Text style={styles.buttonText}>Select Shelter Enrty Date</Text>
       </TouchableOpacity>
       {showPicker && (
         <DateTimePicker
@@ -178,6 +185,10 @@ addDoc(dbRef, newDog)
           onChange={onChange}
         />
       )}
+        <View style={{ marginTop: -15 }} />
+      <Text style={styles.radioButtonText}>Shelter Entery Date: {enterdate.toDateString()}</Text>
+      <View style={{ height: 20 }} />
+
        <TextInput keyboardType="numeric" style={styles.input} value={cell} onChangeText={setCell} 
        placeholder='Cell number:' placeholderTextColor="#8B5A33" />
          <TextInput style={styles.input} value={status} onChangeText={setStatus} placeholder='Status:' placeholderTextColor="#8B5A33"/>

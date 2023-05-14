@@ -48,22 +48,24 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
-        <Stack.Screen name="Start" component={Start} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="AddDog" component={AddDog} />
-        <Stack.Screen name="Alerts" component={Alerts} />
-        <Stack.Screen name="Requests" component={Requests} />
+        <Stack.Screen name="Start" component={Start} options={{headerShown:false}}/>
+        <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
+        <Stack.Screen name="Register" component={Register} options={{headerShown:false}}/>
+        <Stack.Screen name="AddDog" component={AddDog} options={{headerShown:false}}/>
+        <Stack.Screen name="Alerts" component={Alerts} options={{headerShown:false}}/>
+        <Stack.Screen name="Requests" component={Requests} options={{headerShown:false}}/>
         <Stack.Screen
           name="Update_medical_data"
           component={Update_medical_data}
+          options={{headerShown:false}}
         />
-        <Stack.Screen name="Dogs" component={Dogs} />
-        <Stack.Screen name="Calender" component={Calender} />
-        <Stack.Screen name="Update_trip" component={Update_trip} />
+        <Stack.Screen name="Dogs" component={Dogs} options={{headerShown:false}}/>
+        <Stack.Screen name="Calender" component={Calender} options={{headerShown:false}}/>
+        <Stack.Screen name="Update_trip" component={Update_trip} options={{headerShown:false}}/>
         <Stack.Screen
           name="Update_Dog_Details"
           component={Update_Dog_Details}
+          options={{headerShown:false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
