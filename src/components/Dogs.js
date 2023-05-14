@@ -178,6 +178,7 @@ const Dogs = ({ navigation }) => {
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
                 <Text style={styles.reqText}>Age: {dog.age}</Text>
+                <Text style={styles.reqText}>Cell number: {dog.cell}</Text>
                 <Text style={styles.reqText}>
                   Medical information: {dog.medical_info}
                 </Text>
@@ -208,9 +209,6 @@ const Dogs = ({ navigation }) => {
                 >
                   <Text style={styles.buttonText}>Update medical data</Text>
                 </TouchableOpacity>
-                {/* <Text onPress={() => navigation.navigate('Update_Dog_Details',{dog})}>Update Dog Details</Text>
-      <Text onPress={() => navigation.navigate('Update_trip')}>Update trip</Text>
-      <Text onPress={() => navigation.navigate('Update_medical_data')}>Update medical data</Text> */}
                 <View style={styles.underline} />
               </View>
             ))}
