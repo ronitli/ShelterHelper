@@ -15,3 +15,45 @@ const Alerts = ({ navigation }) => {
 };
 
 export default Alerts;
+
+
+
+
+// import { Notifications } from 'expo';
+// import * as Permissions from 'expo-permissions';
+
+// // Function to request permission to send notifications
+// async function getPermission() {
+//   const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+//   if (status !== 'granted') {
+//     alert('You need to grant permission to send notifications.');
+//   }
+// }
+
+// // Function to schedule a notification
+// async function scheduleNotification() {
+//   // Get permission to send notifications
+//   await getPermission();
+
+//   // Set the date and time when you want the notification to appear
+//   const notificationDate = new Date('2023-05-20T12:00:00');
+
+//   // Schedule the notification
+//   Notifications.scheduleLocalNotificationAsync({
+//     title: 'Notification title',
+//     body: 'Notification body',
+//     ios: {
+//       sound: true,
+//     },
+//     android: {
+//       sound: true,
+//       vibrate: true,
+//       color: '#512DA8',
+//       priority: 'high',
+//     },
+//   }, {
+//     time: notificationDate.getTime(),
+//     repeat: 'day', // Set the frequency to repeat the notification
+//   });
+// }
+

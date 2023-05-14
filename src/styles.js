@@ -212,4 +212,30 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
   },
+  button: {
+    backgroundColor: 'sienna',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginBottom: 10,
+    width: "80%",
+  },
+  surface: {
+    padding: 8,
+    height: 90,
+    width:100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });
