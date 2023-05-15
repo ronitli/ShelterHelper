@@ -117,35 +117,35 @@ const Register = ({ navigation }) => {
       <Text style={styles.registertitle}>Registration</Text>
       <TextInput
         style={styles.input}
-        placeholder="First Name"
+        placeholder="First Name:"
         placeholderTextColor="sienna"
         value={fname}
         onChangeText={setFname}
       />
        <TextInput
         style={styles.input}
-        placeholder="Last Name"
+        placeholder="Last Name:"
         placeholderTextColor="sienna"
         value={lname}
         onChangeText={setLname}
       />
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Username:"
         placeholderTextColor="sienna"
         value={username}
         onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Email:"
         placeholderTextColor="sienna"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Password:"
         placeholderTextColor="sienna"
         secureTextEntry={true}
         value={password}
@@ -153,7 +153,7 @@ const Register = ({ navigation }) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Retype Password"
+        placeholder="Retype Password:"
         placeholderTextColor="sienna"
         secureTextEntry={true}
         value={checkpswd}
@@ -168,12 +168,14 @@ const Register = ({ navigation }) => {
       style={{ flexDirection: 'row', alignItems: 'center', marginRight: 30 }}
       onPress={() => setSelectedOption(option.value)}
     >
+      <Text style={styles.radioButtonText}>{option.label}</Text>
+      <View style={{ width: 7 }} />
       <View style={styles.radioCircle}>
         {selectedOption === option.value && (
           <View style={styles.selectedRadioCircle} />
         )}
       </View>
-      <Text style={styles.radioButtonText}>{option.label}</Text>
+      
     </TouchableOpacity>
       ))}
       </View>

@@ -223,15 +223,24 @@ export const styles = StyleSheet.create({
   surface: {
     padding: 8,
     height: 90,
-    width:100,
+    width:140,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor:'#FDF0F4',
+  },
+  downsurface: {
+    padding: 8,
+    height: 90,
+    width:150,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor:'#FDF0F4',
   },
   topRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 1,
   },
   bottomRow: {
     flexDirection: 'row',
