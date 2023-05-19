@@ -85,6 +85,11 @@ const Dogs = ({ navigation }) => {
 
     return [...optionsSet];
   };
+  const getDate = (timeStamp) => {
+    const date = timeStamp.toDate();
+    console.log(date);
+    return date;
+  };
 
   const selectFilterOption = (option) => {
     const newSelectedFiletrs = { ...selectedFiletrs };
@@ -178,6 +183,9 @@ const Dogs = ({ navigation }) => {
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
                 <Text style={styles.reqText}>Age: {dog.age}</Text>
+                <Text style={styles.reqText}>
+                  Shelter entry date: {getDate(dog.enterdate).toDateString()}
+                </Text>
                 <Text style={styles.reqText}>Cell number: {dog.cell}</Text>
                 <Text style={styles.reqText}>
                   Medical information: {dog.medical_info}
