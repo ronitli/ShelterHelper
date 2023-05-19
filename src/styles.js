@@ -12,11 +12,43 @@ export const loadFonts = async () => {
   });
 };
 export const styles = StyleSheet.create({
-  checkbox: {
+  closeButton: {
     display: "flex",
     flexDirection: "row",
-    alignContent: "center",
+    alignItems: "center",
+    color: "#8B5A33",
+    fontSize: 20,
+    margin: 5,
+    justifyContent: "center",
   },
+
+  filterOptionTextContainer: { display: "flex", justifyContent: "center" },
+  filterCheckbox: {
+    width: 40,
+    margin: 2,
+    paddingTop: 3,
+    height: 40,
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    borderStyle: "solid",
+    borderWidth: 1,
+  },
+  filterOptionContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 1,
+  },
+  filter: {
+    fontFamily: "CormorantUpright-Bold",
+    fontSize: 20,
+    color: "#8B5A33",
+    textAlign: "left",
+    width: 86,
+    marginRight: 2,
+    marginLeft: 2,
+  },
+
+  fIcon: { marginLeft: 5, marginRight: 5 },
 
   container: {
     flex: 1,
@@ -35,26 +67,42 @@ export const styles = StyleSheet.create({
     marginLeft: 80,
   },
 
-  filtersMenu: {
-    width: 250,
-    height: 250,
-    backgroundColor: "#eeeeee",
-    fontSize: 30,
-    marginLeft: 40,
-    display: "flex",
-    justifyContent: "space-between",
+  filterTitle: {
+    fontFamily: "CormorantUpright-Bold",
+    color: "#8B5A33",
+    fontSize: 32,
+    marginBottom: 12,
+    marginTop: 6,
   },
 
-  filterIcon: {
-    marginLeft: 25,
+  filterOption: {
+    fontSize: 18,
+    marginTop: 2,
+    marginLeft: 3,
+  },
+
+  filtersMenu: {
+    width: 250,
+    maxHeight: 350,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    shadowColor: "#171717",
+    shadowOffset: { width: -4, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
     fontSize: 30,
+    marginLeft: 40,
+    paddingLeft: 5,
+    paddingRight: 5,
+    display: "flex",
+  },
+
+  filtersRow: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
 
   filterIconContainer: {
-    marginLeft: 25,
     fontSize: 30,
     display: "flex",
     flexDirection: "column",
@@ -213,7 +261,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   button: {
-    backgroundColor: 'sienna',
+    backgroundColor: "sienna",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -223,28 +271,28 @@ export const styles = StyleSheet.create({
   surface: {
     padding: 8,
     height: 90,
-    width:140,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor:'#FDF0F4',
+    width: 140,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FDF0F4",
   },
   downsurface: {
     padding: 8,
     height: 90,
-    width:150,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor:'#FDF0F4',
+    width: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FDF0F4",
   },
   topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 1,
   },
   bottomRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });

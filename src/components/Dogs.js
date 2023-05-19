@@ -125,48 +125,103 @@ const Dogs = ({ navigation }) => {
               />
             </View>
             <View style={styles.filterIconContainer}>
-              <View style={styles.filterIcon}>
-                <Icon name="filter" size={50} color="sienna" />
-                <Button
-                  title="Colors"
+              <View style={styles.filtersRow}>
+                <Icon
+                  style={styles.fIcon}
+                  name="filter"
+                  size={34}
+                  color="sienna"
+                />
+                <TouchableOpacity
                   onPress={() => {
-                    setActiveFilter("colors");
+                    if (activeFilter === "colors") {
+                      setActiveFilter("");
+                    } else {
+                      setActiveFilter("colors");
+                    }
                   }}
-                ></Button>
-                <Button
-                  title="Breed"
-                  onPress={() => setActiveFilter("breed")}
-                ></Button>
-                <Button
-                  title="Age"
-                  onPress={() => setActiveFilter("age")}
-                ></Button>
-                <Button
-                  title="Gender"
-                  onPress={() => setActiveFilter("gender")}
-                ></Button>
+                >
+                  <Text style={styles.filter}>
+                    Color{" "}
+                    {selectedFiletrs["colors"] &&
+                      `(${selectedFiletrs["colors"].size})`}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (activeFilter === "age") {
+                      setActiveFilter("");
+                    } else {
+                      setActiveFilter("age");
+                    }
+                  }}
+                >
+                  <Text style={styles.filter}>
+                    Age{" "}
+                    {selectedFiletrs["age"] &&
+                      `(${selectedFiletrs["age"].size})`}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (activeFilter === "breed") {
+                      setActiveFilter("");
+                    } else {
+                      setActiveFilter("breed");
+                    }
+                  }}
+                >
+                  <Text style={styles.filter}>
+                    Breed{" "}
+                    {selectedFiletrs["breed"] &&
+                      `(${selectedFiletrs["breed"].size})`}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (activeFilter === "gender") {
+                      setActiveFilter("");
+                    } else {
+                      setActiveFilter("gender");
+                    }
+                  }}
+                >
+                  <Text style={styles.filter}>
+                    Gender{" "}
+                    {selectedFiletrs["gender"] &&
+                      `(${selectedFiletrs["gender"].size})`}
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               {activeFilter && (
                 <View style={styles.filtersMenu}>
-                  <Title>{activeFilter}</Title>
-                  {getFilterOptions().map((option) => (
-                    <View style={styles.checkbox}>
-                      <Checkbox
-                        status={
-                          selectedFiletrs[activeFilter]?.has(option)
-                            ? "checked"
-                            : ""
-                        }
-                        onPress={() => selectFilterOption(option)}
-                      ></Checkbox>
-                      <Text>{option}</Text>
-                    </View>
-                  ))}
-                  <Button
-                    title="Close"
+                  <Title style={styles.filterTitle}>{activeFilter}</Title>
+                  <ScrollView>
+                    {getFilterOptions().map((option) => (
+                      <View style={styles.filterOptionContainer}>
+                        <View style={styles.filterCheckbox}>
+                          <Checkbox
+                            status={
+                              selectedFiletrs[activeFilter]?.has(option)
+                                ? "checked"
+                                : ""
+                            }
+                            onPress={() => selectFilterOption(option)}
+                          ></Checkbox>
+                        </View>
+                        <View style={styles.filterOptionTextContainer}>
+                          <Text style={styles.filterOption}>{option}</Text>
+                        </View>
+                      </View>
+                    ))}
+                  </ScrollView>
+                  <TouchableOpacity
+                    style={styles.closeButton}
                     onPress={() => setActiveFilter()}
-                  ></Button>
+                  >
+                    <Text style={styles.closeButton}>Close</Text>
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
