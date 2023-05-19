@@ -2,7 +2,7 @@ import React , { useState } from 'react';
 //import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import Drawer from 'react-native-drawer';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { styles } from "../styles";
@@ -20,7 +20,7 @@ import {
   Alert
 } from "react-native";
 
-const Add_Medical_Data = ({ navigation }) => {
+const Add_Medical_Data = ({ route, navigation }) => {
     let alertShown = false;
     const [rabiesVaccineDate, setRabiesVaccineDate] = useState('');
     const [chipDate, setChipDate] = useState('');
@@ -32,12 +32,9 @@ const Add_Medical_Data = ({ navigation }) => {
     const [alergies, setAlergies] = useState('');
     const [medications, setMedications] = useState('');
     const [medicalTreatment, setTreatment] =useState('');
-    const  castrationed= [// array with two argu
-    { label: 'No', value: 'No' },
-    { label: 'Yes', value: 'Yes' },
-  ];
+   
   const handleButtonPress = () => {
-   const dates=[rabiesVaccineDate,chipDate,hexagonalVaccine,spirocercaLupiDate,dewormingDate,fleaTreatmentDate];
+   const dates=[rabiesVaccineDate,chipDate,hexagonalVaccine,spirocercaLupiDate,dewormingDate,fleaTreatmentDate,castration];
    dates.forEach((dateParam) => {
     if (dateParam !== '') {
         handleSave(dateParam);
@@ -52,22 +49,22 @@ const Add_Medical_Data = ({ navigation }) => {
     return;
   }
     //If reached here, frontend validation is done and all is correct. 
-   
-    //Save to database
+    navigation.navigate('AddDog', {
+        param1: rabiesVaccineDate,
+        param2: chipDate,
+        param3: hexagonalVaccine,
+        param4:spirocercaLupiDate,
+        param5:castration,
+        param6: dewormingDate,
+        param7:fleaTreatmentDate,
+        param8:alergies,
+        param9:medications,
+        param10:medicalTreatment,
+      });
+    
 
 
-    // Clear the form fields after data is saved
-    setRabiesVaccineDate('');
-    setChipDate('');
-    setHexagonalVaccine('');
-    setSpirocercaLupi('');
-    setcastration('');
-    setDeworming('');
-    setfleaTreatment('');
-    setAlergies('');
-    setMedications('');
-    setTreatment('');
-
+    
   };
 
   const handleSave = async (date) => {
@@ -128,28 +125,10 @@ const Add_Medical_Data = ({ navigation }) => {
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Fleas/Ticks Treatment Date:</Text>
       <TextInput style={styles.input} color='#8B5A33' value={fleaTreatmentDate} onChangeText={setfleaTreatment} placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"/>
       <View style={{ height: 10 }} />
-
-      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Sterilized\Neutered?</Text>
+      <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Spaying / Neutering Date:</Text>
+      <TextInput style={styles.input} color='#8B5A33' value={castration} onChangeText={setcastration} placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"/>
       <View style={{ height: 10 }} />
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-       {castrationed.map((option) => (
-      <TouchableOpacity
-      key={option.value}
-      style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft:20}}
-      onPress={() => setcastration(option.value)}
-    >
-      <Text style={styles.radioButtonText}>{option.label}</Text>
-      <View style={{ width: 7 }} />
-      <View style={styles.radioCircle}>
-        {castration === option.value && (
-          <View style={styles.selectedRadioCircle} />
-        )}
-      </View>
-    </TouchableOpacity>
-      ))}
-      </View>
 
-      <View style={{ height: 30 }} />
       <Text style={[styles.radioButtonText, {textDecorationLine: 'underline'}]}>Alergies?</Text>
       <TextInput style={styles.input} color='#8B5A33' value={alergies} onChangeText={setAlergies}/>
       <View style={{ height: 10 }} />
