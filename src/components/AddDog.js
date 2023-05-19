@@ -12,7 +12,14 @@ import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Dogs from './Dogs';
 import { db } from '../../firebase';
-import { getFirestore, collection, setDoc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import * as ImageManipulator from 'expo-image-manipulator';
 // import { manipulateAsync } from 'expo-image-manipulator';
@@ -51,7 +58,7 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
     console.log('Add Medical Data button pressed');
     
     navigation.navigate('Add_Medical_Data');
-   
+
     const { param1, param2 , param3,param4,param5, param6,param7,param8,param9,param10} = route.params ?? {};
     setRabiesVaccineDate(param1);
     setChipDate(param2);
@@ -63,9 +70,6 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
     setAlergies(param8);
     setMedications(param9);
     setTreatment(param10);
-    
-    
-
   };
 
   const onChange = (event, selectedDate) => { // prperty 
@@ -86,7 +90,14 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
       }
       
     //save to database & validate
-    const dbRef = collection(db, 'Dogs');
+//     let image;
+//     const file = profilePicture;
+//     const reader = new FileReader();
+//     reader.onload = function(event) {
+//     const dataURL = event.target.result;
+//     image=dataURL;
+// };
+// reader.readAsDataURL(file);
     
     const newDog = {
       name: name,
@@ -104,15 +115,56 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
       id : ""
    };
 
-//     addDoc(dbRef, newDog).then(docRef => {
-//       console.log("Successfully added a new dog!");
-//       alert('Successfully added a new dog!');
-//     })
-// .catch(error => {console.log(error);})
+   let dogId;
+   const dbRef = collection(db, 'Dogs');
+   await addDoc(dbRef, newDog)
+ .then((docRef) => {
+   const newDogId = docRef.id; // Retrieve the auto-generated ID
+   dogId = docRef.id;
+   console.log("Successfully added a new dog with ID:", newDogId);
+   alert('Successfully added a new dog with ID: ' + newDogId);
+   const data = { ...newDog, id: newDogId };
+   setDoc(docRef, data)
+.then(docRef => {
+   console.log("id has been updated successfully");
+})
+.catch(error => {
+   console.log(error);
+})
 
-addDoc(dbRef, newDog)
+ })
+ .then(() => {
+   console.log('Successfully updated the ID field of the document');
+ })
+ .catch((error) => {
+   console.log('Error adding a new dog:', error);
+ });
+
+ console.log(rabiesVaccineDate);
+ console.log(chipDate);
+ await addMedicalData(dogId); 
+   
+
+
+    // Clear the form fields after data is saved
+    setName('');
+    setBreed('');
+    setProfilePicture(null);
+    setColors('');
+    setGender('');
+    setAge('');
+    setStatus('');
+    setInfo('');
+    setCell('');
+  }
+
+  const addDog=async(newDog)=>{
+    let dogId;
+    const dbRef = collection(db, 'Dogs');
+    addDoc(dbRef, newDog)
   .then((docRef) => {
     const newDogId = docRef.id; // Retrieve the auto-generated ID
+    dogId = docRef.id;
     console.log("Successfully added a new dog with ID:", newDogId);
     alert('Successfully added a new dog with ID: ' + newDogId);
     const data = { ...newDog, id: newDogId };
@@ -131,17 +183,45 @@ addDoc(dbRef, newDog)
   .catch((error) => {
     console.log('Error adding a new dog:', error);
   });
+return dogId;
+  }
+  const addMedicalData = async(dogId)=>{
+    const newMedicalData = {
+      dogID: dogId,
+      rabiesVaccineDate: rabiesVaccineDate,
+      chipDate: chipDate,
+      hexagonalVaccine: hexagonalVaccine,
+      spirocercaLupiDate: spirocercaLupiDate,
+      castration: castration,
+      dewormingDate: dewormingDate,
+      fleaTreatmentDate: fleaTreatmentDate,
+      alergies: alergies,
+      medications: medications,
+      medicalTreatment: medicalTreatment,
+    };
 
-    // Clear the form fields after data is saved
-    setName('');
-    setBreed('');
-    setProfilePicture(null);
-    setColors('');
-    setGender('');
-    setAge('');
-    setStatus('');
-    setInfo('');
-    setCell('');
+    const MedicalDatabdRef = collection(db, "MedicalData");
+    const docRef = doc(db, "MedicalData", dogId);
+
+    const docSnap = await getDoc(docRef);
+    console.log(docSnap.exists());
+    if (docSnap.exists()) {
+      await updateDoc(docRef, newMedicalData)
+        .then((docRef) => {
+          console.log("SUCCESS: Medical Data has been updated successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      await addDoc(MedicalDatabdRef, newMedicalData)
+        .then((docRef) => {
+          console.log("SUCCESS: new Medical Data add");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   const handlePickImage = async () => {
