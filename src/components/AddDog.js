@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet,ScrollView ,SafeAreaView, StatusBar,TouchableOpacity, Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -42,24 +42,58 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
   const [info, setInfo] = React.useState('');
   const [showPicker, setShowPicker] = React.useState(false);//defalt val is flase
 
-
   const [rabiesVaccineDate, setRabiesVaccineDate] = useState('');
-    const [chipDate, setChipDate] = useState('');
-    const [hexagonalVaccine, setHexagonalVaccine] = useState('');
-    const [spirocercaLupiDate, setSpirocercaLupi] = useState('');
-    const [castration, setcastration] = useState('');
-    const [dewormingDate, setDeworming] = useState('');
-    const [fleaTreatmentDate, setfleaTreatment] = useState('');
-    const [alergies, setAlergies] = useState('');
-    const [medications, setMedications] = useState('');
-    const [medicalTreatment, setTreatment] =useState('');
+  const [chipDate, setChipDate] = useState('');
+  const [hexagonalVaccine, setHexagonalVaccine] = useState('');
+  const [spirocercaLupiDate, setSpirocercaLupi] = useState('');
+  const [castration, setCastration] = useState('');
+  const [dewormingDate, setDeworming] = useState('');
+  const [fleaTreatmentDate, setFleaTreatment] = useState('');
+  const [alergies, setAlergies] = useState('');
+  const [medications, setMedications] = useState('');
+  const [medicalTreatment, setTreatment] =useState('');
+
+
+   /* TODO:  Convert all above fields into one object for better code consistency
+    const [medicalData, setMedicalData] = useState({
+      rabiesVaccineDate : '',
+      chipDate : '',
+      hexagonalVaccine : '',
+      spirocercaLupiDate : '',
+      castration : '',
+      dewormingDate : '',
+      fleaTreatmentDate : '',
+      alergies : '',
+      medications : '',
+      medicalTreatment : '',
+    })
+    */
+
+    const { paramRabies, paramChip , paramHex, paramLupi, paramCastration, paramDeworming, paramFlea, paramAlergies, paramMedications, paramTreatment} = route.params ?? {};
+    useEffect(() => {
+      // console.log(`Inside useEffect ${JSON.stringify(paramAlergies)}`);
+      setRabiesVaccineDate(paramRabies);
+      setChipDate(paramChip);
+      setHexagonalVaccine(paramHex);
+      setSpirocercaLupi(paramLupi);
+      setCastration(paramCastration);
+      setDeworming(paramDeworming);
+      setFleaTreatment(paramFlea);
+      setAlergies(paramAlergies);
+      setMedications(paramMedications);
+      setTreatment(paramTreatment);
+      /* For object implementation
+      setMedicalData(route.params);
+      setMedicalData({...medicalData, hexagonalVaccine : ''});
+      */
+    }, [route.params]);
 
   const handleMedical= () => {
     console.log('Add Medical Data button pressed');
     
     navigation.navigate('Add_Medical_Data');
 
-    const { param1, param2 , param3,param4,param5, param6,param7,param8,param9,param10} = route.params ?? {};
+    /*
     setRabiesVaccineDate(param1);
     setChipDate(param2);
     setHexagonalVaccine(param3);
@@ -67,9 +101,11 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
     setcastration(param5);
     setDeworming(param6);
     setfleaTreatment(param7);
-    setAlergies(param8);
+    //setAlergies(param8);
+
     setMedications(param9);
     setTreatment(param10);
+    */
   };
 
   const onChange = (event, selectedDate) => { // prperty 
@@ -250,7 +286,7 @@ return dogId;
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
     <View style={styles.container}>
-    
+   
     <Icon name="paw" size={50} color='sienna' />
     <Text style={styles.title}>Add a New Dog</Text>
     <TouchableOpacity style={styles.loginButton} onPress={handlePickImage}>
@@ -298,6 +334,7 @@ return dogId;
           is24Hour={true}
           display="default"
           onChange={onChange}
+          maximumDate={new Date()} 
         />
       )}
         <View style={{ marginTop: -15 }} />

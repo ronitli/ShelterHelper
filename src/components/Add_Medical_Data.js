@@ -44,22 +44,22 @@ const Add_Medical_Data = ({ route, navigation }) => {
         }
     }
   });
-  if(alertShown===true)
+  if(alertShown === true)
   {
     return;
   }
     //If reached here, frontend validation is done and all is correct. 
     navigation.navigate('AddDog', {
-        param1: rabiesVaccineDate,
-        param2: chipDate,
-        param3: hexagonalVaccine,
-        param4:spirocercaLupiDate,
-        param5:castration,
-        param6: dewormingDate,
-        param7:fleaTreatmentDate,
-        param8:alergies,
-        param9:medications,
-        param10:medicalTreatment,
+        paramRabies : rabiesVaccineDate,
+        paramChip : chipDate,
+        paramHex : hexagonalVaccine,
+        paramLupi : spirocercaLupiDate,
+        paramCastration : castration,
+        paramDeworming : dewormingDate,
+        paramFlea : fleaTreatmentDate,
+        paramAlergies : alergies,
+        paramMedications : medications,
+        paramTreatment : medicalTreatment,
       });
     
 
