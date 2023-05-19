@@ -34,14 +34,16 @@ const Update_medical_data = ({ route, navigation }) => {
   // func declaration argugemnt navigation  function adddogs (navigation) {}
   const { dog } = route.params;
   console.log(dog);
-  var tempAlergies, tempMedications, tempTreatments;
-  var tempRabiesVaccine,
-    tempChip,
-    tempCanineHepatitis,
-    tempSpirocercaLupi,
-    tempCastration,
-    tempDeworming,
-    tempfleaTreatment;
+  var tempAlergies = null,
+    tempMedications = null,
+    tempTreatments = null;
+  var tempRabiesVaccine = null,
+    tempChip = null,
+    tempHexagonalVaccine = null,
+    tempSpirocercaLupi = null,
+    tempCastration = null,
+    tempDeworming = null,
+    tempfleaTreatment = null;
   const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
     dog.rabiesVaccineDate
   );
@@ -51,6 +53,9 @@ const Update_medical_data = ({ route, navigation }) => {
   );
   const [spirocercaLupiDate, setSpirocercaLupi] = React.useState(
     dog.spirocercaLupiDate
+  );
+  const [hexagonalVaccine, setHexagonalVaccine] = React.useState(
+    dog.HexagonalVaccine
   );
   const [castration, setcastration] = React.useState(dog.castration);
   const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate);
@@ -66,50 +71,67 @@ const Update_medical_data = ({ route, navigation }) => {
     { label: "Yes", value: "Yes" },
     { label: "No", value: "No" },
   ];
-
-  const handleUpdateMedicalData = async () => {
-    //backend validation
+  const onChangeHexagonalVaccine = (event, selectedDate) => {
+    tempHexagonalVaccine = selectedDate;
   };
   const onChangeDateRabbisVaccine = (event, selectedDate) => {
-    tempRabiesVaccine = selectedDate || rabiesVaccineDate;
-    setRabiesVaccine(tempRabiesVaccine);
-  };
-  const onChangeDatecanineHepatitis = (event, selectedDate) => {
-    tempCanineHepatitis = selectedDate || canineHepatitisDate;
-    setCanineHepatitis(tempCanineHepatitis);
+    tempRabiesVaccine = selectedDate;
   };
   const onChangeDateSpirocercaLupi = (event, selectedDate) => {
-    tempSpirocercaLupi = selectedDate || spirocercaLupiDate;
-    setSpirocercaLupi(tempSpirocercaLupi);
+    tempSpirocercaLupi = selectedDate;
   };
   const onChangeDateDeworming = (event, selectedDate) => {
-    tempDeworming = selectedDate || dewormingDate;
-    setDeworming(tempDeworming);
+    tempDeworming = selectedDate;
   };
   const onChangeDateChip = (event, selectedDate) => {
-    tempChip = selectedDate || chipDate;
-    setChip(tempChip);
+    tempChip = selectedDate;
   };
   const onChangeDatefleaTreatment = (event, selectedDate) => {
-    tempfleaTreatment = selectedDate || fleaTreatmentDate;
-    setfleaTreatment(tempfleaTreatment);
+    tempfleaTreatment = selectedDate;
   };
   const onChangeMedications = (event, selected) => {
-    tempMedications = selected || medications;
+    tempMedications = selected;
   };
   const onChangeCastration = (event, selected) => {
-    tempCastration = selected || castration;
-  };
-  const showDateTimePicker = () => {
-    setShowPicker(true);
+    tempCastration = selected;
   };
   const onChangeAlergies = (event, selected) => {
-    tempAlergies = selected || alergies;
+    tempAlergies = selected;
   };
   const onChangeMedicalTreatment = (event, selected) => {
-    tempTreatments = selected || medicalTreatment;
+    tempTreatments = selected;
   };
   const onSave = async () => {
+    if (tempRabiesVaccine != null) {
+      setRabiesVaccine(tempRabiesVaccine);
+    }
+    if (tempAlergies != null) {
+      setAlergies(tempAlergies);
+    }
+    if (tempMedications != null) {
+      setMedications(tempMedications);
+    }
+    if (tempTreatments != null) {
+      setTreatment(tempTreatments);
+    }
+    if (tempChip != null) {
+      setChip(tempChip);
+    }
+    if (tempHexagonalVaccine != null) {
+      setHexagonalVaccine(tempHexagonalVaccine);
+    }
+    if (tempSpirocercaLupi != null) {
+      setSpirocercaLupi(tempSpirocercaLupi);
+    }
+    if (tempCastration != null) {
+      setcastration(tempCastration);
+    }
+    if (tempDeworming != null) {
+      setDeworming(tempDeworming);
+    }
+    if (tempfleaTreatment != null) {
+      setfleaTreatment(tempfleaTreatment);
+    }
     //save to database+alert acoordingly
     const newMedicalData = {
       dogID: dog.id,
@@ -124,7 +146,7 @@ const Update_medical_data = ({ route, navigation }) => {
       medications: medications,
       medicalTreatment: medicalTreatment,
     };
-    
+
     const MedicalDatabdRef = collection(db, "MedicalData");
     const docRef = doc(db, "MedicalData", dog.id);
 
@@ -155,160 +177,179 @@ const Update_medical_data = ({ route, navigation }) => {
     <SafeAreaView style={styles.tripContainer}>
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
+          <View style={{ height: 20 }} />
           <Icon name="user-md" size={50} color="sienna" />
-          <Text style={styles.title}>Update Medical Details</Text>
-        </View>
-        <Text style={styles.radioButtonText}>Choose rabies vaccine date:</Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
+          <Text style={styles.title}>Update Medical Data</Text>
+          <View style={{ height: 20 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Rabies Vaccine Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
             value={rabiesVaccineDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDateRabbisVaccine}
+            onChangeText={onChangeDateRabbisVaccine}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-        <Text style={styles.radioButtonText}>Choose Chip date:</Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Chip Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
             value={chipDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDateChip}
+            onChangeText={onChangeDateChip}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-        <Text style={styles.radioButtonText}>
-          Choose canine hepatitis Date:
-        </Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
-            value={canineHepatitisDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDatecanineHepatitis}
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Hexagonal Vaccine Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={hexagonalVaccine}
+            onChangeText={onChangeHexagonalVaccine}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-        <Text style={styles.radioButtonText}>Choose spirocerca lupi Date:</Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Spirocerca Lupi Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
             value={spirocercaLupiDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDateSpirocercaLupi}
+            onChangeText={onChangeDateSpirocercaLupi}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-
-        <Text style={styles.radioButtonText}>Choose deworming Date:</Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Deworming Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
             value={dewormingDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDateDeworming}
+            onChangeText={onChangeDateDeworming}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-        <Text style={styles.radioButtonText}>Choose fleas treatment Date:</Text>
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={showDateTimePicker}
-        >
-          <Text style={styles.buttonText}>Choose date</Text>
-        </TouchableOpacity>
-        {showPicker && (
-          <DateTimePicker
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Fleas/Ticks Treatment Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
             value={fleaTreatmentDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDatefleaTreatment}
+            onChangeText={onChangeDatefleaTreatment}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
           />
-        )}
-        <Text style={styles.radioButtonText}>castration?</Text>
-        <View style={{ height: 10 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          {YesNoArray.map((option) => (
-            <TouchableOpacity
-              key={option.value}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginRight: 30,
-              }}
-              onPress={() => onChangeCastration(option.value)}
-            >
-              <View style={styles.radioCircle}>
-                {YesNoArray === option.value && (
-                  <View style={styles.selectedRadioCircle} />
-                )}
-              </View>
-              <Text style={styles.radioButtonText}>{option.label}</Text>
-            </TouchableOpacity>
-          ))}
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Spaying / Neutering Date:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={castration}
+            onChangeText={onChangeCastration}
+            placeholder="Format: DD/MM/YYYY"
+            placeholderTextColor="#8B5A33"
+          />
+          <View style={{ height: 10 }} />
+
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Alergies?
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={alergies}
+            onChangeText={onChangeAlergies}
+          />
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Medications?
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={medications}
+            onChangeText={onChangeMedications}
+          />
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Other Medical Information?
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={medicalTreatment}
+            onChangeText={onChangeMedicalTreatment}
+          />
+          <View style={{ height: 10 }} />
+          <TouchableOpacity style={styles.registerButton} onPress={onSave}>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
         </View>
-        <TextInput
-          style={styles.input}
-          value={alergies}
-          onChangeText={onChangeAlergies}
-          placeholder="Alergies:"
-          placeholderTextColor="#8B5A33"
-        />
-        <TextInput
-          style={styles.input}
-          value={medications}
-          onChangeText={onChangeMedications}
-          placeholder="Medical :"
-          placeholderTextColor="#8B5A33"
-        />
-        <TextInput
-          style={styles.input}
-          value={medicalTreatment}
-          onChangeText={onChangeMedicalTreatment}
-          placeholder="Medical Treatment:"
-          placeholderTextColor="#8B5A33"
-        />
-        <TouchableOpacity style={styles.registerButton} onPress={onSave}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
