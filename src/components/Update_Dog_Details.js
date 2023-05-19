@@ -22,7 +22,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [colors, setColors] = React.useState(dog.colors);
   const [gender, setGender] = React.useState(dog.gender);
   const [age, setAge] = React.useState(dog.age);
-  const [enterdate, setEnterdate] = React.useState(new Date());
+  const [enterdate, setEnterdate] = React.useState(dog.enterdate.toDate());
   const [status, setStatus] = React.useState(dog.status);
   const [info, setInfo] = React.useState(dog.info);
   const [showPicker, setShowPicker] = React.useState(false);
@@ -144,6 +144,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
           is24Hour={true}
           display="default"
           onChange={onChange}
+          maximumDate={new Date()} 
         />
       )}
        <View style={{ marginTop: -15 }} />
