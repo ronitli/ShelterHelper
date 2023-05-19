@@ -112,7 +112,7 @@ const Update_medical_data = ({ route, navigation }) => {
   const onSave = async () => {
     //save to database+alert acoordingly
     const newMedicalData = {
-      dogName: dog.name,
+      dogID: dog.id,
       rabiesVaccineDate: rabiesVaccineDate,
       chipDate: chipDate,
       canineHepatitisDate: canineHepatitisDate,
@@ -124,6 +124,7 @@ const Update_medical_data = ({ route, navigation }) => {
       medications: medications,
       medicalTreatment: medicalTreatment,
     };
+    
     const MedicalDatabdRef = collection(db, "MedicalData");
     const docRef = doc(db, "MedicalData", dog.id);
 
