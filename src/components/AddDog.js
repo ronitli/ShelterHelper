@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet,ScrollView ,SafeAreaView, StatusBar,TouchableOpacity, Platform} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 //import pickImage from './pickImage';
 import { styles } from '../styles';
@@ -20,7 +20,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import { Asset } from 'expo-asset';
 // import * as ExpoAsset from 'expo-asset';
 
-const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
+const AddDog= ({route, navigation }) => {// func declaration argugemnt navigation  function adddogs (navigation) {}
+  
+
   const [name, setName] = React.useState('');//properties of the component a change in here will run the return section again
   const [breed, setBreed] = React.useState('');// return array with 2 att 
   const[cell,setCell]= React.useState('');
@@ -33,10 +35,36 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
   const [info, setInfo] = React.useState('');
   const [showPicker, setShowPicker] = React.useState(false);//defalt val is flase
 
+
+  const [rabiesVaccineDate, setRabiesVaccineDate] = useState('');
+    const [chipDate, setChipDate] = useState('');
+    const [hexagonalVaccine, setHexagonalVaccine] = useState('');
+    const [spirocercaLupiDate, setSpirocercaLupi] = useState('');
+    const [castration, setcastration] = useState('');
+    const [dewormingDate, setDeworming] = useState('');
+    const [fleaTreatmentDate, setfleaTreatment] = useState('');
+    const [alergies, setAlergies] = useState('');
+    const [medications, setMedications] = useState('');
+    const [medicalTreatment, setTreatment] =useState('');
+
   const handleMedical= () => {
     console.log('Add Medical Data button pressed');
     
     navigation.navigate('Add_Medical_Data');
+   
+    const { param1, param2 , param3,param4,param5, param6,param7,param8,param9,param10} = route.params ?? {};
+    setRabiesVaccineDate(param1);
+    setChipDate(param2);
+    setHexagonalVaccine(param3);
+    setSpirocercaLupi(param4);
+    setcastration(param5);
+    setDeworming(param6);
+    setfleaTreatment(param7);
+    setAlergies(param8);
+    setMedications(param9);
+    setTreatment(param10);
+    
+    
 
   };
 
@@ -142,6 +170,7 @@ addDoc(dbRef, newDog)
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
     <View style={styles.container}>
+    
     <Icon name="paw" size={50} color='sienna' />
     <Text style={styles.title}>Add a New Dog</Text>
     <TouchableOpacity style={styles.loginButton} onPress={handlePickImage}>
