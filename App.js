@@ -16,6 +16,8 @@ import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
+//import Add_Medical_Data from "./src/components/Add_Medical_Data";
+import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
 //import { loadFonts } from './styles';
 import AppLoading from "expo-app-loading";
@@ -54,6 +56,7 @@ function App() {
         <Stack.Screen name="AddDog" component={AddDog} options={{headerShown:false}}/>
         <Stack.Screen name="Alerts" component={Alerts} options={{headerShown:false}}/>
         <Stack.Screen name="Requests" component={Requests} options={{headerShown:false}}/>
+        <Stack.Screen name="Add_Medical_Data" component={Add_Medical_Data} options={{headerShown:false}}/>
         <Stack.Screen
           name="Update_medical_data"
           component={Update_medical_data}

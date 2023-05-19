@@ -33,6 +33,13 @@ const AddDog= ({ navigation }) => {// func declaration argugemnt navigation  fun
   const [info, setInfo] = React.useState('');
   const [showPicker, setShowPicker] = React.useState(false);//defalt val is flase
 
+  const handleMedical= () => {
+    console.log('Add Medical Data button pressed');
+    
+    navigation.navigate('Add_Medical_Data');
+
+  };
+
   const onChange = (event, selectedDate) => { // prperty 
     const currentDate = selectedDate || enterdate;
     setShowPicker(false);
@@ -167,7 +174,6 @@ addDoc(dbRef, newDog)
           <View style={styles.selectedRadioCircle} />
         )}
       </View>
-      
     </TouchableOpacity>
       ))}
       </View>
@@ -193,9 +199,13 @@ addDoc(dbRef, newDog)
        placeholder='Cell number:' placeholderTextColor="#8B5A33" />
          <TextInput style={styles.input} value={status} onChangeText={setStatus} placeholder='Status:' placeholderTextColor="#8B5A33"/>
          <TextInput style={styles.input} value={info} onChangeText={setInfo} placeholder='Additional information:' placeholderTextColor="#8B5A33" />
+         <TouchableOpacity style={styles.loginButton} onPress={handleMedical}>
+        <Text style={styles.buttonText}>Add Medical Data</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.registerButton} onPress={handleCreateProfile}>
         <Text style={styles.buttonText}>Create Profile</Text>
       </TouchableOpacity>
+      
     </View>
     </ScrollView> 
     </SafeAreaView>
