@@ -24,10 +24,12 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import Update_Dog_Details from "./Update_Dog_Details";
 import { db } from "../../firebase";
 import {
-  getFirestore,
   collection,
+  doc,
+  getDoc,
   setDoc,
   addDoc,
+  updateDoc,
   getDocs,
 } from "firebase/firestore";
 import { useEffect } from "react";
@@ -104,6 +106,29 @@ const Dogs = ({ navigation }) => {
     }
 
     setSelectedFilters(newSelectedFiletrs);
+  };
+
+  const getMedicalData=async(dog)=>{
+
+    const dogID=dog.id;
+    const q = doc(collection(db, "MedicalData"), dogID);
+    try {
+      const docSnap = await getDoc(q);
+      const data=docSnap.data();
+      console.log(data);
+      console.log("SUCCESS: User deleted from wait list!");
+    } catch (error) {
+      console.error("Error removing User from wait list: ", error);
+    }
+
+   // console.log(dogID);
+    //const docRef = doc(db, "MedicalData", dogID);
+    //const docSnap = await getDoc(docRef);
+    //const data = docSnap.data();
+    //console.log("hii");
+    //const data="hi";
+    console.log("hii");
+    return data;
   };
 
   return (
@@ -266,9 +291,10 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() =>
-                    navigation.navigate("Update_medical_data", { dog })
-                  }
+                  onPress={() =>{
+                    const medicalData = getMedicalData(dog);
+                    navigation.navigate("Update_medical_data", { medicalData })
+                  }}
                 >
                   <Text style={styles.buttonText}>Update medical data</Text>
                 </TouchableOpacity>
