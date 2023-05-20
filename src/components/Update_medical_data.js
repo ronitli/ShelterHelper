@@ -31,15 +31,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 //from the specefic dog page - will get dog to update
 //note currently start date from today- needs to get from database
 const Update_medical_data = ({ route, navigation }) => {
-  // func declaration argugemnt navigation function adddogs (navigation) {}
+  // func declaration argugemnt navigation  function adddogs (navigation) {}
   const { dog } = route.params;
-  // const docRef = doc(db, "MedicalData", dog.id);
-   //const data=docRef.segments;
-   //console.log(data)
-  // const docSnap = getDoc(docRef);
-  // const data = docSnap.data();
-   console.log(dog);
-  //getData(dog.id);
+  console.log(dog);
   var tempAlergies = null,
     tempMedications = null,
     tempTreatments = null;
@@ -175,18 +169,9 @@ const Update_medical_data = ({ route, navigation }) => {
           console.log(error);
         });
     }
-
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };
-
-  // const getData=async(dogId)=>{
-  //  //const docRef = doc(db, "MedicalData", dogId);
-  //   //const docSnap = getDoc(docRef);
-  //   //const data = docSnap.data();
-  //   console.log("hii");
-  // }
-
   return (
     <SafeAreaView style={styles.tripContainer}>
       <ScrollView style={styles.scrollContainer}>
@@ -206,7 +191,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={rabiesVaccineDate}
+            // value={rabiesVaccineDate}
             onChangeText={onChangeDateRabbisVaccine}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -223,7 +208,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={chipDate}
+            //value={chipDate}
             onChangeText={onChangeDateChip}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -240,7 +225,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={hexagonalVaccine}
+            //value={hexagonalVaccine}
             onChangeText={onChangeHexagonalVaccine}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -257,7 +242,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={spirocercaLupiDate}
+            //value={spirocercaLupiDate}
             onChangeText={onChangeDateSpirocercaLupi}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -274,7 +259,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={dewormingDate}
+            //value={dewormingDate}
             onChangeText={onChangeDateDeworming}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -291,7 +276,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={fleaTreatmentDate}
+            //value={fleaTreatmentDate}
             onChangeText={onChangeDatefleaTreatment}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -308,7 +293,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={castration}
+            //value={castration}
             onChangeText={onChangeCastration}
             placeholder="Format: DD/MM/YYYY"
             placeholderTextColor="#8B5A33"
@@ -326,7 +311,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={alergies}
+            //value={alergies}
             onChangeText={onChangeAlergies}
           />
           <View style={{ height: 10 }} />
@@ -341,7 +326,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={medications}
+            //value={medications}
             onChangeText={onChangeMedications}
           />
           <View style={{ height: 10 }} />
@@ -356,7 +341,7 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            value={medicalTreatment}
+            //value={medicalTreatment}
             onChangeText={onChangeMedicalTreatment}
           />
           <View style={{ height: 10 }} />
