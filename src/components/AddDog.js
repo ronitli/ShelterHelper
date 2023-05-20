@@ -148,7 +148,17 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
       cell : cell,
       tripdate : "",
       tripTime : "",
-      id : ""
+      id : "",
+      rabiesVaccineDate: rabiesVaccineDate,
+      chipDate: chipDate,
+      hexagonalVaccine: hexagonalVaccine,
+      spirocercaLupiDate: spirocercaLupiDate,
+      castration: castration,
+      dewormingDate: dewormingDate,
+      fleaTreatmentDate: fleaTreatmentDate,
+      alergies: alergies,
+      medications: medications,
+      medicalTreatment: medicalTreatment,
    };
 
    let dogId;
@@ -176,12 +186,6 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
    console.log('Error adding a new dog:', error);
  });
 
- console.log(rabiesVaccineDate);
- console.log(chipDate);
- await addMedicalData(dogId); 
-   
-
-
     // Clear the form fields after data is saved
     setName('');
     setBreed('');
@@ -192,72 +196,6 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
     setStatus('');
     setInfo('');
     setCell('');
-  }
-
-  const addDog=async(newDog)=>{
-    let dogId;
-    const dbRef = collection(db, 'Dogs');
-    addDoc(dbRef, newDog)
-  .then((docRef) => {
-    const newDogId = docRef.id; // Retrieve the auto-generated ID
-    dogId = docRef.id;
-    console.log("Successfully added a new dog with ID:", newDogId);
-    alert('Successfully added a new dog with ID: ' + newDogId);
-    const data = { ...newDog, id: newDogId };
-    setDoc(docRef, data)
-.then(docRef => {
-    console.log("id has been updated successfully");
-})
-.catch(error => {
-    console.log(error);
-})
-
-  })
-  .then(() => {
-    console.log('Successfully updated the ID field of the document');
-  })
-  .catch((error) => {
-    console.log('Error adding a new dog:', error);
-  });
-return dogId;
-  }
-  const addMedicalData = async(dogId)=>{
-    const newMedicalData = {
-      dogID: dogId,
-      rabiesVaccineDate: rabiesVaccineDate,
-      chipDate: chipDate,
-      hexagonalVaccine: hexagonalVaccine,
-      spirocercaLupiDate: spirocercaLupiDate,
-      castration: castration,
-      dewormingDate: dewormingDate,
-      fleaTreatmentDate: fleaTreatmentDate,
-      alergies: alergies,
-      medications: medications,
-      medicalTreatment: medicalTreatment,
-    };
-
-    const MedicalDatabdRef = collection(db, "MedicalData");
-    const docRef = doc(db, "MedicalData", dogId);
-
-    const docSnap = await getDoc(docRef);
-    console.log(docSnap.exists());
-    if (docSnap.exists()) {
-      await updateDoc(docRef, newMedicalData)
-        .then((docRef) => {
-          console.log("SUCCESS: Medical Data has been updated successfully");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      await addDoc(MedicalDatabdRef, newMedicalData)
-        .then((docRef) => {
-          console.log("SUCCESS: new Medical Data add");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
   }
 
   const handlePickImage = async () => {

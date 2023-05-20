@@ -108,27 +108,6 @@ const Dogs = ({ navigation }) => {
     setSelectedFilters(newSelectedFiletrs);
   };
 
-  const getMedicalData=async(dog)=>{
-
-    const dogID=dog.id;
-    const q = doc(collection(db, "MedicalData"), dogID);
-    try {
-      const docSnap = await getDoc(q);
-      const data=docSnap.data();
-      console.log(data);
-      console.log("SUCCESS: User deleted from wait list!");
-    } catch (error) {
-      console.error("Error removing User from wait list: ", error);
-    }
-
-    //const docRef = doc(db, "MedicalData", dogID);
-    //const docSnap = await getDoc(docRef);
-    //const data = docSnap.data();
-    //console.log("hii");
-    //const data="hi";
-    console.log("hii");
-    return data;
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -291,8 +270,7 @@ const Dogs = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() =>{
-                    const medicalData = getMedicalData(dog);
-                    navigation.navigate("Update_medical_data", { medicalData })
+                    navigation.navigate("Update_medical_data", { dog })
                   }}
                 >
                   <Text style={styles.buttonText}>Update medical data</Text>
