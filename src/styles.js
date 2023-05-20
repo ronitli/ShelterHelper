@@ -57,6 +57,17 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FCEFEF",
     paddingTop: StatusBar.currentHeight,
   },
+  // calendarContainer:
+  // {
+  //   flex: 1,
+  //   // alignItems: "center",
+  //   // justifyContent: "center",
+  //   backgroundColor: "#FCEFEF",
+  //   width: width,
+  //   height: height,
+  //   marginTop: 20,
+  //   //paddingTop: StatusBar.currentHeight,
+  // },
 
   menuCOntainer: {
     flex: 1,
@@ -242,6 +253,21 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     marginBottom: 20,
+  },
+  notificationItem: {
+    flexDirection: 'row-reverse',
+    //flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginVertical: 30, // Add this line for the one-line space
+  },
+  notificationTitle: {
+    marginLeft: 10,
+    
+    fontSize: 16,
+    color:'sienna',
+    fontFamily: "Mukta-Bold",
+    
   },
   buttonText: {
     fontSize: 18,
