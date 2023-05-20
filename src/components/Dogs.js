@@ -55,7 +55,7 @@ const Dogs = ({ navigation }) => {
       setDogs(dogsArray);
     };
     fetchData();
-  }, [searchTerm, activeFilter, selectedFiletrs]);
+  }, [searchTerm, activeFilter, selectedFiletrs, dogs]);
 
   const getFilteredDogs = () => {
     console.log(selectedFiletrs, dogs);
