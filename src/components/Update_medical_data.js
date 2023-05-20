@@ -31,9 +31,15 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 //from the specefic dog page - will get dog to update
 //note currently start date from today- needs to get from database
 const Update_medical_data = ({ route, navigation }) => {
-  // func declaration argugemnt navigation  function adddogs (navigation) {}
+  // func declaration argugemnt navigation function adddogs (navigation) {}
   const { dog } = route.params;
-  console.log(dog);
+  // const docRef = doc(db, "MedicalData", dog.id);
+   //const data=docRef.segments;
+   //console.log(data)
+  // const docSnap = getDoc(docRef);
+  // const data = docSnap.data();
+   console.log(dog);
+  //getData(dog.id);
   var tempAlergies = null,
     tempMedications = null,
     tempTreatments = null;
@@ -173,6 +179,14 @@ const Update_medical_data = ({ route, navigation }) => {
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };
+
+  // const getData=async(dogId)=>{
+  //  //const docRef = doc(db, "MedicalData", dogId);
+  //   //const docSnap = getDoc(docRef);
+  //   //const data = docSnap.data();
+  //   console.log("hii");
+  // }
+
   return (
     <SafeAreaView style={styles.tripContainer}>
       <ScrollView style={styles.scrollContainer}>
