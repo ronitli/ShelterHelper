@@ -132,12 +132,14 @@ const Update_medical_data = ({ route, navigation }) => {
     if (tempfleaTreatment != null) {
       setfleaTreatment(tempfleaTreatment);
     }
+    console.log("on navigation");
     //save to database+alert acoordingly
     const newMedicalData = {
-      dogID: dog.id,
+      //dogID: dog.id,
       rabiesVaccineDate: rabiesVaccineDate,
       chipDate: chipDate,
-      canineHepatitisDate: canineHepatitisDate,
+      hexagonalVaccine: hexagonalVaccine,
+      //canineHepatitisDate: canineHepatitisDate,
       spirocercaLupiDate: spirocercaLupiDate,
       castration: castration,
       dewormingDate: dewormingDate,
@@ -169,6 +171,7 @@ const Update_medical_data = ({ route, navigation }) => {
           console.log(error);
         });
     }
+    console.log("in navigation");
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };
