@@ -121,7 +121,6 @@ const Dogs = ({ navigation }) => {
       console.error("Error removing User from wait list: ", error);
     }
 
-   // console.log(dogID);
     //const docRef = doc(db, "MedicalData", dogID);
     //const docSnap = await getDoc(docRef);
     //const data = docSnap.data();
