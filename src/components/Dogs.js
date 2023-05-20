@@ -45,7 +45,7 @@ const Dogs = ({ navigation }) => {
       const q = collection(db, "Dogs");
       const querySnapshot = await getDocs(q);
       let dogsArray = querySnapshot.docs.map((doc) => doc.data());
-      console.log(dogsArray);
+      //console.log(dogsArray);
       if (searchTerm) {
         dogsArray = dogsArray.filter((dog) =>
           dog.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -58,7 +58,7 @@ const Dogs = ({ navigation }) => {
   }, [searchTerm, activeFilter, selectedFiletrs, dogs]);
 
   const getFilteredDogs = () => {
-    console.log(selectedFiletrs, dogs);
+    //console.log(selectedFiletrs, dogs);
     let filteredDogs = [...dogs];
     for (const filterKey in selectedFiletrs) {
       if (selectedFiletrs[filterKey]?.size === 0) continue;
@@ -68,7 +68,7 @@ const Dogs = ({ navigation }) => {
       );
     }
 
-    console.log(filteredDogs);
+    //console.log(filteredDogs);
 
     return filteredDogs;
   };
@@ -87,7 +87,7 @@ const Dogs = ({ navigation }) => {
   };
   const getDate = (timeStamp) => {
     const date = timeStamp.toDate();
-    console.log(date);
+    //console.log(date);
     return date;
   };
 
