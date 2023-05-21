@@ -108,7 +108,6 @@ const Dogs = ({ navigation }) => {
     setSelectedFilters(newSelectedFiletrs);
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -245,9 +244,7 @@ const Dogs = ({ navigation }) => {
                   Shelter entry date: {getDate(dog.enterdate).toDateString()}
                 </Text>
                 <Text style={styles.reqText}>Cell number: {dog.cell}</Text>
-                <Text style={styles.reqText}>
-                  Medical information: {dog.medical_info}
-                </Text>
+                <Text style={styles.reqText}>Alergies: {dog.alergies}</Text>
                 <Text style={styles.reqText}> Status: {dog.status}</Text>
                 <Text style={styles.reqText}>
                   {" "}
@@ -269,8 +266,8 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() =>{
-                    navigation.navigate("Update_medical_data", { dog })
+                  onPress={() => {
+                    navigation.navigate("Update_medical_data", { dog });
                   }}
                 >
                   <Text style={styles.buttonText}>Update medical data</Text>
