@@ -42,7 +42,7 @@ const Update_medical_data = ({ route, navigation }) => {
     dog.spirocercaLupiDate
   );
   const [hexagonalVaccine, setHexagonalVaccine] = React.useState(
-    dog.HexagonalVaccine
+    dog.hexagonalVaccine
   );
   const [castration, setcastration] = React.useState(dog.castration);
   const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate);
@@ -51,7 +51,7 @@ const Update_medical_data = ({ route, navigation }) => {
   );
   const [alergies, setAlergies] = React.useState(dog.alergies);
   const [medications, setMedications] = React.useState(dog.medications);
-  const [medicalTreatment, setTreatment] = React.useState(dog.treatment);
+  const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment);
   const onSave = async () => {
     console.log("on navigation");
     //save to database+alert acoordingly
@@ -78,6 +78,7 @@ const Update_medical_data = ({ route, navigation }) => {
       .catch((error) => {
         console.error("Error updating document:", error);
       });
+
     console.log("in navigation");
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
