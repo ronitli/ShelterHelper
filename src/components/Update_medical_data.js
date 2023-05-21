@@ -34,23 +34,10 @@ const Update_medical_data = ({ route, navigation }) => {
   // func declaration argugemnt navigation  function adddogs (navigation) {}
   const { dog } = route.params;
   console.log(dog);
-  var tempAlergies = null,
-    tempMedications = null,
-    tempTreatments = null;
-  var tempRabiesVaccine = null,
-    tempChip = null,
-    tempHexagonalVaccine = null,
-    tempSpirocercaLupi = null,
-    tempCastration = null,
-    tempDeworming = null,
-    tempfleaTreatment = null;
   const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
     dog.rabiesVaccineDate
   );
   const [chipDate, setChip] = React.useState(dog.chipDate);
-  const [canineHepatitisDate, setCanineHepatitis] = React.useState(
-    dog.canineHepatitis
-  );
   const [spirocercaLupiDate, setSpirocercaLupi] = React.useState(
     dog.spirocercaLupiDate
   );
@@ -65,81 +52,13 @@ const Update_medical_data = ({ route, navigation }) => {
   const [alergies, setAlergies] = React.useState(dog.alergies);
   const [medications, setMedications] = React.useState(dog.medications);
   const [medicalTreatment, setTreatment] = React.useState(dog.treatment);
-  const [showPicker, setShowPicker] = React.useState(false); //defalt val is flase
-  const YesNoArray = [
-    // array with two arguments
-    { label: "Yes", value: "Yes" },
-    { label: "No", value: "No" },
-  ];
-  const onChangeHexagonalVaccine = (event, selectedDate) => {
-    tempHexagonalVaccine = selectedDate;
-  };
-  const onChangeDateRabbisVaccine = (event, selectedDate) => {
-    tempRabiesVaccine = selectedDate;
-  };
-  const onChangeDateSpirocercaLupi = (event, selectedDate) => {
-    tempSpirocercaLupi = selectedDate;
-  };
-  const onChangeDateDeworming = (event, selectedDate) => {
-    tempDeworming = selectedDate;
-  };
-  const onChangeDateChip = (event, selectedDate) => {
-    tempChip = selectedDate;
-  };
-  const onChangeDatefleaTreatment = (event, selectedDate) => {
-    tempfleaTreatment = selectedDate;
-  };
-  const onChangeMedications = (event, selected) => {
-    tempMedications = selected;
-  };
-  const onChangeCastration = (event, selected) => {
-    tempCastration = selected;
-  };
-  const onChangeAlergies = (event, selected) => {
-    tempAlergies = selected;
-  };
-  const onChangeMedicalTreatment = (event, selected) => {
-    tempTreatments = selected;
-  };
   const onSave = async () => {
-    if (tempRabiesVaccine != null) {
-      setRabiesVaccine(tempRabiesVaccine);
-    }
-    if (tempAlergies != null) {
-      setAlergies(tempAlergies);
-    }
-    if (tempMedications != null) {
-      setMedications(tempMedications);
-    }
-    if (tempTreatments != null) {
-      setTreatment(tempTreatments);
-    }
-    if (tempChip != null) {
-      setChip(tempChip);
-    }
-    if (tempHexagonalVaccine != null) {
-      setHexagonalVaccine(tempHexagonalVaccine);
-    }
-    if (tempSpirocercaLupi != null) {
-      setSpirocercaLupi(tempSpirocercaLupi);
-    }
-    if (tempCastration != null) {
-      setcastration(tempCastration);
-    }
-    if (tempDeworming != null) {
-      setDeworming(tempDeworming);
-    }
-    if (tempfleaTreatment != null) {
-      setfleaTreatment(tempfleaTreatment);
-    }
     console.log("on navigation");
     //save to database+alert acoordingly
     const newMedicalData = {
-      //dogID: dog.id,
       rabiesVaccineDate: rabiesVaccineDate,
       chipDate: chipDate,
       hexagonalVaccine: hexagonalVaccine,
-      //canineHepatitisDate: canineHepatitisDate,
       spirocercaLupiDate: spirocercaLupiDate,
       castration: castration,
       dewormingDate: dewormingDate,
@@ -149,16 +68,16 @@ const Update_medical_data = ({ route, navigation }) => {
       medicalTreatment: medicalTreatment,
     };
     console.log(rabiesVaccineDate);
-    const dogsRef = collection(db, 'Dogs');
-    const docRef = doc(db, 'Dogs', dog.id);
+    const dogsRef = collection(db, "Dogs");
+    const docRef = doc(db, "Dogs", dog.id);
     const docSnap = getDoc(docRef);
-    updateDoc(docRef, newMedicalData)  
-    .then(() => {
-      console.log('Document successfully updated!');
-    })
-    .catch((error) => {
-      console.error('Error updating document:', error);
-    });
+    updateDoc(docRef, newMedicalData)
+      .then(() => {
+        console.log("Document successfully updated!");
+      })
+      .catch((error) => {
+        console.error("Error updating document:", error);
+      });
     console.log("in navigation");
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
@@ -170,7 +89,6 @@ const Update_medical_data = ({ route, navigation }) => {
           <View style={{ height: 20 }} />
           <Icon name="user-md" size={50} color="sienna" />
           <Text style={styles.title}>Update Medical Data</Text>
-          <View style={{ height: 20 }} />
           <Text
             style={[
               styles.radioButtonText,
@@ -182,10 +100,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            // value={rabiesVaccineDate}
-            onChangeText={onChangeDateRabbisVaccine}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={rabiesVaccineDate}
+            onChangeText={setRabiesVaccine}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -199,10 +115,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={chipDate}
-            onChangeText={onChangeDateChip}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={chipDate}
+            onChangeText={setChip}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -211,15 +125,13 @@ const Update_medical_data = ({ route, navigation }) => {
               { textDecorationLine: "underline" },
             ]}
           >
-            Hexagonal Vaccine Date:
+            Hexagonal Vaccine:
           </Text>
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={hexagonalVaccine}
-            onChangeText={onChangeHexagonalVaccine}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={hexagonalVaccine}
+            onChangeText={setHexagonalVaccine}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -233,10 +145,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={spirocercaLupiDate}
-            onChangeText={onChangeDateSpirocercaLupi}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={spirocercaLupiDate}
+            onChangeText={setSpirocercaLupi}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -250,10 +160,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={dewormingDate}
-            onChangeText={onChangeDateDeworming}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={dewormingDate}
+            onChangeText={setDeworming}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -267,10 +175,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={fleaTreatmentDate}
-            onChangeText={onChangeDatefleaTreatment}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
+            value={fleaTreatmentDate}
+            onChangeText={setfleaTreatment}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -284,26 +190,8 @@ const Update_medical_data = ({ route, navigation }) => {
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={castration}
-            onChangeText={onChangeCastration}
-            placeholder="Format: DD/MM/YYYY"
-            placeholderTextColor="#8B5A33"
-          />
-          <View style={{ height: 10 }} />
-
-          <Text
-            style={[
-              styles.radioButtonText,
-              { textDecorationLine: "underline" },
-            ]}
-          >
-            Alergies?
-          </Text>
-          <TextInput
-            style={styles.input}
-            color="#8B5A33"
-            //value={alergies}
-            onChangeText={onChangeAlergies}
+            value={castration}
+            onChangeText={setcastration}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -312,13 +200,13 @@ const Update_medical_data = ({ route, navigation }) => {
               { textDecorationLine: "underline" },
             ]}
           >
-            Medications?
+            Alergies:
           </Text>
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={medications}
-            onChangeText={onChangeMedications}
+            value={alergies}
+            onChangeText={setAlergies}
           />
           <View style={{ height: 10 }} />
           <Text
@@ -327,13 +215,28 @@ const Update_medical_data = ({ route, navigation }) => {
               { textDecorationLine: "underline" },
             ]}
           >
-            Other Medical Information?
+            Medications:
           </Text>
           <TextInput
             style={styles.input}
             color="#8B5A33"
-            //value={medicalTreatment}
-            onChangeText={onChangeMedicalTreatment}
+            value={medications}
+            onChangeText={setMedications}
+          />
+          <View style={{ height: 10 }} />
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Other Medical Information:
+          </Text>
+          <TextInput
+            style={styles.input}
+            color="#8B5A33"
+            value={medicalTreatment}
+            onChangeText={setTreatment}
           />
           <View style={{ height: 10 }} />
           <TouchableOpacity style={styles.registerButton} onPress={onSave}>
