@@ -148,29 +148,17 @@ const Update_medical_data = ({ route, navigation }) => {
       medications: medications,
       medicalTreatment: medicalTreatment,
     };
-
-    const MedicalDatabdRef = collection(db, "MedicalData");
-    const docRef = doc(db, "MedicalData", dog.id);
-
-    const docSnap = await getDoc(docRef);
-    console.log(docSnap.exists());
-    if (docSnap.exists()) {
-      await updateDoc(docRef, newMedicalData)
-        .then((docRef) => {
-          console.log("SUCCESS: Medical Data has been updated successfully");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      await addDoc(MedicalDatabdRef, newMedicalData)
-        .then((docRef) => {
-          console.log("SUCCESS: new Medical Data add");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    console.log(rabiesVaccineDate);
+    const dogsRef = collection(db, 'Dogs');
+    const docRef = doc(db, 'Dogs', dog.id);
+    const docSnap = getDoc(docRef);
+    updateDoc(docRef, newMedicalData)  
+    .then(() => {
+      console.log('Document successfully updated!');
+    })
+    .catch((error) => {
+      console.error('Error updating document:', error);
+    });
     console.log("in navigation");
     // Navigate back to the profile screen with the updated information
     navigation.goBack();

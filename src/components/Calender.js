@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Drawer from 'react-native-drawer';
-import { Calendar,CalendarList, Agenda } from 'react-native-calendars';
+//import { Calendar,CalendarList, Agenda } from 'react-native-calendars';
 import { styles } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
