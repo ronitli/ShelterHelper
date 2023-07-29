@@ -197,7 +197,11 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
     setInfo('');
     setCell('');
   }
-
+  const handleDocuments= () => {
+    console.log('Add Documentsbutton pressed');
+    
+    navigation.navigate('AddDocuments');
+  }
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -285,6 +289,9 @@ const AddDog= ({route, navigation }) => {// func declaration argugemnt navigatio
          <TextInput style={styles.input} value={info} onChangeText={setInfo} placeholder='Additional information:' placeholderTextColor="#8B5A33" />
          <TouchableOpacity style={styles.loginButton} onPress={handleMedical}>
         <Text style={styles.buttonText}>Add Medical Data</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loginButton} onPress={handleDocuments}>
+        <Text style={styles.buttonText}>Add Documents</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.registerButton} onPress={handleCreateProfile}>
         <Text style={styles.buttonText}>Create Profile</Text>
