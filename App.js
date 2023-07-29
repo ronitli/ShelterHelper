@@ -15,6 +15,7 @@ import Update_medical_data from "./src/components/Update_medical_data";
 import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
+import AddDocuments from "./src/components/AddDocuments";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
@@ -68,6 +69,11 @@ function App() {
         <Stack.Screen
           name="Update_Dog_Details"
           component={Update_Dog_Details}
+          options={{headerShown:false}}
+        />
+        <Stack.Screen
+          name="AddDocuments"
+          component={AddDocuments}
           options={{headerShown:false}}
         />
       </Stack.Navigator>

@@ -175,7 +175,7 @@ export const styles = StyleSheet.create({
     marginBottom: 30,
   },
   input: {
-    width: "80%",
+    width: 300,
     height: 50,
     padding: 10,
     borderWidth: 1,
@@ -238,7 +238,7 @@ export const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: "#E59C8A",
-    width: "80%",
+    width: 300,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -247,7 +247,7 @@ export const styles = StyleSheet.create({
   },
   registerButton: {
     backgroundColor: "#B08975",
-    width: "80%",
+    width: 300,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -320,5 +320,18 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  previewContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  previewImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+  },
+  previewText: {
+    marginTop: 10,
+    fontSize: 16,
   },
 });
