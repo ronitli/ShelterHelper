@@ -16,7 +16,10 @@ import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
 import AddDocuments from "./src/components/AddDocuments";
+import EventModal from "./src/components/EventModal";
+import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
+import EventListItem from "./src/components/EventListItem";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
@@ -58,12 +61,16 @@ function App() {
         <Stack.Screen name="Alerts" component={Alerts} options={{headerShown:false}}/>
         <Stack.Screen name="Requests" component={Requests} options={{headerShown:false}}/>
         <Stack.Screen name="Add_Medical_Data" component={Add_Medical_Data} options={{headerShown:false}}/>
+        {/* <Stack.Screen name="EventListItem" component={EventListItem} options={{headerShown:false}}/> */}
         <Stack.Screen
           name="Update_medical_data"
           component={Update_medical_data}
           options={{headerShown:false}}
         />
         <Stack.Screen name="Dogs" component={Dogs} options={{headerShown:false}}/>
+        <Stack.Screen name="EventModal" component={EventModal} options={{headerShown:false}}/>
+        <Stack.Screen name="AllEventsModal" component={AllEventsModal} options={{headerShown:false}}/>
+        <Stack.Screen name="EventListItem " component={EventListItem } options={{headerShown:false}}/>
         <Stack.Screen name="Calender" component={Calender} options={{headerShown:false}}/>
         <Stack.Screen name="Update_trip" component={Update_trip} options={{headerShown:false}}/>
         <Stack.Screen
