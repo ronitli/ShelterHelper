@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@expo-google-fonts/roboto": "^0.2.3",
     "@react-native-community/datetimepicker": "6.7.3",
     "@react-native-community/masked-view": "^0.1.11",
@@ -20,6 +21,7 @@
     "expo": "~48.0.10",
     "expo-app-loading": "^2.1.1",
     "expo-asset": "~8.9.1",
+    "expo-document-picker": "~11.2.2",
     "expo-file-system": "^15.2.2",
     "expo-font": "~11.1.1",
     "expo-image-manipulator": "^11.1.1",
@@ -30,6 +32,7 @@
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-native": "0.71.7",
+    "react-native-calendar-events": "^2.2.0",
     "react-native-calendars": "^1.1297.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-drawer": "^2.5.1",
@@ -44,7 +47,7 @@
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-navigation-stack": "^2.10.4",
-    "expo-document-picker": "~11.2.2"
+    "save": "^2.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
