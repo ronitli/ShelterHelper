@@ -8,6 +8,9 @@ import {
   StyleSheet,
   Text,
   StatusBar,
+  ScrollView,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -43,18 +46,30 @@ const notifications = [
   { id: 6, title: 'Charlie Needs Hexagonal Vaccine!', icon: 'bell' },
   { id: 7, title: 'Give Bath To Luna.', icon: 'bell' },
   { id: 8, title: 'Give Bath To Elvis.', icon: 'bell' },
+  { id: 9, title: 'Give Bath To Elvis.', icon: 'bell' },
+  { id: 10, title: 'Give Bath To Elvis.', icon: 'bell' },
  
 ];
 
 const Alerts = ({ navigation }) => {
   return (
     <View style={styles.container}>
+     
+<Pressable >
+        <Text style={style.addNotification}>+ Add Notification</Text>
+      </Pressable>
+
+
     <View style={{   marginTop: 50 }} />
+    
+    
+
     
    <Icon name="bell" size={50} color='sienna' />
    <Text style={styles.title}>Notifications</Text>
-   <View style={{   marginTop: -40 }} />
+   <View style={{   marginTop: -65 }} />
     <SafeAreaView style={style.container}>
+    <ScrollView style={styles.scrollContainer}>
     {notifications.map((notification) => (
         <View key={notification.id} style={styles.notificationItem}>
           <Icon name={notification.icon} size={24} color="#D6A6A6" />
@@ -69,6 +84,7 @@ const Alerts = ({ navigation }) => {
         renderItem={({item}) => <Item title={item.title} />}
         keyExtractor={item => item.id}
       /> */}
+      </ScrollView>
     </SafeAreaView>
     </View>
   );
@@ -88,6 +104,22 @@ const style = StyleSheet.create({
   title: {
     fontSize: 32,
   },
+  addNotification: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 25,
+    paddingLeft: 55,
+    color:'sienna',
+    fontFamily: "Mukta-Bold",
+   
+    // Add other styles as needed
+  },
+  
+  
 });
 
 export default Alerts;

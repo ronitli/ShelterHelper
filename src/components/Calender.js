@@ -168,7 +168,7 @@ for (const date in events) {
   
 <View style={styles.buttonContainer}>
 <Pressable onPress={handleOpenAllEventsModal}>
-        <Text style={styles.notificationTitle}> touch here to show ALL events for this date</Text>
+        <Text style={styles.notificationTitle}>Tap Here to Show & Manage All Events for This Date</Text>
       </Pressable>
 </View>
 )}
