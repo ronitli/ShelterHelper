@@ -1,17 +1,29 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet ,Alert} from 'react-native';
 
 const EventListItem = ({ event, onDelete }) => {
+    const handleDelete = () => {
+    Alert.alert(
+        'Delete Event',
+        'Are you sure you want to delete this event?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'YES',
+            onPress: () => onDelete(event), // Call the onDelete function with the event when the user presses "YES"
+          },
+        ],
+        { cancelable: false }
+      );
+    };
+  
   return (
-    // <View style={styles.listItem}>
-    //   <Text style={styles.eventName}>{event.name}</Text>
-    //   <TouchableOpacity onPress={onDelete}>
-    //     <Text style={styles.deleteButton}>X</Text>
-    //   </TouchableOpacity>
-      
-    // </View>
+ 
     <View style={styles.listItem}>
-    <TouchableOpacity onPress={onDelete}>
+    <TouchableOpacity onPress={handleDelete}>
       <Text style={styles.deleteButton}>X</Text>
     </TouchableOpacity>
     <Text style={styles.eventName}>{event.name}</Text>
