@@ -131,6 +131,7 @@ export const styles = StyleSheet.create({
   scrollContainer: {
     width: "100%",
     paddingHorizontal: 10,
+    
   },
 
   reqContainer: {

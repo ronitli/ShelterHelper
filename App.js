@@ -20,6 +20,7 @@ import EventModal from "./src/components/EventModal";
 import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
 import EventListItem from "./src/components/EventListItem";
+import AddAlertModal from "./src/components/AddAlertModal";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
@@ -69,6 +70,7 @@ function App() {
         />
         <Stack.Screen name="Dogs" component={Dogs} options={{headerShown:false}}/>
         <Stack.Screen name="EventModal" component={EventModal} options={{headerShown:false}}/>
+        <Stack.Screen name="AddAlertModal" component={AddAlertModal} options={{headerShown:false}}/>
         <Stack.Screen name="AllEventsModal" component={AllEventsModal} options={{headerShown:false}}/>
         <Stack.Screen name="EventListItem " component={EventListItem } options={{headerShown:false}}/>
         <Stack.Screen name="Calender" component={Calender} options={{headerShown:false}}/>

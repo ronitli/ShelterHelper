@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React ,{useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,6 +11,8 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
+  Modal,
+  TextInput
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -37,25 +39,63 @@ const Item = ({title}) => (
     <Text style={style.title}>{title}</Text>
   </View>
 );
-const notifications = [
-  { id: 1, title: 'Adoption day!', icon: 'bell' },
-  { id: 2, title: 'Bob Needs Rabies Vaccine!', icon: 'bell' },
-  { id: 3, title: 'Nalla Needs Hexagonal Vaccine!', icon: 'bell' },
-  { id: 4, title: 'Sandy Returns From Foster.', icon: 'bell' },
-  { id: 5, title: 'Vet Appointment For Toto At 15:00.', icon: 'bell' },
-  { id: 6, title: 'Charlie Needs Hexagonal Vaccine!', icon: 'bell' },
-  { id: 7, title: 'Give Bath To Luna.', icon: 'bell' },
-  { id: 8, title: 'Give Bath To Elvis.', icon: 'bell' },
-  { id: 9, title: 'Give Bath To Elvis.', icon: 'bell' },
-  { id: 10, title: 'Give Bath To Elvis.', icon: 'bell' },
+// const notifications = [
+//   { id: 1, title: 'Adoption day!', icon: 'bell' },
+//   { id: 2, title: 'Bob Needs Rabies Vaccine!', icon: 'bell' },
+//   { id: 3, title: 'Nalla Needs Hexagonal Vaccine!', icon: 'bell' },
+//   { id: 4, title: 'Sandy Returns From Foster.', icon: 'bell' },
+//   { id: 5, title: 'Vet Appointment For Toto At 15:00.', icon: 'bell' },
+//   { id: 6, title: 'Charlie Needs Hexagonal Vaccine!', icon: 'bell' },
+//   { id: 7, title: 'Give Bath To Luna.', icon: 'bell' },
+//   { id: 8, title: 'Give Bath To Elvis.', icon: 'bell' },
+//   { id: 9, title: 'Give Bath To Elvis.', icon: 'bell' },
+//   { id: 10, title: 'Give Bath To Elvis.', icon: 'bell' },
  
-];
+// ];
 
 const Alerts = ({ navigation }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [notificationText, setNotificationText] = useState('');
+  const [notifications, setNotifications] = useState([]);
+
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+  
+  const handleSaveNotification = () => {
+
+   if (notificationText.trim() === '') {
+    // If the notification text is empty or contains only spaces, show an alert and return
+    alert('Notification text cannot be empty.');
+    return;
+  }
+  const newNotificationId = Date.now().toString();
+  const newNotification = {
+    id: newNotificationId,
+    title: notificationText,
+    icon: 'bell', // You can update the icon here as needed
+  };
+
+  // Save the new notification to the notifications dictionary
+  setNotifications([...notifications, newNotification]);
+  setNotificationText('');
+  alert("Notification saved!");
+    console.log('Notification saved:', notificationText);
+  
+    // Close the modal after saving the notification
+    handleCloseModal();
+  };
+  
+
   return (
     <View style={styles.container}>
      
-<Pressable >
+<Pressable onPress={handleOpenModal} >
         <Text style={style.addNotification}>+ Add Notification</Text>
       </Pressable>
 
@@ -86,6 +126,35 @@ const Alerts = ({ navigation }) => {
       /> */}
       </ScrollView>
     </SafeAreaView>
+
+
+    <Modal visible={isModalVisible} animationType="slide">
+        <View style={style.modalContainer}>
+          <Text style={style.modalTitle}>Create New Notification</Text>
+          <TextInput
+            style={style.notificationInput}
+            placeholder="Enter notification text..."
+            placeholderTextColor={'#D6A6A6'}
+            value={notificationText}
+            onChangeText={setNotificationText}
+          />
+          <View style={style.modalButtonsContainer}>
+            <TouchableOpacity
+              style={style.modalButton}
+              onPress={handleCloseModal}
+            >
+              <Text style={style.modalButtonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.modalButton}
+              onPress={handleSaveNotification}
+            >
+              <Text style={style.modalButtonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     </View>
   );
 };
@@ -109,16 +178,57 @@ const style = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 25,
-    paddingLeft: 55,
-    color:'sienna',
+    top: 20,
+    left: 45,
+   //right: 45,
+    color:'white',
     fontFamily: "Mukta-Bold",
    
-    // Add other styles as needed
+    backgroundColor: "#D6A6A6",
+    borderRadius: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+   
   },
-  
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:"#D6A6A6",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
+  },
+  notificationInput: {
+    width: 300,
+    height: 40,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    marginBottom: 20,
+
+    borderWidth: 1,
+    borderColor: '#FCEFEF',
+    
+    borderRadius: 5,
+    //padding: 10,
+    //marginBottom: 10,
+  },
+  modalButtonsContainer: {
+    flexDirection: 'row',
+  },
+  modalButton: {
+    backgroundColor: 'sienna',
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
   
 });
 
