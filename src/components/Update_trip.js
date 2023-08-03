@@ -49,6 +49,10 @@ const Update_trip = ({ route, navigation }) => {
     setTripDate(currentDate);
     setShowPicker(false);
   };
+  const onPressNow = (event) => {
+    setTripDate(new Date());
+    setTripTime(new Date());
+  };
   const onChangeTime = (event, selectedTime) => {
     // prperty
     const currentTime = selectedTime || tripTime;
@@ -80,6 +84,9 @@ const Update_trip = ({ route, navigation }) => {
         <View style={styles.tripContainer}>
           <Icon name="paw" size={50} color="sienna" />
           <Text style={styles.title}>Update Trip</Text>
+          <TouchableOpacity style={styles.nowTripButton} onPress={onPressNow}>
+            <Text style={styles.buttonText}>The trip was Now!</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={showDateTimePicker}
