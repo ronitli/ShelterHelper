@@ -239,7 +239,12 @@ const Dogs = ({ navigation }) => {
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
-                <Text style={styles.reqText}>Age: {dog.age}</Text>
+                <Text style={styles.reqText}>
+                  Age in Years: {dog.ageInYears}
+                </Text>
+                <Text style={styles.reqText}>
+                  And months: {dog.ageInMonths}
+                </Text>
                 <Text style={styles.reqText}>
                   Shelter entry date: {getDate(dog.enterdate).toDateString()}
                 </Text>
