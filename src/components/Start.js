@@ -92,9 +92,9 @@ const Start = () => {
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
+      {/* <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
       <Text style={styles.buttonText}>Home</Text>
-     </TouchableOpacity>
+     </TouchableOpacity> */}
     </View>
   );
 };
