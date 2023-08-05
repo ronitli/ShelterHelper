@@ -31,6 +31,7 @@ import {
   addDoc,
   updateDoc,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
@@ -74,6 +75,48 @@ const Dogs = ({ navigation }) => {
 
     return filteredDogs;
   };
+
+  const deleteDog =async(dog) => {// i need to get the specific dog
+    await transferToArchive(dog);
+    //need to wait (30)? days
+    await permanentlyDeleteFromArchive(dog);
+  }
+
+  const transferToArchive = async (dog) => {
+    const dbRef = collection(db, "DogsArchive");
+    addDoc(dbRef, dog)
+      .then((docRef) => {
+        console.log("SUCCESS: Dog name and id: (dog name and id:" + dog.name ,dog.id + ") add to Dogs Archive");
+        alert("Dog add to Dogs Archive for 30 days untill full deletion");
+      })
+      .catch((error) => {
+        console.log("Error adding Dog to dog archive: ",error);
+      });
+
+      deleteDogFromDogsTable(dog);
+  }
+
+  const deleteDogFromDogsTable = async (dog) => {
+    const q = doc(collection(db, "Dogs"), dog.id);
+    console.log(q);
+    try {
+      await deleteDoc(q);
+      console.log("SUCCESS: Dog deleted from Dogs table!");
+    } catch (error) {
+      console.error("Error removing Dog from Dogs table: ", error);
+    }
+  }
+
+  const permanentlyDeleteFromArchive = async (dog) => {
+    const q = doc(collection(db, "DogsArchive"), dog.id);
+    console.log(q);
+    try {
+      await deleteDoc(q);
+      console.log("SUCCESS: Dog deleted from Dogs archive!");
+    } catch (error) {
+      console.error("Error removing Dog from Dogs archive: ", error);
+    }
+  }
 
   const getFilterOptions = () => {
     console.log("in get active filetr option");
