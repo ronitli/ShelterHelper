@@ -80,6 +80,8 @@ const Requests = ({ navigation }) => {
   };
 
   const insertUserToUsersTable = async (user) => {
+    //if admin:
+    //if(user.isAdmin){}
     const dbRef = collection(db, "Users");
     addDoc(dbRef, user)
       .then((docRef) => {
@@ -89,6 +91,16 @@ const Requests = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
+      //else{}
+      // const dbRef = collection(db, "volunteer");
+      // addDoc(dbRef, user)
+      //   .then((docRef) => {
+      //     console.log("SUCCESS: User add to volunteer table");
+      //     alert("New user add to volunteer list");
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
   };
 
   const deleteUserFromWaitList = async (user) => {
