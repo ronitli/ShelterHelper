@@ -21,6 +21,17 @@ export const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "center",
   },
+  picker: {
+    height: 50,
+    width: 200,
+    borderColor: '#sienna',
+    borderWidth: 1,
+  },
+  pickerLabelStyle: {
+    fontSize: 18,         // Adjust the font size
+    color: 'blue',       // Change the text color
+    fontFamily: 'Arial', // Change the font family
+  },
 
   filterOptionTextContainer: { display: "flex", justifyContent: "center" },
   filterCheckbox: {
