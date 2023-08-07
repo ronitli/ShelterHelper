@@ -169,14 +169,14 @@ const AddDog = ({ route, navigation }) => {
     //     image=dataURL;
     // };
     // reader.readAsDataURL(file);
- 
+  let imageUrl=null;
   try {
     const uniqueFilename = v4(); // Generate a unique filename
     console.log(storage)
 
     const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
     await uploadBytes(imageRef, profilePicture);
-    const imageUrl = await getDownloadURL(imageRef);
+    imageUrl = await getDownloadURL(imageRef);
     console.log("Image uploaded successfully. URL:", imageUrl);
     setProfilePicture(imageUrl);
   } catch (error) {
