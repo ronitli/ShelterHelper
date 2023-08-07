@@ -1,10 +1,7 @@
-// // import firebase from 'firebase/app';
-// // import 'firebase/auth';
-// // import 'firebase/database';
-// // import 'firebase/storage';
-// import * as firebase from "firebase";
+
 import { initializeApp } from "firebase/app";
-//import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+
 import {
     GoogleAuthProvider,
     getAuth,
@@ -54,15 +51,17 @@ console.log({androidApp});
 const auth = getAuth(androidApp);
 console.log({auth});
 const db = getFirestore(androidApp);
+const storage = getStorage(androidApp);
 
 // export default firebase;
 export {
   auth,
   db,
+  storage,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   addDoc,
-  collection
+  collection,
 };
 // fg
 

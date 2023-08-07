@@ -21,7 +21,16 @@ import { styles } from "../styles";
 import { RadioButton } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Dogs from "./Dogs";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { v4 } from "uuid";
+//import { v4 as uuidv4 } from 'uuid';
 import {
   collection,
   doc,
@@ -160,11 +169,25 @@ const AddDog = ({ route, navigation }) => {
     //     image=dataURL;
     // };
     // reader.readAsDataURL(file);
+ 
+  try {
+    const uniqueFilename = v4(); // Generate a unique filename
+    console.log(storage)
 
+    const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+    await uploadBytes(imageRef, profilePicture);
+    const imageUrl = await getDownloadURL(imageRef);
+    console.log("Image uploaded successfully. URL:", imageUrl);
+    setProfilePicture(imageUrl);
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    // Handle the error here
+  }
+  
     const newDog = {
       name: name,
       breed: breed,
-      profilePicture: profilePicture,
+      profilePicture: imageUrl,
       colors: colors,
       gender: gender,
       ageInYears: ageInYears,
