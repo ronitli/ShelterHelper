@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, TextInput, Button, TouchableOpacity  } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, Alert  } from 'react-native';
 import { styles } from '../styles';
 import { useNavigation } from '@react-navigation/native';
 import { auth, signInWithEmailAndPassword } from '../../firebase';
@@ -18,7 +18,7 @@ const Start = () => {
 
     console.log(`Email: ${email}, password: ${password}`);
     if (email === '' || password === '') {
-    alert('Please enter both email and password.');
+      Alert.alert('Error','Please enter both email and password.');
     }
     
       signInWithEmailAndPassword(auth,email,password).then(() =>{

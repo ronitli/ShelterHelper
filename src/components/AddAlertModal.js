@@ -12,7 +12,7 @@ const AddAlertModal = ({ isVisible, onClose, onSave }) => {
      const trimmedAlertName = alertName.trim();
      if(trimmedAlertName === '')
      {
-        alert("You can not create an empty notification!");
+        alert("Empty Notification text!","You can not create an empty notification!");
         return;
      }
     // Call the onSave function to save the new event

@@ -277,10 +277,16 @@ export const styles = StyleSheet.create({
   },
   notificationItem: {
     flexDirection: "row-reverse",
-    //flexDirection: 'row',
-    alignItems: "center",
     marginBottom: 10,
-    marginVertical: 30, // Add this line for the one-line space
+    marginVertical: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: 'pink',
+    justifyContent: 'space-between',
+    //paddingHorizontal: 10,
+   paddingVertical: 5, 
+   //alignItems: 'center',
+    flex: 1,
+    //marginLeft: 10,
   },
   notificationTitle: {
     marginLeft: 10,
@@ -325,7 +331,7 @@ export const styles = StyleSheet.create({
   downsurface: {
     padding: 8,
     height: 90,
-    width: 150,
+    width: 140,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FDF0F4",
@@ -340,6 +346,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 1,
   },
   previewContainer: {
     marginTop: 20,

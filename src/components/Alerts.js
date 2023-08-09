@@ -12,7 +12,8 @@ import {
   Pressable,
   TouchableOpacity,
   Modal,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -70,8 +71,7 @@ const Alerts = ({ navigation }) => {
   const handleSaveNotification = () => {
 
    if (notificationText.trim() === '') {
-    // If the notification text is empty or contains only spaces, show an alert and return
-    alert('Notification text cannot be empty.');
+    Alert.alert('Empty Notification!','Notification text cannot be empty.');
     return;
   }
   const newNotificationId = Date.now().toString();
@@ -84,13 +84,54 @@ const Alerts = ({ navigation }) => {
   // Save the new notification to the notifications dictionary
   setNotifications([...notifications, newNotification]);
   setNotificationText('');
-  alert("Notification saved!");
+  Alert.alert('Notification saved!','');
     console.log('Notification saved:', notificationText);
   
     // Close the modal after saving the notification
     handleCloseModal();
   };
   
+
+
+  const handleDeleteNotification = (notificationId) => {
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this notification?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => {
+            const updatedNotifications = notifications.filter(
+              (notification) => notification.id !== notificationId
+            );
+            setNotifications(updatedNotifications);
+          },
+        },
+      ]
+    );
+  };
+
+  const handleMarkNotification = (notificationId) => {
+    Alert.alert(
+      'Confirm Check',
+      'Are you sure you want to complete this notification?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Yes', //save to database
+          onPress: () => {
+            const updatedNotifications = notifications.filter(
+              (notification) => notification.id !== notificationId
+            );
+            setNotifications(updatedNotifications);
+          },
+        },
+      ]
+    );
+    
+  };
+
 
   return (
     <View style={styles.container}>
@@ -113,8 +154,24 @@ const Alerts = ({ navigation }) => {
     {notifications.map((notification) => (
         <View key={notification.id} style={styles.notificationItem}>
           <Icon name={notification.icon} size={24} color="#D6A6A6" />
-          <View style={{   width: 25 }} />
+          <View style={{   width: 20 }} />
           <Text style={styles.notificationTitle}>{notification.title}</Text>
+          <View style={{   width: 30 }} />
+          <View style={style.buttonContainer}>
+          <TouchableOpacity
+              onPress={() => handleDeleteNotification(notification.id)}
+            >
+              
+              <Text style={style.deleteButton}>X</Text>
+            </TouchableOpacity>
+            {/* <View style={{   width: 30 }} /> */}
+            <TouchableOpacity
+              onPress={() => handleMarkNotification(notification.id)}
+            >
+              <Icon name="check" size={20} color='green' />
+            </TouchableOpacity>
+            </View>
+
         </View>
         
 
@@ -163,6 +220,10 @@ const style = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
     backgroundColor:'#FCEFEF',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   item: {
     backgroundColor: '#f9c2ff',
@@ -229,7 +290,19 @@ const style = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  deleteButton: {
+    color: 'red',
+    fontSize: 20,
+    marginLeft: 'auto',
+    marginRight: 10,
+   
+  },
+
+  markButton: {
+    color: 'green',
+    fontSize: 20,
   
+  },
 });
 
 export default Alerts;

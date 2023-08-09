@@ -20,7 +20,7 @@ import {
   import { FileSystem } from 'expo';
 const AddDocuments = ({ route,navigation }) => {
     const [fileUri, setFileUri] = useState(null);
-    const [fileName, setFileName] = useState();
+    const [fileName, setFileName] = useState('');
 
   const pickDocument = async () => {
     try {
@@ -55,7 +55,23 @@ const AddDocuments = ({ route,navigation }) => {
     // }
   };
   const saveDocument = async () => {
+    //check that a document was added and given a name
+    if (!fileUri) {
+      Alert.alert('Error', 'Please pick a document before saving.');
+      return;
+    }
+  
+    if (!fileName.trim()) {
+      Alert.alert('Error', 'Please enter a document name before saving.');
+      return;
+    }
     //save document to database
+    Alert.alert('Document saved!',
+    'Document was saved successfully.',
+    );
+//reset
+    setFileUri(null);
+    setFileName('');
   }
 
     return (
@@ -83,7 +99,7 @@ const AddDocuments = ({ route,navigation }) => {
        <TextInput style={styles.input} value={fileName} onChangeText={setFileName} placeholder='Document Name:' placeholderTextColor="#8B5A33"/>
       
       <View style={{ height: 20 }} />
-        <TouchableOpacity style={styles.registerButton} onPress={saveDocumentLocally}>
+        <TouchableOpacity style={styles.registerButton} onPress={saveDocument}>
         <Text style={styles.buttonText}>Save Document</Text>
       </TouchableOpacity>
       
