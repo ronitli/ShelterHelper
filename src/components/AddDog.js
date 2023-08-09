@@ -11,6 +11,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -154,8 +155,8 @@ const AddDog = ({ route, navigation }) => {
   const handleCreateProfile = async () => {
     //backend validation
     if (name === "" && !profilePicture) {
-      alert(
-        "You have at least to enter a name OR upload an image for the dog."
+      Alert.alert('Can not create profile',
+        'You have at least to enter a name OR upload a picture of the dog.'
       );
       return;
     }
@@ -256,7 +257,7 @@ const AddDog = ({ route, navigation }) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
+      Alert.alert('No permissions','Sorry, we need camera roll permissions to make this work!');
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({

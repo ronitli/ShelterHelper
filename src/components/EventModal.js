@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 const EventModal = ({ isVisible, onClose, onSave }) => {
   const [eventName, setEventName] = useState('');
@@ -12,7 +12,7 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
      const trimmedEventName = eventName.trim();
      if(trimmedEventName === '')
      {
-        alert("You can not create an empty event!");
+        Alert.alert('Empty Event!','You can not create an empty event.');
         return;
      }
     // Call the onSave function to save the new event

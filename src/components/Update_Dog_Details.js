@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -87,7 +88,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
+      Alert.alert('No permissions.','Sorry, we need camera roll permissions to make this work!');
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({

@@ -74,7 +74,19 @@ const Add_Medical_Data = ({ route, navigation }) => {
 
       // Validate the day, month, and year
       if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1000 || year > 9999) {
-        Alert.alert('Invalid Date','All entered dates must be valid');
+        Alert.alert('Invalid Date',
+        'All entered dates must be valid',
+        // {
+        //   style:{
+        //   backgroundColor: 'yellow',
+        //   },
+        //   titleStyle: {
+           
+        //     color: 'red',
+           
+        //   },
+        // }
+        );
         alertShown=true;
       } else {
         const date = new Date(year, month - 1, day);

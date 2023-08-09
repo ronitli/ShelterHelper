@@ -79,7 +79,7 @@ const handleSaveEvent = (newEvent) => {
   }
  
 //save to database
-alert("Event created!");
+Alert.alert("Event created!","Successfully created an event.");
 };
 const handleOpenAllEventsModal = () => {
   setIsAllEventsModalVisible(true);
