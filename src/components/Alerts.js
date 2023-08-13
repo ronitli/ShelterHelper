@@ -15,6 +15,17 @@ import {
   TextInput,
   Alert
 } from 'react-native';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db, storage } from "../../firebase";
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -68,7 +79,7 @@ const Alerts = ({ navigation }) => {
     setIsModalVisible(false);
   };
   
-  const handleSaveNotification = () => {
+  const handleSaveNotification = async () => {
 
    if (notificationText.trim() === '') {
     Alert.alert('Empty Notification!','Notification text cannot be empty.');
@@ -82,6 +93,8 @@ const Alerts = ({ navigation }) => {
   };
 
   // Save the new notification to the notifications dictionary
+  onSave(newNotification);
+
   setNotifications([...notifications, newNotification]);
   setNotificationText('');
   Alert.alert('Notification saved!','');
@@ -91,9 +104,33 @@ const Alerts = ({ navigation }) => {
     handleCloseModal();
   };
   
+  const onSave = async (newNotification) => {
 
+    const dbRef = collection(db, 'Notifications');
+      addDoc(dbRef, newNotification).then(docRef => {
+        const newId = docRef.id;
+        console.log("new Notifications add to Notificationss");
+        const data = { ...newNotification, firebaseID: newId };
+        setDoc(docRef, data).then(docRef => {
+        console.log("id has been updated successfully");
+      })
+      .catch(error => {
+          console.log(error);
+      })
+      
+        })
+        .then(() => {
+          console.log('Successfully updated the ID field of the document');
+        })
+        .catch((error) => {
+          console.log('Error updated the ID field:', error);
+        });
+        console.log()
+  };
 
-  const handleDeleteNotification = (notificationId) => {
+  
+
+  const handleDeleteNotification = async (notification) => {
     Alert.alert(
       'Confirm Delete',
       'Are you sure you want to delete this notification?',
@@ -101,15 +138,55 @@ const Alerts = ({ navigation }) => {
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Yes',
-          onPress: () => {
-            const updatedNotifications = notifications.filter(
-              (notification) => notification.id !== notificationId
-            );
-            setNotifications(updatedNotifications);
+          onPress: async () => {
+            // const updatedNotifications = notifications.filter(
+            //   (notification) => notification.id !== notificationId
+            // );
+            // setNotifications(updatedNotifications);
+             //  await transferToCompletedNotification(notification);
+               await deleteFromNotificationTable(notification);
           },
         },
       ]
     );
+  };
+
+  const transferToCompletedNotification = async (notification) => {
+    let firebaseNotiID;
+    const dbRef = collection(db, "ComletedNotifications");
+    await addDoc(dbRef, notification)
+      .then((docRef) => {
+        const newNotiID = docRef.id; // Retrieve the auto-generated ID
+        firebaseNotiID = docRef.id;
+        console.log("Successfully transfer Notification with firebase ID:", newNotiID);
+        const data = { ...notification, firebaseID: newNotiID };
+        setDoc(docRef, data)
+          .then((docRef) => {
+            console.log("firebase id has been updated successfully");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .then(() => {
+        console.log("Successfully updated the ID field of the document");
+      })
+      .catch((error) => {
+        console.log("Error transfer Notification:", error);
+      });
+
+  };
+  const deleteFromNotificationTable = async (notification) => {
+    console.log(notification);
+
+    const q = doc(collection(db, "Notifications"), notification.firebaseID);
+    console.log(q);
+    try {
+      await deleteDoc(q);
+      console.log("SUCCESS: Notification deleted from Notifications table!");
+    } catch (error) {
+      console.error("Error removing Notification from Notifications table: ", error);
+    }
   };
 
   const handleMarkNotification = (notificationId) => {
@@ -159,7 +236,7 @@ const Alerts = ({ navigation }) => {
           <View style={{   width: 30 }} />
           <View style={style.buttonContainer}>
           <TouchableOpacity
-              onPress={() => handleDeleteNotification(notification.id)}
+              onPress={() => handleDeleteNotification(notification)}
             >
               
               <Text style={style.deleteButton}>X</Text>

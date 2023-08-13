@@ -26,6 +26,7 @@ import { db, storage } from "../../firebase";
 import {
   ref,
   uploadBytes,
+  uploadBytesResumable,
   getDownloadURL,
   listAll,
   list,
@@ -171,15 +172,51 @@ const AddDog = ({ route, navigation }) => {
     // };
     // reader.readAsDataURL(file);
   let imageUrl=null;
-  try {
-    const uniqueFilename = v4(); // Generate a unique filename
-    console.log(storage)
+  // try {
+  //   const uniqueFilename = v4(); // Generate a unique filename
+  //   console.log(storage)
+  //   const metadata  = {
+  //     contentType: "image/jpeg",
+  //   };
+  //   const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+  //   await uploadBytes(imageRef, profilePicture, metadata);
+  //   imageUrl = await getDownloadURL(imageRef);
+  //   console.log("Image uploaded successfully. URL:", imageUrl);
+  //   setProfilePicture(imageUrl);
+  // } catch (error) {
+  //   console.error("Error uploading image:", error);
+  // }
 
-    const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-    await uploadBytes(imageRef, profilePicture);
-    imageUrl = await getDownloadURL(imageRef);
-    console.log("Image uploaded successfully. URL:", imageUrl);
-    setProfilePicture(imageUrl);
+  // const res = await fetch(imagen.uri);
+  // const blob = await res.blob();
+  // const filename = imagen.uri.substring(imagen.uri.lastIndexOf('/')+1)
+  
+  // // Upload file and metadata to the object 'images/mountains.jpg'
+  // const storageRef = ref(storage, `./images/${filename}` + filename);
+  // const uploadTask = uploadBytesResumable(storageRef, blob, profilePicture);
+  try {
+    // Check if a profile picture is available
+    if (profilePicture) {
+      const uniqueFilename = v4(); // Generate a unique filename
+      const metadata = {
+        contentType: "image/jpeg",
+      };
+
+      // Reference to the storage location
+      const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+      
+      // Upload the image bytes to the storage reference
+      await uploadBytes(imageRef, profilePicture, metadata);
+      
+      // Get the download URL of the uploaded image
+      imageUrl = await getDownloadURL(imageRef);
+      console.log("Image uploaded successfully. URL:", imageUrl);
+
+      // Update the profile picture URL
+      setProfilePicture(imageUrl);
+    }
+
+    // ... (rest of your code)
   } catch (error) {
     console.error("Error uploading image:", error);
     // Handle the error here

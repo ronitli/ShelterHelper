@@ -48,6 +48,7 @@ const Dogs = ({ navigation }) => {
       const q = collection(db, "Dogs");
       const querySnapshot = await getDocs(q);
       let dogsArray = querySnapshot.docs.map((doc) => doc.data());
+      //console.log("Fetched dogs data:", dogsArray); // Check if the profilePicture URLs are present
       //console.log(dogsArray);
       if (searchTerm) {
         dogsArray = dogsArray.filter((dog) =>
@@ -70,8 +71,6 @@ const Dogs = ({ navigation }) => {
         selectedFiletrs[filterKey]?.has(dog[filterKey])
       );
     }
-
-    //console.log(filteredDogs);
 
     return filteredDogs;
   };
@@ -135,6 +134,11 @@ const Dogs = ({ navigation }) => {
     //console.log(date);
     return date;
   };
+
+  const handleImageError = (dogId) => {
+    // Handle image loading errors here
+    console.log("Image loading error for dog with ID:", dogId);
+  }
 
   const selectFilterOption = (option) => {
     const newSelectedFiletrs = { ...selectedFiletrs };
@@ -275,8 +279,10 @@ const Dogs = ({ navigation }) => {
             {getFilteredDogs().map((dog) => (
               <View key={dog.id} style={styles.request}>
                 <Image
-                  source={{ uri: dog.profilePicture }}
                   style={{ width: 200, height: 200 }}
+                  source={{ uri: dog.profilePicture }}
+                  onError={() => handleImageError(dog.id)}
+
                 />
                 <Text style={styles.reqText}>Name: {dog.name}</Text>
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>

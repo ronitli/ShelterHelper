@@ -94,8 +94,6 @@ const Register = ({ navigation }) => {
           console.log('Error updated the ID field:', error);
         });
     }
-    
-
   };
 
  const setProperty= () =>{
