@@ -20,7 +20,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from '../styles';
 
 const DoneAlerts = ({ navigation }) => {
+  const [alerts, setAlerts] = useState([]);
+
   
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, "ComletedNotifications");
+      const querySnapshot = await getDocs(q);
+      let alertsArray = querySnapshot.docs.map((doc) => doc.data());
+
+      setAlerts(alertsArray);
+    };
+    fetchData();
+  }, [alerts]);
 
 
   return (

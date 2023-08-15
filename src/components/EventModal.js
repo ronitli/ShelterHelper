@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import {
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  addDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { db, storage } from "../../firebase";
+
 
 
 const EventModal = ({ isVisible, onClose, onSave }) => {
@@ -27,37 +19,14 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
      }
     // Call the onSave function to save the new event
     onSave(newEvent);
-    saveToDatabase(newEvent);
+    
     // Clear the input fields
     setEventName('');
    
     // Close the modal
     onClose();
   };
-  const saveToDatabase = async (newEvent) => {
-    let eventId;
-    const dbRef = collection(db, "Events");
-    await addDoc(dbRef, newEvent)
-      .then((docRef) => {
-        eventId = docRef.id;
-        console.log("Successfully added a new dog with ID:", eventId);
-        alert("Successfully added a new dog with ID: " + eventId);
-        const data = { ...newEvent, id: eventId };
-        setDoc(docRef, data)
-          .then((docRef) => {
-            console.log("id has been updated successfully");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .then(() => {
-        console.log("Successfully updated the ID field of the document");
-      })
-      .catch((error) => {
-        console.log("Error adding a new dog:", error);
-      });
-  };
+
 
   return (
     <View style={styles.modalContainer}>
