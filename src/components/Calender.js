@@ -17,12 +17,24 @@ const Calender = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAllEventsModalVisible, setIsAllEventsModalVisible] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, "Events");
+      const querySnapshot = await getDocs(q);
+      let eventsArray = querySnapshot.docs.map((doc) => doc.data());
+
+      setEvents(eventsArray);
+    };
+    fetchData();
+  }, [events]);
+
+
   
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
 
-  const handleDeleteEvent = (date, event) => {
+  const handleDeleteEvent = (date, event) => {//func get (event) only 
     const selectedDateEvents = events[date];
   
     // Create a copy of the events array and remove the event from it
@@ -42,6 +54,8 @@ const Calender = ({navigation}) => {
     // Set the updated events state
     setEvents(updatedEventsState);
   
+    //delete event from database
+    deleteEvent(event);
     // Close the AllEventsModal after deleting
     //setIsAllEventsModalVisible(false);
   };
@@ -77,8 +91,8 @@ const handleSaveEvent = (newEvent) => {
     // If events don't exist, create a new array with the new event as the first element
     setEvents({ ...events, [selectedDate]: [newEvent] });
   }
- 
 //save to database
+saveEventToDatabase(newEvent);
 Alert.alert("Event created!","Successfully created an event.");
 };
 const handleOpenAllEventsModal = () => {
@@ -102,6 +116,43 @@ for (const date in events) {
   
 }
 
+const saveEventToDatabase = async (newEvent) => {
+  let eventId;
+  const dbRef = collection(db, "Events");
+  await addDoc(dbRef, newEvent)
+    .then((docRef) => {
+      eventId = docRef.id;
+      console.log("Successfully added a new evet with ID:", eventId);
+      alert("Successfully added a new event!");
+      const data = { ...newEvent, id: eventId };
+      setDoc(docRef, data)
+        .then((docRef) => {
+          console.log("id has been updated successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .then(() => {
+      console.log("Successfully updated the ID field of the document");
+    })
+    .catch((error) => {
+      console.log("Error adding a new event:", error);
+      alert("Error adding a new event:", error);
+
+    });
+};
+
+const deleteEvent = async (event) => {
+  const q = doc(collection(db, "Events"), event.id);
+  console.log(q);
+  try {
+    await deleteDoc(q);
+    console.log("SUCCESS: Event deleted from events collection!");
+  } catch (error) {
+    console.error("Error removing event from events collection: ", error);
+  }
+};
 
     return (
       <View style={styles.container}>

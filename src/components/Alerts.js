@@ -23,6 +23,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 
@@ -66,9 +67,21 @@ const Item = ({title}) => (
 // ];
 
 const Alerts = ({ navigation }) => {
+  const [alerts, setAlerts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [notificationText, setNotificationText] = useState('');
   const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const q = collection(db, "Notifications");
+      const querySnapshot = await getDocs(q);
+      let alertsArray = querySnapshot.docs.map((doc) => doc.data());
+
+      setAlerts(alertsArray);
+    };
+    fetchData();
+  }, [alerts]);
 
 
   const handleOpenModal = () => {
@@ -110,7 +123,7 @@ const Alerts = ({ navigation }) => {
       addDoc(dbRef, newNotification).then(docRef => {
         const newId = docRef.id;
         console.log("new Notifications add to Notificationss");
-        const data = { ...newNotification, firebaseID: newId };
+        const data = { ...newNotification, id: newId };
         setDoc(docRef, data).then(docRef => {
         console.log("id has been updated successfully");
       })
@@ -128,7 +141,28 @@ const Alerts = ({ navigation }) => {
         console.log()
   };
 
-  
+  const handleMarkNotification = async (notificationId) => {
+    Alert.alert(
+      'Confirm Check',
+      'Are you sure you want to complete this notification?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Yes', //save to database
+          onPress: () => {
+            const updatedNotifications = notifications.filter(
+              (notification) => notification.id !== notificationId
+            );
+            setNotifications(updatedNotifications);
+          },
+        },
+      ]
+    );
+    
+    await transferToCompletedNotification(notification);
+    await deleteFromNotificationTable(notification);
+    
+  };
 
   const handleDeleteNotification = async (notification) => {
     Alert.alert(
@@ -143,8 +177,7 @@ const Alerts = ({ navigation }) => {
             //   (notification) => notification.id !== notificationId
             // );
             // setNotifications(updatedNotifications);
-             //  await transferToCompletedNotification(notification);
-               await deleteFromNotificationTable(notification);
+            await deleteFromNotificationTable(notification);
           },
         },
       ]
@@ -188,27 +221,6 @@ const Alerts = ({ navigation }) => {
       console.error("Error removing Notification from Notifications table: ", error);
     }
   };
-
-  const handleMarkNotification = (notificationId) => {
-    Alert.alert(
-      'Confirm Check',
-      'Are you sure you want to complete this notification?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Yes', //save to database
-          onPress: () => {
-            const updatedNotifications = notifications.filter(
-              (notification) => notification.id !== notificationId
-            );
-            setNotifications(updatedNotifications);
-          },
-        },
-      ]
-    );
-    
-  };
-
 
   return (
     <View style={styles.container}>

@@ -115,7 +115,7 @@ const Dogs = ({ navigation }) => {
     } catch (error) {
       console.error("Error removing Dog from Dogs archive: ", error);
     }
-  }
+  };
 
   const getFilterOptions = () => {
     console.log("in get active filetr option");
