@@ -298,7 +298,10 @@ const Dogs = ({ navigation }) => {
             </View>
           </View>
           <View>
-            <TouchableOpacity style={styles.nowTripButton}>
+            <TouchableOpacity
+              style={styles.nowTripButton}
+              onPress={() => navigation.navigate("Archive")}
+            >
               <Text style={styles.buttonText}> See dogs Archive</Text>
             </TouchableOpacity>
           </View>
@@ -314,9 +317,7 @@ const Dogs = ({ navigation }) => {
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
-                <Text style={styles.reqText}>
-                  Age: {dog.ageInYears} years and {dog.ageInMonths} months.
-                </Text>
+                <Text style={styles.reqText}>Age:{}.</Text>
                 <Text style={styles.reqText}>
                   Shelter entry date: {getDate(dog.enterdate).toDateString()}
                 </Text>

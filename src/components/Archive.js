@@ -36,17 +36,34 @@ import {
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
+import Dogs from "./Dogs";
 //from home page
 
 const Archive = ({ route, navigation }) => {
-  const [dogs, setDogs] = useState([]);
+  const handleReArchive = () =>
+    //in here handle
+    {
+      Alert.alert(
+        "Alert",
+        "Are you sure you want to send him back to the shelter?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ],
+        { cancelable: false }
+      );
+    };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
           <Text style={styles.title}>Our Dogs</Text>
           <View style={styles.reqContainer}>
-            {getFilteredDogs().map((dog) => (
+            {dogs.map((dog) => (
               <View key={dog.id} style={styles.request}>
                 <Image
                   style={{ width: 200, height: 200 }}
@@ -57,9 +74,13 @@ const Archive = ({ route, navigation }) => {
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
-                <Text style={styles.reqText}>
-                  Age: {dog.ageInYears} years and {dog.ageInMonths} months.
-                </Text>
+                <TouchableOpacity
+                  style={styles.registerButton}
+                  onPress={handleReArchive}
+                >
+                  <Text style={styles.buttonText}>Back to the shelter</Text>
+                </TouchableOpacity>
+
                 <View style={styles.underline} />
               </View>
             ))}
