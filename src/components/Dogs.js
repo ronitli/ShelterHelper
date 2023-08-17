@@ -74,6 +74,7 @@ const Dogs = ({ navigation }) => {
 
     return filteredDogs;
   };
+  const handleUploadDocuments = () => {}; //ronit here you wotk
 
   const deleteDog = async (dog) => {
     // i need to get the specific dog
@@ -143,8 +144,6 @@ const Dogs = ({ navigation }) => {
     // Handle image loading errors here
     console.log("Image loading error for dog with ID:", dogId);
   };
-
-  const handleDocumentsUpload = () => {}; //ronit here you need to do the upload logic
 
   const selectFilterOption = (option) => {
     const newSelectedFiletrs = { ...selectedFiletrs };
@@ -308,19 +307,21 @@ const Dogs = ({ navigation }) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={handleDocumentsUpload}
+                  onPress={() =>
+                    navigation.navigate("Update_Dog_Details", { dog })
+                  }
                 >
                   <Text style={styles.buttonText}>Update Dog Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() => navigation.navigate("Update_trip", { dog })}
+                  onPress={handleUploadDocuments}
                 >
                   <Text style={styles.buttonText}>Upload documents</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() => navigation.navigate("Up", { dog })}
+                  onPress={() => navigation.navigate("Update_trip", { dog })}
                 >
                   <Text style={styles.buttonText}>Update trip</Text>
                 </TouchableOpacity>
