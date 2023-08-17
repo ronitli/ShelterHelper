@@ -54,11 +54,10 @@ const AddDog = ({ route, navigation }) => {
   const [name, setName] = React.useState(""); //properties of the component a change in here will run the return section again
   const [breed, setBreed] = React.useState(""); // return array with 2 att
   const [cell, setCell] = React.useState("");
+  const [birthday, setBirthday] = React.useState(new Date());
   const [profilePicture, setProfilePicture] = React.useState(null);
   const [colors, setColors] = React.useState("");
   const [gender, setGender] = React.useState("");
-  const [ageInYears, setAgeInYears] = React.useState("");
-  const [ageInMonths, setAgeInMonths] = React.useState("");
   const [enterdate, setEnterdate] = React.useState(new Date());
   const [status, setStatus] = React.useState("");
   const [info, setInfo] = React.useState("");
@@ -106,8 +105,7 @@ const AddDog = ({ route, navigation }) => {
     // console.log(`Inside useEffect ${JSON.stringify(paramAlergies)}`);
     setRabiesVaccineDate(paramRabies);
     setChipDate(paramChip);
-    setAgeInMonths(ageInMonths);
-    setAgeInYears(ageInYears);
+    //add here birthday?
     setHexagonalVaccine(paramHex);
     setSpirocercaLupi(paramLupi);
     setCastration(paramCastration);
@@ -148,6 +146,11 @@ const AddDog = ({ route, navigation }) => {
     setShowPicker(false);
     setEnterdate(currentDate);
   };
+  const onChangeBirthday = (event, selectedDate) => {
+    const currentDate = selectedDate || birthday;
+    setShowPicker(false);
+    setBirthday(currentDate);
+  };
 
   const showDateTimePicker = () => {
     setShowPicker(true);
@@ -156,8 +159,9 @@ const AddDog = ({ route, navigation }) => {
   const handleCreateProfile = async () => {
     //backend validation
     if (name === "" && !profilePicture) {
-      Alert.alert('Can not create profile',
-        'You have at least to enter a name OR upload a picture of the dog.'
+      Alert.alert(
+        "Can not create profile",
+        "You have at least to enter a name OR upload a picture of the dog."
       );
       return;
     }
@@ -171,65 +175,64 @@ const AddDog = ({ route, navigation }) => {
     //     image=dataURL;
     // };
     // reader.readAsDataURL(file);
-  let imageUrl=null;
-  // try {
-  //   const uniqueFilename = v4(); // Generate a unique filename
-  //   console.log(storage)
-  //   const metadata  = {
-  //     contentType: "image/jpeg",
-  //   };
-  //   const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-  //   await uploadBytes(imageRef, profilePicture, metadata);
-  //   imageUrl = await getDownloadURL(imageRef);
-  //   console.log("Image uploaded successfully. URL:", imageUrl);
-  //   setProfilePicture(imageUrl);
-  // } catch (error) {
-  //   console.error("Error uploading image:", error);
-  // }
+    let imageUrl = null;
+    // try {
+    //   const uniqueFilename = v4(); // Generate a unique filename
+    //   console.log(storage)
+    //   const metadata  = {
+    //     contentType: "image/jpeg",
+    //   };
+    //   const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+    //   await uploadBytes(imageRef, profilePicture, metadata);
+    //   imageUrl = await getDownloadURL(imageRef);
+    //   console.log("Image uploaded successfully. URL:", imageUrl);
+    //   setProfilePicture(imageUrl);
+    // } catch (error) {
+    //   console.error("Error uploading image:", error);
+    // }
 
-  // const res = await fetch(imagen.uri);
-  // const blob = await res.blob();
-  // const filename = imagen.uri.substring(imagen.uri.lastIndexOf('/')+1)
-  
-  // // Upload file and metadata to the object 'images/mountains.jpg'
-  // const storageRef = ref(storage, `./images/${filename}` + filename);
-  // const uploadTask = uploadBytesResumable(storageRef, blob, profilePicture);
-  try {
-    // Check if a profile picture is available
-    if (profilePicture) {
-      const uniqueFilename = v4(); // Generate a unique filename
-      const metadata = {
-        contentType: "image/jpeg",
-      };
+    // const res = await fetch(imagen.uri);
+    // const blob = await res.blob();
+    // const filename = imagen.uri.substring(imagen.uri.lastIndexOf('/')+1)
 
-      // Reference to the storage location
-      const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-      
-      // Upload the image bytes to the storage reference
-      await uploadBytes(imageRef, profilePicture, metadata);
-      
-      // Get the download URL of the uploaded image
-      imageUrl = await getDownloadURL(imageRef);
-      console.log("Image uploaded successfully. URL:", imageUrl);
+    // // Upload file and metadata to the object 'images/mountains.jpg'
+    // const storageRef = ref(storage, `./images/${filename}` + filename);
+    // const uploadTask = uploadBytesResumable(storageRef, blob, profilePicture);
+    try {
+      // Check if a profile picture is available
+      if (profilePicture) {
+        const uniqueFilename = v4(); // Generate a unique filename
+        const metadata = {
+          contentType: "image/jpeg",
+        };
 
-      // Update the profile picture URL
-      setProfilePicture(imageUrl);
+        // Reference to the storage location
+        const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+
+        // Upload the image bytes to the storage reference
+        await uploadBytes(imageRef, profilePicture, metadata);
+
+        // Get the download URL of the uploaded image
+        imageUrl = await getDownloadURL(imageRef);
+        console.log("Image uploaded successfully. URL:", imageUrl);
+
+        // Update the profile picture URL
+        setProfilePicture(imageUrl);
+      }
+
+      // ... (rest of your code)
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      // Handle the error here
     }
 
-    // ... (rest of your code)
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    // Handle the error here
-  }
-  
     const newDog = {
       name: name,
+      birthday: birthday,
       breed: breed,
       profilePicture: imageUrl,
       colors: colors,
       gender: gender,
-      ageInYears: ageInYears,
-      ageInMonths: ageInMonths,
       enterdate: enterdate,
       status: status,
       info: info,
@@ -281,8 +284,6 @@ const AddDog = ({ route, navigation }) => {
     setGender("");
     setStatus("");
     setInfo("");
-    setAgeInMonths("");
-    setAgeInMonths("");
     setCell("");
   };
   const handleDocuments = () => {
@@ -294,7 +295,10 @@ const AddDog = ({ route, navigation }) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
-      Alert.alert('No permissions','Sorry, we need camera roll permissions to make this work!');
+      Alert.alert(
+        "No permissions",
+        "Sorry, we need camera roll permissions to make this work!"
+      );
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -352,22 +356,27 @@ const AddDog = ({ route, navigation }) => {
             placeholder="Colors:"
             placeholderTextColor="#8B5A33"
           />
-          <TextInput
-            keyboardType="numeric"
-            style={styles.input}
-            value={ageInYears}
-            onChangeText={setAgeInYears}
-            placeholder="Age (in years):"
-            placeholderTextColor="#8B5A33"
-          />
-          <TextInput
-            keyboardType="numeric"
-            style={styles.input}
-            value={ageInMonths}
-            onChangeText={setAgeInMonths}
-            placeholder="Age (in months):"
-            placeholderTextColor="#8B5A33"
-          />
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={showDateTimePicker}
+          >
+            <Text style={styles.buttonText}>Select Birthday Date</Text>
+          </TouchableOpacity>
+          {showPicker && (
+            <DateTimePicker
+              value={birthday}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeBirthday}
+              maximumDate={new Date()}
+            />
+          )}
+          <View style={{ marginTop: -15 }} />
+          <Text style={styles.radioButtonText}>
+            Chosen Date: {birthday.toDateString()}
+          </Text>
+          <View style={{ height: 20 }} />
           <Text style={styles.radioButtonText}>Choose dog gender:</Text>
           <View style={{ height: 10 }} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
