@@ -9,6 +9,7 @@ import { styles } from "./src/styles";
 import Home from "./src/components/Home";
 import Register from "./src/components/Register";
 import AddDog from "./src/components/AddDog";
+import Archive from "./src/components/Archive";
 import Alerts from "./src/components/Alerts";
 import Requests from "./src/components/Requests";
 import Update_medical_data from "./src/components/Update_medical_data";
@@ -56,36 +57,101 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
-        <Stack.Screen name="Start" component={Start} options={{headerShown:false}}/>
-        <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
-        <Stack.Screen name="Register" component={Register} options={{headerShown:false}}/>
-        <Stack.Screen name="AddDog" component={AddDog} options={{headerShown:false}}/>
-        <Stack.Screen name="Alerts" component={Alerts} options={{headerShown:false}}/>
-        <Stack.Screen name="Requests" component={Requests} options={{headerShown:false}}/>
-        <Stack.Screen name="Add_Medical_Data" component={Add_Medical_Data} options={{headerShown:false}}/>
+        <Stack.Screen
+          name="Start"
+          component={Start}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Archive"
+          component={Archive}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddDog"
+          component={AddDog}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Alerts"
+          component={Alerts}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Requests"
+          component={Requests}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Add_Medical_Data"
+          component={Add_Medical_Data}
+          options={{ headerShown: false }}
+        />
         {/* <Stack.Screen name="EventListItem" component={EventListItem} options={{headerShown:false}}/> */}
         <Stack.Screen
           name="Update_medical_data"
           component={Update_medical_data}
-          options={{headerShown:false}}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name="Dogs" component={Dogs} options={{headerShown:false}}/>
-        <Stack.Screen name="EventModal" component={EventModal} options={{headerShown:false}}/>
-        <Stack.Screen name="DoneAlerts" component={DoneAlerts} options={{headerShown:false}}/>
-        <Stack.Screen name="AddAlertModal" component={AddAlertModal} options={{headerShown:false}}/>
-        <Stack.Screen name="AllEventsModal" component={AllEventsModal} options={{headerShown:false}}/>
-        <Stack.Screen name="EventListItem " component={EventListItem } options={{headerShown:false}}/>
-        <Stack.Screen name="Calender" component={Calender} options={{headerShown:false}}/>
-        <Stack.Screen name="Update_trip" component={Update_trip} options={{headerShown:false}}/>
+        <Stack.Screen
+          name="Dogs"
+          component={Dogs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EventModal"
+          component={EventModal}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DoneAlerts"
+          component={DoneAlerts}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddAlertModal"
+          component={AddAlertModal}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AllEventsModal"
+          component={AllEventsModal}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EventListItem "
+          component={EventListItem}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Calender"
+          component={Calender}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Update_trip"
+          component={Update_trip}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Update_Dog_Details"
           component={Update_Dog_Details}
-          options={{headerShown:false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AddDocuments"
           component={AddDocuments}
-          options={{headerShown:false}}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

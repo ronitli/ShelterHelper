@@ -84,6 +84,14 @@ const Update_trip = ({ route, navigation }) => {
         <View style={styles.tripContainer}>
           <Icon name="paw" size={50} color="sienna" />
           <Text style={styles.title}>Update Trip</Text>
+          <Text style={styles.reqText}>
+            {`${dog.name} last trip was at: ${dog.tripdate
+              .toDate()
+              .toLocaleDateString()} ${dog.tripTime
+              .toDate()
+              .toLocaleTimeString()}`}
+          </Text>
+
           <TouchableOpacity style={styles.nowTripButton} onPress={onPressNow}>
             <Text style={styles.buttonText}>The trip was Now!</Text>
           </TouchableOpacity>
