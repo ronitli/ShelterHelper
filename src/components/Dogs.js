@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import _ from "lodash";
+import { Alert } from "react-native";
 import { Checkbox, Title } from "react-native-paper";
 import { SafeAreaView } from "react-native";
 import {
@@ -22,6 +23,7 @@ import { styles } from "../styles";
 import { RadioButton } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Update_Dog_Details from "./Update_Dog_Details";
+import Archive from "./Archive";
 import { db } from "../../firebase";
 import {
   collection,
@@ -138,6 +140,21 @@ const Dogs = ({ navigation }) => {
     const date = timeStamp.toDate();
     //console.log(date);
     return date;
+  };
+  const handleDelete = () => {
+    Alert.alert(
+      "Alert",
+      "Are you sure you want to send him to the archive?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ],
+      { cancelable: false }
+    );
   };
 
   const handleImageError = (dogId) => {
@@ -280,6 +297,11 @@ const Dogs = ({ navigation }) => {
               )}
             </View>
           </View>
+          <View>
+            <TouchableOpacity style={styles.nowTripButton}>
+              <Text style={styles.buttonText}> See dogs Archive</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.reqContainer}>
             {getFilteredDogs().map((dog) => (
               <View key={dog.id} style={styles.request}>
@@ -311,7 +333,7 @@ const Dogs = ({ navigation }) => {
                     navigation.navigate("Update_Dog_Details", { dog })
                   }
                 >
-                  <Text style={styles.buttonText}>Update Dog Details</Text>
+                  <Text style={styles.buttonText}>Update dog details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
@@ -333,6 +355,13 @@ const Dogs = ({ navigation }) => {
                 >
                   <Text style={styles.buttonText}>Update medical data</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.registerButton}
+                  onPress={handleDelete}
+                >
+                  <Text style={styles.buttonText}>Send To archive</Text>
+                </TouchableOpacity>
+
                 <View style={styles.underline} />
               </View>
             ))}
