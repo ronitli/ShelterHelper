@@ -75,25 +75,29 @@ const Dogs = ({ navigation }) => {
     return filteredDogs;
   };
 
-  const deleteDog =async(dog) => {// i need to get the specific dog
+  const deleteDog = async (dog) => {
+    // i need to get the specific dog
     await transferToArchive(dog);
     //need to wait (30)? days
     await permanentlyDeleteFromArchive(dog);
-  }
+  };
 
   const transferToArchive = async (dog) => {
     const dbRef = collection(db, "DogsArchive");
     addDoc(dbRef, dog)
       .then((docRef) => {
-        console.log("SUCCESS: Dog name and id: (dog name and id:" + dog.name ,dog.id + ") add to Dogs Archive");
+        console.log(
+          "SUCCESS: Dog name and id: (dog name and id:" + dog.name,
+          dog.id + ") add to Dogs Archive"
+        );
         alert("Dog add to Dogs Archive for 30 days untill full deletion");
       })
       .catch((error) => {
-        console.log("Error adding Dog to dog archive: ",error);
+        console.log("Error adding Dog to dog archive: ", error);
       });
 
-      deleteDogFromDogsTable(dog);
-  }
+    deleteDogFromDogsTable(dog);
+  };
 
   const deleteDogFromDogsTable = async (dog) => {
     const q = doc(collection(db, "Dogs"), dog.id);
@@ -104,7 +108,7 @@ const Dogs = ({ navigation }) => {
     } catch (error) {
       console.error("Error removing Dog from Dogs table: ", error);
     }
-  }
+  };
 
   const permanentlyDeleteFromArchive = async (dog) => {
     const q = doc(collection(db, "DogsArchive"), dog.id);
@@ -138,7 +142,9 @@ const Dogs = ({ navigation }) => {
   const handleImageError = (dogId) => {
     // Handle image loading errors here
     console.log("Image loading error for dog with ID:", dogId);
-  }
+  };
+
+  const handleDocumentsUpload = () => {}; //ronit here you need to do the upload logic
 
   const selectFilterOption = (option) => {
     const newSelectedFiletrs = { ...selectedFiletrs };
@@ -282,7 +288,6 @@ const Dogs = ({ navigation }) => {
                   style={{ width: 200, height: 200 }}
                   source={{ uri: dog.profilePicture }}
                   onError={() => handleImageError(dog.id)}
-
                 />
                 <Text style={styles.reqText}>Name: {dog.name}</Text>
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>
@@ -303,15 +308,19 @@ const Dogs = ({ navigation }) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() =>
-                    navigation.navigate("Update_Dog_Details", { dog })
-                  }
+                  onPress={handleDocumentsUpload}
                 >
                   <Text style={styles.buttonText}>Update Dog Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() => navigation.navigate("Update_trip", { dog })}
+                >
+                  <Text style={styles.buttonText}>Upload documents</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.loginButton}
+                  onPress={() => navigation.navigate("Up", { dog })}
                 >
                   <Text style={styles.buttonText}>Update trip</Text>
                 </TouchableOpacity>
