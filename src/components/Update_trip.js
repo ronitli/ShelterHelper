@@ -31,30 +31,25 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-
-//from page of a dog
-// in here needs with cookies pass the dog details that we chose in order to update that he went on trip
-//needs to fix time choosing and update in database
 const Update_trip = ({ route, navigation }) => {
   const { dog } = route.params;
   const [tripdate, setTripDate] = React.useState(new Date());
   const [tripTime, setTripTime] = React.useState(new Date());
   const [showPicker, setShowPicker] = React.useState(false); //defalt val is flase
-  const showDateTimePicker = () => {
-    setShowPicker(true);
-  };
+
   const onChangeDate = (event, selectedDate) => {
-    // prperty
     const currentDate = selectedDate || tripdate;
     setTripDate(currentDate);
     setShowPicker(false);
+  };
+  const showDateTimePicker = () => {
+    setShowPicker(true);
   };
   const onPressNow = (event) => {
     setTripDate(new Date());
     setTripTime(new Date());
   };
   const onChangeTime = (event, selectedTime) => {
-    // prperty
     const currentTime = selectedTime || tripTime;
     setTripTime(currentTime);
   };
@@ -85,11 +80,11 @@ const Update_trip = ({ route, navigation }) => {
           <Icon name="paw" size={50} color="sienna" />
           <Text style={styles.title}>Update Trip</Text>
           <Text style={styles.reqText}>
-            {`${dog.name} last trip was at: ${dog.tripdate
-              .toDate()
-              .toLocaleDateString()} ${dog.tripTime
-              .toDate()
-              .toLocaleTimeString()}`}
+            {`${dog.name} last trip was at: ${
+              dog.tripdate ? dog.tripdate.toDate().toLocaleDateString() : "N/A"
+            } ${
+              dog.tripTime ? dog.tripdate.toDate().toLocaleTimeString() : ""
+            }`}
           </Text>
 
           <TouchableOpacity style={styles.nowTripButton} onPress={onPressNow}>
