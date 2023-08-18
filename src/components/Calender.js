@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import { View, Text,  StyleSheet,Dimensions ,TouchableOpacity, TextInput,FlatList, ScrollView,Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,6 +10,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import EventModal from './EventModal';
 import AllEventsModal from './AllEventsModal';
 import { Alert } from 'react-native';
+import { db } from "../../firebase";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 
 const Calender = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState('');
