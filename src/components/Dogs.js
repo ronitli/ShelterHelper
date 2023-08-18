@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import _ from "lodash";
+import _, { curry } from "lodash";
 import { Alert } from "react-native";
 import { Checkbox, Title } from "react-native-paper";
 import { SafeAreaView } from "react-native";
@@ -78,16 +78,10 @@ const Dogs = ({ navigation }) => {
   };
   const handleUploadDocuments = () => {}; //ronit here you wotk
 
-  const deleteDog = async (dog) => {
-    // i need to get the specific dog
-    await transferToArchive(dog);
-    //need to wait (30)? days
-    await permanentlyDeleteFromArchive(dog);
-  };
-
   const transferToArchive = async (dog) => {
-    const dbRef = collection(db, "DogsArchive");
-    addDoc(dbRef, dog)
+    setDoc(doc(db, "DogsArchive", dog.id), {
+      ...dog,
+    })
       .then((docRef) => {
         console.log(
           "SUCCESS: Dog name and id: (dog name and id:" + dog.name,
@@ -99,7 +93,7 @@ const Dogs = ({ navigation }) => {
         console.log("Error adding Dog to dog archive: ", error);
       });
 
-    deleteDogFromDogsTable(dog);
+    await deleteDogFromDogsTable(dog);
   };
 
   const deleteDogFromDogsTable = async (dog) => {
@@ -107,6 +101,7 @@ const Dogs = ({ navigation }) => {
     console.log(q);
     try {
       await deleteDoc(q);
+      setDogs(dogs.filter((currDog) => currDog.id != dog.id));
       console.log("SUCCESS: Dog deleted from Dogs table!");
     } catch (error) {
       console.error("Error removing Dog from Dogs table: ", error);
@@ -141,17 +136,30 @@ const Dogs = ({ navigation }) => {
     //console.log(date);
     return date;
   };
-  const handleDelete = () => {
+  const handleDelete = (dog) => {
+    // let needsToDelete = false; // Corrected variable name
+
     Alert.alert(
       "Alert",
       "Are you sure you want to send him to the archive?",
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => {
+            console.log("Cancel Pressed");
+            //needsToDelete = false;
+          },
           style: "cancel",
         },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        {
+          text: "OK",
+          onPress: async () => {
+            console.log("OK Pressed");
+            //console.error(dog);
+            await transferToArchive(dog);
+          },
+          style: "OK",
+        },
       ],
       { cancelable: false }
     );
@@ -358,7 +366,7 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.registerButton}
-                  onPress={handleDelete}
+                  onPress={() => handleDelete(dog)}
                 >
                   <Text style={styles.buttonText}>Send To archive</Text>
                 </TouchableOpacity>
