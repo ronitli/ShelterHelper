@@ -184,6 +184,19 @@ const Dogs = ({ navigation }) => {
     console.log("Image loading error for dog with ID:", dogId);
   };
 
+  const getDogAge = (dog) => {
+    const birthdate = dog.birthday.toDate();
+    const today = new Date();
+    const ageInMilliseconds = today - birthdate;
+    const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    if (ageInYears < 1) {
+      const ageInMonths = ageInMilliseconds / (1000 * 60 * 60 * 24 * 30.44);
+      return `${ageInMonths.toFixed(0)} months`;
+    } else {
+      return `${Math.floor(ageInYears)} years`;
+    }
+  };
+
   const selectFilterOption = (option) => {
     const newSelectedFiletrs = { ...selectedFiletrs };
     if (!newSelectedFiletrs[activeFilter]) {
@@ -339,7 +352,7 @@ const Dogs = ({ navigation }) => {
                 <Text style={styles.reqText}>Color: {dog.colors}</Text>
                 <Text style={styles.reqText}>Gender: {dog.gender}</Text>
                 <Text style={styles.reqText}>breed: {dog.breed}</Text>
-                <Text style={styles.reqText}>Age:{}.</Text>
+                <Text style={styles.reqText}>Age: {getDogAge(dog)}.</Text>
                 <Text style={styles.reqText}>
                   Shelter entry date: {getDate(dog.enterdate).toDateString()}
                 </Text>
