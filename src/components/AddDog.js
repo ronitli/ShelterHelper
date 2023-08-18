@@ -447,15 +447,15 @@ const AddDog = ({ route, navigation }) => {
             placeholder="Additional information:"
             placeholderTextColor="#8B5A33"
           />
-          <TouchableOpacity style={styles.loginButton} onPress={handleMedical}>
+          {/* <TouchableOpacity style={styles.loginButton} onPress={handleMedical}>
             <Text style={styles.buttonText}>Add Medical Data</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </TouchableOpacity> */}
+          {/* <TouchableOpacity
             style={styles.loginButton}
             onPress={handleDocuments}
           >
             <Text style={styles.buttonText}>Add Documents</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleCreateProfile}

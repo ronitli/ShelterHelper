@@ -10,6 +10,7 @@ import {
   Button,
   Image,
   StyleSheet,
+  Alert,
 } from "react-native";
 import {
   collection,
@@ -31,6 +32,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 //from the specefic dog page - will get dog to update
 //note currently start date from today- needs to get from database
 const Update_medical_data = ({ route, navigation }) => {
+  let alertShown = false;
   // func declaration argugemnt navigation  function adddogs (navigation) {}
   const { dog } = route.params;
   console.log(dog);
@@ -52,7 +54,57 @@ const Update_medical_data = ({ route, navigation }) => {
   const [alergies, setAlergies] = React.useState(dog.alergies);
   const [medications, setMedications] = React.useState(dog.medications);
   const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment);
+
+  const dateValidation = async (date) => {
+    const regex = /^\d{2}\/\d{2}\/\d{4}$/; // Regular expression for DD/MM/YYYY format
+    if (regex.test(date)) {
+      const [day, month, year] = date.split('/');
+
+      // Validate the day, month, and year
+      if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1000 || year > 9999) {
+        Alert.alert('Invalid Date',
+        'All entered dates must be valid',
+        );
+        alertShown=true;
+      } else {
+        const date = new Date(year, month - 1, day);
+
+        if (
+          date.getDate() !== Number(day) ||
+          date.getMonth() !== month - 1 ||
+          date.getFullYear() !== Number(year)
+        ) {
+          Alert.alert('Invalid Date','All entered dates must be valid');
+          alertShown=true;
+        } else if (date > new Date()) {
+          Alert.alert('Future Date','Entered dates can not be in the future.');
+          alertShown=true;
+        } else {
+          //Alert.alert('Valid Date', 'The entered date is valid and not in the future.');
+        }
+      }
+    } else {
+      Alert.alert('Invalid Date Format','All entered dates must be in \nDD/MM/YYYY format.');
+      alertShown=true;
+    }
+  };
+  
   const onSave = async () => {
+    //frontend validation:
+    const dates=[rabiesVaccineDate,chipDate,hexagonalVaccine,spirocercaLupiDate,dewormingDate,fleaTreatmentDate,castration];
+    dates.forEach((dateParam) => {
+     if (dateParam !== '') {
+         dateValidation(dateParam);
+         if (alertShown===true)
+         {
+             return;
+         }
+     }
+   });
+   if(alertShown === true)
+   {
+     return;
+   }
     console.log("on navigation");
     //save to database+alert acoordingly
     const newMedicalData = {
@@ -80,6 +132,7 @@ const Update_medical_data = ({ route, navigation }) => {
       });
 
     console.log("in navigation");
+    Alert.alert('Saved!','Medical Information was Saved Successfully!');
     // Navigate back to the profile screen with the updated information
     navigation.goBack();
   };
@@ -89,7 +142,7 @@ const Update_medical_data = ({ route, navigation }) => {
         <View style={styles.container}>
           <View style={{ height: 20 }} />
           <Icon name="user-md" size={50} color="sienna" />
-          <Text style={styles.title}>Update Medical Data</Text>
+          <Text style={styles.title}>Medical Data</Text>
           <Text
             style={[
               styles.radioButtonText,
@@ -103,6 +156,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={rabiesVaccineDate}
             onChangeText={setRabiesVaccine}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -118,6 +172,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={chipDate}
             onChangeText={setChip}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -126,13 +181,14 @@ const Update_medical_data = ({ route, navigation }) => {
               { textDecorationLine: "underline" },
             ]}
           >
-            Hexagonal Vaccine:
+            Hexagonal Vaccine Date:
           </Text>
           <TextInput
             style={styles.input}
             color="#8B5A33"
             value={hexagonalVaccine}
             onChangeText={setHexagonalVaccine}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -148,6 +204,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={spirocercaLupiDate}
             onChangeText={setSpirocercaLupi}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -163,6 +220,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={dewormingDate}
             onChangeText={setDeworming}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -178,6 +236,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={fleaTreatmentDate}
             onChangeText={setfleaTreatment}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text
@@ -193,6 +252,7 @@ const Update_medical_data = ({ route, navigation }) => {
             color="#8B5A33"
             value={castration}
             onChangeText={setcastration}
+            placeholder='Format: DD/MM/YYYY' placeholderTextColor="#8B5A33"
           />
           <View style={{ height: 10 }} />
           <Text

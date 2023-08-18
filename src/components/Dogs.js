@@ -85,6 +85,12 @@ const Dogs = ({ navigation }) => {
     await permanentlyDeleteFromArchive(dog);
   };
 
+  const handleDocuments = () => {
+    console.log("Add Documentsbutton pressed");
+
+    navigation.navigate("AddDocuments");
+  };
+
   const transferToArchive = async (dog) => {
     const dbRef = collection(db, "DogsArchive");
     addDoc(dbRef, dog)
@@ -338,7 +344,7 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={handleUploadDocuments}
+                  onPress={handleDocuments}
                 >
                   <Text style={styles.buttonText}>Upload documents</Text>
                 </TouchableOpacity>
