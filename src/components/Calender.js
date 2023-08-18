@@ -98,14 +98,14 @@ const handleCreateEvent = () => {
 const handleSaveEvent = (newEvent) => {
   
   // Save the new event in the events state using the selected date as the key
-  if (events[selectedDate]) {
-    // If events exist, add the new event to the existing array of events for the selected date
-    const newEvents = [...events[selectedDate], newEvent];
-    setEvents({ ...events, [selectedDate]: newEvents });
-  } else {
-    // If events don't exist, create a new array with the new event as the first element
-    setEvents({ ...events, [selectedDate]: [newEvent] });
-  }
+  // if (events[selectedDate]) {
+  //   // If events exist, add the new event to the existing array of events for the selected date
+  //   const newEvents = [...events[selectedDate], newEvent];
+  //   setEvents({ ...events, [selectedDate]: newEvents });
+  // } else {
+  //   // If events don't exist, create a new array with the new event as the first element
+  //   setEvents({ ...events, [selectedDate]: [newEvent] });
+  // }
 //save to database
 saveEventToDatabase(newEvent);
 Alert.alert("Event created!","Successfully created an event.");
