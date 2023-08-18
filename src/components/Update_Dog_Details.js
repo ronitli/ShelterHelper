@@ -43,14 +43,20 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [ageInMonths, setAgeInMonths] = React.useState(dog.ageInMonths);
   const [enterdate, setEnterdate] = React.useState(dog.enterdate.toDate());
   const [status, setStatus] = React.useState(dog.status);
+  const [birthday, setBirthday] = React.useState(dog.birthday.toDate());
   const [info, setInfo] = React.useState(dog.info);
   const [showPicker, setShowPicker] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
-    // prperty
     const currentDate = selectedDate || enterdate;
     setShowPicker(false);
     setEnterdate(currentDate);
+  };
+
+  const onChangeBirthday = (event, selectedDate) => {
+    const currentBirthday = selectedDate || birthday;
+    setShowPicker(false);
+    setBirthday(currentBirthday);
   };
 
   const showDateTimePicker = () => {
@@ -64,9 +70,8 @@ const Update_Dog_Details = ({ route, navigation }) => {
       profilePicture: profilePicture,
       colors: colors,
       gender: gender,
-      ageInMonths: ageInMonths,
-      ageInYears: ageInYears,
       enterdate: enterdate,
+      birthday: birthday,
       status: status,
       info: info,
     };
@@ -88,7 +93,10 @@ const Update_Dog_Details = ({ route, navigation }) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (status !== "granted") {
-      Alert.alert('No permissions.','Sorry, we need camera roll permissions to make this work!');
+      Alert.alert(
+        "No permissions.",
+        "Sorry, we need camera roll permissions to make this work!"
+      );
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -161,38 +169,6 @@ const Update_Dog_Details = ({ route, navigation }) => {
             value={breed}
             onChangeText={setBreed}
           />
-          <View style={{ height: 10 }} />
-
-          <Text
-            style={[
-              styles.radioButtonText,
-              { textDecorationLine: "underline" },
-            ]}
-          >
-            Age in years:
-          </Text>
-          <TextInput
-            style={styles.input}
-            color="#8B5A33"
-            value={ageInYears}
-            onChangeText={setAgeInYears}
-          />
-          <View style={{ height: 10 }} />
-          <Text
-            style={[
-              styles.radioButtonText,
-              { textDecorationLine: "underline" },
-            ]}
-          >
-            and months:
-          </Text>
-          <TextInput
-            style={styles.input}
-            color="#8B5A33"
-            value={ageInMonths}
-            onChangeText={setAgeInMonths}
-          />
-          <View style={{ height: 10 }} />
 
           <Text style={styles.radioButtonText}>Choose dog gender:</Text>
           <View style={{ height: 10 }} />
@@ -218,6 +194,27 @@ const Update_Dog_Details = ({ route, navigation }) => {
               </TouchableOpacity>
             ))}
           </View>
+          <View style={{ height: 20 }} />
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={showDateTimePicker}
+          >
+            <Text style={styles.buttonText}>Change Birthday Date</Text>
+          </TouchableOpacity>
+          {showPicker && (
+            <DateTimePicker
+              value={birthday}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeBirthday}
+              maximumDate={new Date()}
+            />
+          )}
+          <View style={{ marginTop: -15 }} />
+          <Text style={styles.radioButtonText}>
+            Birthday: {birthday.toDateString()}
+          </Text>
           <View style={{ height: 20 }} />
           <TouchableOpacity
             style={styles.loginButton}
