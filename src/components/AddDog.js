@@ -205,12 +205,17 @@ const AddDog = ({ route, navigation }) => {
         const metadata = {
           contentType: "image/jpeg",
         };
-
         // Reference to the storage location
         const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-
+        const response = await fetch(profilePicture)
+        const blob = await response.blob()
         // Upload the image bytes to the storage reference
-        await uploadBytes(imageRef, profilePicture, metadata);
+        await uploadBytes(imageRef, blob, metadata).then((snapshot)=>
+        {
+          console.log("successfully");
+        })
+        .catch((error)=>{console.log(error.massage)});
+
 
         // Get the download URL of the uploaded image
         imageUrl = await getDownloadURL(imageRef);
@@ -240,16 +245,6 @@ const AddDog = ({ route, navigation }) => {
       tripdate: "",
       tripTime: "",
       id: "",
-      rabiesVaccineDate: rabiesVaccineDate,
-      chipDate: chipDate,
-      hexagonalVaccine: hexagonalVaccine,
-      spirocercaLupiDate: spirocercaLupiDate,
-      castration: castration,
-      dewormingDate: dewormingDate,
-      fleaTreatmentDate: fleaTreatmentDate,
-      alergies: alergies,
-      medications: medications,
-      medicalTreatment: medicalTreatment,
     };
 
     let dogId;
