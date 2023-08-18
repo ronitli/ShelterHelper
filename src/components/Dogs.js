@@ -78,6 +78,20 @@ const Dogs = ({ navigation }) => {
   };
   const handleUploadDocuments = () => {}; //ronit here you wotk
 
+  //const deleteDog = async (dog) => {
+    // i need to get the specific dog
+  //  await transferToArchive(dog);
+    //need to wait (30)? days
+  //  await permanentlyDeleteFromArchive(dog);
+  //};
+
+  const handleDocuments = () => {
+    console.log("Add Documentsbutton pressed");
+
+    navigation.navigate("AddDocuments");
+  };
+
+
   const transferToArchive = async (dog) => {
     setDoc(doc(db, "DogsArchive", dog.id), {
       ...dog,
@@ -346,7 +360,7 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={handleUploadDocuments}
+                  onPress={handleDocuments}
                 >
                   <Text style={styles.buttonText}>Upload documents</Text>
                 </TouchableOpacity>
