@@ -1,4 +1,4 @@
-import React ,{useState} from 'react';
+import React,{ useState,useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -18,6 +18,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from '../styles';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
+import { db, storage } from "../../firebase";
 
 const DoneAlerts = ({ navigation }) => {
   const [alerts, setAlerts] = useState([]);
