@@ -239,7 +239,7 @@ const Alerts = ({ navigation }) => {
    <View style={{   marginTop: -65 }} />
     <SafeAreaView style={style.container}>
     <ScrollView style={styles.scrollContainer}>
-    {notifications.map((notification) => (
+    {alerts.map((notification) => (
         <View key={notification.id} style={styles.notificationItem}>
           <Icon name={notification.icon} size={24} color="#D6A6A6" />
           <View style={{   width: 20 }} />
