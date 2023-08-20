@@ -267,7 +267,7 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
   },
   nowTripButton: {
-    backgroundColor: "#f5a864",
+    backgroundColor: "#CEA38D",
     width: 300,
     height: 50,
     alignItems: "center",

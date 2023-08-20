@@ -100,9 +100,9 @@ const Start = () => {
       >
         <Text style={styles.buttonText}>I forgot my password</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
+      {/* <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
         <Text style={styles.buttonText}>Home</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

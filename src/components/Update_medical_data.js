@@ -29,6 +29,7 @@ import pickImage from "./pickImage";
 import { styles } from "../styles";
 import { RadioButton } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import data from "react-native-ico-material-design/src/data";
 //from the specefic dog page - will get dog to update
 //note currently start date from today- needs to get from database
 const Update_medical_data = ({ route, navigation }) => {
@@ -37,25 +38,26 @@ const Update_medical_data = ({ route, navigation }) => {
   const { dog } = route.params;
   console.log(dog);
   const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
-    dog.rabiesVaccineDate
+    dog.rabiesVaccineDate ? dog.rabiesVaccineDate : ''
   );
-  const [chipDate, setChip] = React.useState(dog.chipDate);
+  const [chipDate, setChip] = React.useState(dog.chipDate ? dog.chipDate : '');
   const [spirocercaLupiDate, setSpirocercaLupi] = React.useState(
-    dog.spirocercaLupiDate
+    dog.spirocercaLupiDate ? dog.spirocercaLupiDate : ''
   );
   const [hexagonalVaccine, setHexagonalVaccine] = React.useState(
-    dog.hexagonalVaccine
+    dog.hexagonalVaccine ? dog.hexagonalVaccine : ''
   );
-  const [castration, setcastration] = React.useState(dog.castration);
-  const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate);
+  const [castration, setcastration] = React.useState(dog.castration ? dog.castration : '');
+  const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate ? dog.dewormingDate : '');
   const [fleaTreatmentDate, setfleaTreatment] = React.useState(
-    dog.fleaTreatmentDate
+    dog.fleaTreatmentDate ? dog.fleaTreatmentDate : ''
   );
-  const [alergies, setAlergies] = React.useState(dog.alergies);
-  const [medications, setMedications] = React.useState(dog.medications);
-  const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment);
+  const [alergies, setAlergies] = React.useState(dog.alergies ? dog.alergies : '');
+  const [medications, setMedications] = React.useState(dog.medications ? dog.medications : '');
+  const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment ? dog.medicalTreatment : '');
 
   const dateValidation = async (date) => {
+    console.log(`date received for dateValidation: ${date}`);
     const regex = /^\d{2}\/\d{2}\/\d{4}$/; // Regular expression for DD/MM/YYYY format
     if (regex.test(date)) {
       const [day, month, year] = date.split('/');
@@ -84,6 +86,7 @@ const Update_medical_data = ({ route, navigation }) => {
         }
       }
     } else {
+      console.log(date);
       Alert.alert('Invalid Date Format','All entered dates must be in \nDD/MM/YYYY format.');
       alertShown=true;
     }
@@ -91,9 +94,12 @@ const Update_medical_data = ({ route, navigation }) => {
   
   const onSave = async () => {
     //frontend validation:
+    
     const dates=[rabiesVaccineDate,chipDate,hexagonalVaccine,spirocercaLupiDate,dewormingDate,fleaTreatmentDate,castration];
+    console.log(rabiesVaccineDate);
     dates.forEach((dateParam) => {
-     if (dateParam !== '') {
+      console.log(`date param: ${dateParam}`);
+     if (dateParam) {
          dateValidation(dateParam);
          if (alertShown===true)
          {
