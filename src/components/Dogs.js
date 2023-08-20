@@ -365,6 +365,12 @@ const Dogs = ({ navigation }) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.loginButton}
+                  onPress={() => navigation.navigate("Update_trip", { dog })}
+                >
+                  <Text style={styles.buttonText}>Update trip</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.loginButton}
                   onPress={() =>
                     navigation.navigate("Update_Dog_Details", { dog })
                   }
@@ -375,14 +381,14 @@ const Dogs = ({ navigation }) => {
                   style={styles.loginButton}
                   onPress={handleDocuments}
                 >
-                  <Text style={styles.buttonText}>Upload documents</Text>
+                  <Text style={styles.buttonText}>Manage Documents</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() => navigation.navigate("Update_trip", { dog })}
                 >
                   <Text style={styles.buttonText}>Update trip</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() => {
