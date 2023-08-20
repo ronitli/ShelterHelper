@@ -7,16 +7,19 @@ import { Button, View, Text } from "react-native";
 import Start from "./src/components/Start";
 import { styles } from "./src/styles";
 import Home from "./src/components/Home";
+import Forgot_My_Password from "./src/components/Forgot_My_Password";
 import Register from "./src/components/Register";
 import AddDog from "./src/components/AddDog";
 import Archive from "./src/components/Archive";
 import Alerts from "./src/components/Alerts";
 import Requests from "./src/components/Requests";
+import Reset_Password from "./src/components/Reset_Password";
 import Update_medical_data from "./src/components/Update_medical_data";
 import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
 import AddDocuments from "./src/components/AddDocuments";
+import Choose_New_Password from "./src/components/Choose_New_Password";
 import EventModal from "./src/components/EventModal";
 import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
@@ -65,6 +68,22 @@ function App() {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Choose_New_Password"
+          component={Choose_New_Password}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Reset_Password"
+          component={Reset_Password}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Forgot_My_Password"
+          component={Forgot_My_Password}
           options={{ headerShown: false }}
         />
         <Stack.Screen
