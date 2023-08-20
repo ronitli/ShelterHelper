@@ -40,7 +40,24 @@ import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
 const Forgot_My_Password = ({ navigation }) => {
   const [Email, setEmail] = useState("");
   const handleForgotPassword = () => {
-    navigation.navigate("Reset_Password", { Email });
+    if (Email != "") {
+      navigation.navigate("Reset_Password", { Email });
+    } else {
+      Alert.alert(
+        "Alert",
+        "Please enter your email in order to reset your password.",
+        [
+          {
+            text: "OK",
+            onPress: async () => {
+              console.log("OK Pressed");
+            },
+            style: "OK",
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
   return (
     <View style={styles.container}>

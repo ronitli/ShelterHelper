@@ -47,7 +47,24 @@ const Reset_Password = ({ route, navigation }) => {
   };
   const handleResetPassword = () => {
     //in here here check the reset code if he is ok- go to the choose a new password page
-    navigation.navigate("Choose_New_Password", { Email });
+    if (resetCode != "") {
+      navigation.navigate("Choose_New_Password", { Email });
+    } else {
+      Alert.alert(
+        "Alert",
+        "Wrong code",
+        [
+          {
+            text: "OK",
+            onPress: async () => {
+              console.log("OK Pressed");
+            },
+            style: "OK",
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   return (
