@@ -49,7 +49,7 @@ const Choose_New_Password = ({ route, navigation }) => {
     ) {
       //reset the password
       //go back to the start screen so the user can reconnect to the app
-      // navigation.navigate("Start");
+      navigation.navigate("Start");
     } else {
       Alert.alert(
         "Alert",
