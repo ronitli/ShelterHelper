@@ -61,7 +61,7 @@ const Dogs = ({ navigation }) => {
       setDogs(dogsArray);
     };
     fetchData();
-  }, [searchTerm, activeFilter, selectedFiletrs, dogs]);
+  }, [searchTerm, activeFilter, selectedFiletrs]);
 
   const getFilteredDogs = () => {
     //console.log(selectedFiletrs, dogs);
@@ -79,9 +79,9 @@ const Dogs = ({ navigation }) => {
   const handleUploadDocuments = () => {}; //ronit here you wotk
 
   //const deleteDog = async (dog) => {
-    // i need to get the specific dog
+  // i need to get the specific dog
   //  await transferToArchive(dog);
-    //need to wait (30)? days
+  //need to wait (30)? days
   //  await permanentlyDeleteFromArchive(dog);
   //};
 
@@ -90,7 +90,6 @@ const Dogs = ({ navigation }) => {
 
     navigation.navigate("AddDocuments");
   };
-
 
   const transferToArchive = async (dog) => {
     setDoc(doc(db, "DogsArchive", dog.id), {
