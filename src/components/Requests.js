@@ -35,10 +35,10 @@ const Requests = ({ navigation }) => {
   const [Email, setEmail] = React.useState("");
   const [Title, setTitle] = React.useState("");
   const [Request, setRequest] = React.useState("");
-
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
+    //happens only at first upload of page
     const fetchData = async () => {
       const q = collection(db, "UsersWaitList");
       const querySnapshot = await getDocs(q);
@@ -46,7 +46,7 @@ const Requests = ({ navigation }) => {
       setRequests(requestsArray);
     };
     fetchData();
-  }, [requests]);
+  }, []);
 
   const handleApprovedRequest = async (request) => {
     let email = request?.email;
@@ -54,9 +54,7 @@ const Requests = ({ navigation }) => {
 
     await insertUserToFirebaseAuth(user);
     await insertUserToUsersTable(user);
-
     await deleteUserFromWaitList(request);
-
     return;
   };
 
@@ -91,32 +89,18 @@ const Requests = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-      //else{}
-      // const dbRef = collection(db, "volunteer");
-      // addDoc(dbRef, user)
-      //   .then((docRef) => {
-      //     console.log("SUCCESS: User add to volunteer table");
-      //     alert("New user add to volunteer list");
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
   };
-
   const deleteUserFromWaitList = async (user) => {
     console.log("in delete function");
     const q = doc(collection(db, "UsersWaitList"), user.id);
     console.log(q);
     try {
       await deleteDoc(q);
+      setRequests(requests.filter((currUser) => currUser.id != user.id));
       console.log("SUCCESS: User deleted from wait list!");
     } catch (error) {
       console.error("Error removing User from wait list: ", error);
     }
-
-    //update the requsts temp array
-    const updatedRequests = requests.filter((user) => user.id !== user.id);
-    setRequests(updatedRequests);
   };
 
   return (
@@ -161,5 +145,4 @@ const Requests = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 export default Requests;
