@@ -8,9 +8,9 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
  
   const handleSaveEvent = () => {
     // Create a new event object with the provided details
-     const newEvent = {
-      name: eventName,
-     };
+    //  const newEvent = {
+    //   name: eventName,
+    //  };
      const trimmedEventName = eventName.trim();
      if(trimmedEventName === '')
      {
@@ -18,7 +18,7 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
         return;
      }
     // Call the onSave function to save the new event
-    onSave(newEvent);
+    onSave(eventName);
     
     // Clear the input fields
     setEventName('');

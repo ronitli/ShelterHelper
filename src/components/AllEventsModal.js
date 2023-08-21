@@ -13,6 +13,7 @@ const AllEventsModal = ({ isVisible, onClose, events, onDelete,selectedDate}) =>
     <View style={{ height: 25 }} />
       <Text style={style.title}>All Events:</Text>
       <View style={{ height: 25 }} />
+      
       <FlatList
         data={events}
         renderItem={({ item}) => (

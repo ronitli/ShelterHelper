@@ -26,7 +26,7 @@ const EventListItem = ({ event, onDelete }) => {
     <TouchableOpacity onPress={handleDelete}>
       <Text style={styles.deleteButton}>X</Text>
     </TouchableOpacity>
-    <Text style={styles.eventName}>{event.name}</Text>
+    <Text style={styles.eventName}>{event}</Text>
   </View>
   );
 };
