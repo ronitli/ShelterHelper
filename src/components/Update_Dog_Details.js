@@ -37,7 +37,7 @@ import {
   listAll,
   list,
   getStorage,
-  deleteObject
+  deleteObject,
 } from "firebase/storage";
 import { v4 } from "uuid";
 
@@ -55,22 +55,18 @@ const Update_Dog_Details = ({ route, navigation }) => {
   const [cell, setCell] = React.useState(dog.cell);
   const [birthday, setBirthday] = React.useState(dog.birthday.toDate());
   const [info, setInfo] = React.useState(dog.info);
-  const [showPicker, setShowPicker] = React.useState(false);
-
+  const [showBirthdayPicker, setBirthdayShowPicker] = React.useState(false);
+  const [showEnterDatePicker, setEnterDateShowPicker] = React.useState(false);
   const onChangeEnterDate = (event, selectedDate) => {
     const currentDate = selectedDate || enterdate;
-    setShowPicker(false);
+    setEnterDateShowPicker(false);
     setEnterdate(currentDate);
   };
 
   const onChangeBirthday = (event, selectedDate) => {
     const currentBirthday = selectedDate || birthday;
-    setShowPicker(false);
+    setBirthdayShowPicker(false);
     setBirthday(currentBirthday);
-  };
-
-  const showDateTimePicker = () => {
-    setShowPicker(true);
   };
   const onSave = () => {
     //save to database+alert acoordingly ---------------------------------->RAZ - update database
@@ -121,40 +117,40 @@ const Update_Dog_Details = ({ route, navigation }) => {
     deleteOldImageFromStorage(dog);
     uploadNewImage(result);
   };
-  const deleteOldImageFromStorage=async(dog)=>
-  {
+  const deleteOldImageFromStorage = async (dog) => {
     const oldImagetRef = ref(storage, profilePicture);
-    deleteObject(oldImagetRef).then(() => {
-      console.log("old image deleted");
-    }).catch((error) => {
-     console.log("error delete old image:",error);
-    });
+    deleteObject(oldImagetRef)
+      .then(() => {
+        console.log("old image deleted");
+      })
+      .catch((error) => {
+        console.log("error delete old image:", error);
+      });
+  };
 
-  }
-
-  const uploadNewImage=async(result)=>
-  {
+  const uploadNewImage = async (result) => {
     //replace image
     if (!result.canceled) {
       const uniqueFilename = v4(); // Generate a unique filename
       const metadata = {
         contentType: "image/jpeg",
-      }
+      };
       const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-        const response = await fetch(result.assets[0].uri)
-        const blob = await response.blob()
-        // Upload the image bytes to the storage reference
-        await uploadBytes(imageRef, blob, metadata).then((snapshot)=>
-        {
+      const response = await fetch(result.assets[0].uri);
+      const blob = await response.blob();
+      // Upload the image bytes to the storage reference
+      await uploadBytes(imageRef, blob, metadata)
+        .then((snapshot) => {
           console.log("successfully");
-
         })
-        .catch((error)=>{console.log(error.massage)});
-        imageUrl = await getDownloadURL(imageRef);
-          console.log("Image uploaded successfully. URL:", imageUrl);
-          setProfilePicture(imageUrl);
+        .catch((error) => {
+          console.log(error.massage);
+        });
+      imageUrl = await getDownloadURL(imageRef);
+      console.log("Image uploaded successfully. URL:", imageUrl);
+      setProfilePicture(imageUrl);
     }
-  }
+  };
   const genders = [
     // array with two argu
     { label: "Male", value: "Male" },
@@ -258,12 +254,12 @@ const Update_Dog_Details = ({ route, navigation }) => {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setBirthdayShowPicker(true)}
           >
             <Text style={styles.buttonText}>Change Birthday Date</Text>
           </TouchableOpacity>
 
-          {showPicker && (
+          {showBirthdayPicker && (
             <DateTimePicker
               value={birthday}
               mode="date"
@@ -282,11 +278,11 @@ const Update_Dog_Details = ({ route, navigation }) => {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setEnterDateShowPicker(true)}
           >
             <Text style={styles.buttonText}>Change Shelter Entry Date</Text>
           </TouchableOpacity>
-          {showPicker && (
+          {showEnterDatePicker && (
             <DateTimePicker
               value={enterdate}
               mode="date"

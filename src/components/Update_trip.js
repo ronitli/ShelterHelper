@@ -35,15 +35,12 @@ const Update_trip = ({ route, navigation }) => {
   const { dog } = route.params;
   const [tripdate, setTripDate] = React.useState(new Date());
   const [tripTime, setTripTime] = React.useState(new Date());
-  const [showPicker, setShowPicker] = React.useState(false); //defalt val is flase
-
+  const [showDatePicker, setShowDatePicker] = React.useState(false); //defalt val is flase
+  const [showTimePicker, setShowTimePicker] = React.useState(false);
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || tripdate;
     setTripDate(currentDate);
-    setShowPicker(false);
-  };
-  const showDateTimePicker = () => {
-    setShowPicker(true);
+    setShowDatePicker(false);
   };
   const onPressNow = (event) => {
     setTripDate(new Date());
@@ -52,6 +49,7 @@ const Update_trip = ({ route, navigation }) => {
   const onChangeTime = (event, selectedTime) => {
     const currentTime = selectedTime || tripTime;
     setTripTime(currentTime);
+    setShowTimePicker(false);
   };
   const onSave = () => {
     //save to database+alert acoordingly
@@ -83,20 +81,19 @@ const Update_trip = ({ route, navigation }) => {
             {`${dog.name} last trip was at: ${
               dog.tripdate ? dog.tripdate.toDate().toLocaleDateString() : "N/A"
             } ${
-              dog.tripTime ? dog.tripdate.toDate().toLocaleTimeString() : ""
+              dog.tripTime ? dog.tripTime.toDate().toLocaleTimeString() : ""
             }`}
           </Text>
-
           <TouchableOpacity style={styles.nowTripButton} onPress={onPressNow}>
             <Text style={styles.buttonText}>The trip was Now!</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setShowDatePicker(true)}
           >
             <Text style={styles.buttonText}>Choose date</Text>
           </TouchableOpacity>
-          {showPicker && (
+          {showDatePicker && (
             <DateTimePicker
               value={tripdate}
               mode="date"
@@ -107,11 +104,11 @@ const Update_trip = ({ route, navigation }) => {
           )}
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setShowTimePicker(true)}
           >
             <Text style={styles.buttonText}>Choose time</Text>
           </TouchableOpacity>
-          {showPicker && (
+          {showTimePicker && (
             <View>
               <DateTimePicker
                 value={tripTime}
@@ -120,7 +117,10 @@ const Update_trip = ({ route, navigation }) => {
                 display="spinner"
                 onChange={onChangeTime}
               ></DateTimePicker>
-              <Button title="OK" onPress={() => setShowPicker(false)}></Button>
+              <Button
+                title="OK"
+                onPress={() => setShowTimePicker(false)}
+              ></Button>
             </View>
           )}
           <TouchableOpacity style={styles.registerButton} onPress={onSave}>
