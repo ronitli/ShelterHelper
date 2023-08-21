@@ -120,26 +120,6 @@ const AddDog = ({ route, navigation }) => {
       */
   }, [route.params]);
 
-  const handleMedical = () => {
-    console.log("Add Medical Data button pressed");
-
-    navigation.navigate("Add_Medical_Data");
-
-    /*
-    setRabiesVaccineDate(param1);
-    setChipDate(param2);
-    setHexagonalVaccine(param3);
-    setSpirocercaLupi(param4);
-    setcastration(param5);
-    setDeworming(param6);
-    setfleaTreatment(param7);
-    //setAlergies(param8);
-
-    setMedications(param9);
-    setTreatment(param10);
-    */
-  };
-
   const onChange = (event, selectedDate) => {
     // prperty
     const currentDate = selectedDate || enterdate;
@@ -280,12 +260,10 @@ const AddDog = ({ route, navigation }) => {
     setStatus("");
     setInfo("");
     setCell("");
-  };
-  const handleDocuments = () => {
-    console.log("Add Documentsbutton pressed");
 
-    navigation.navigate("AddDocuments");
+    navigation.navigate("Home");
   };
+  
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -442,15 +420,7 @@ const AddDog = ({ route, navigation }) => {
             placeholder="Additional information:"
             placeholderTextColor="#8B5A33"
           />
-          {/* <TouchableOpacity style={styles.loginButton} onPress={handleMedical}>
-            <Text style={styles.buttonText}>Add Medical Data</Text>
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity
-            style={styles.loginButton}
-            onPress={handleDocuments}
-          >
-            <Text style={styles.buttonText}>Add Documents</Text>
-          </TouchableOpacity> */}
+          
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleCreateProfile}

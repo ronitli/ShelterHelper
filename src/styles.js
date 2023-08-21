@@ -361,4 +361,18 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
   },
+  previewContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+  previewImage: {
+    width: 300,
+    height: 400,
+  },
+  
+  webView: {
+    width: 245,
+    height: 200,
+  },
 });

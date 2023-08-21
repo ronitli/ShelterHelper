@@ -71,16 +71,16 @@ const Alerts = ({ navigation }) => {
   const [notificationText, setNotificationText] = useState('');
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = collection(db, "Notifications");
-      const querySnapshot = await getDocs(q);
-      let alertsArray = querySnapshot.docs.map((doc) => doc.data());
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const q = collection(db, "Notifications");
+  //     const querySnapshot = await getDocs(q);
+  //     let alertsArray = querySnapshot.docs.map((doc) => doc.data());
 
-      setAlerts(alertsArray);
-    };
-    fetchData();
-  }, [alerts]);
+  //     setAlerts(alertsArray);
+  //   };
+  //   fetchData();
+  // }, [alerts]);
 
 
   const handleOpenModal = () => {

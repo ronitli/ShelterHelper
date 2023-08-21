@@ -28,6 +28,9 @@ import {
 } from "firebase/firestore";
 
 const Register = ({ navigation }) => {
+
+ 
+
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -52,6 +55,7 @@ const Register = ({ navigation }) => {
       return;
     } else if (password != checkpswd) {
       Alert.alert("Error", "The passwords do not match.");
+
       return;
     }
 
@@ -110,7 +114,11 @@ const Register = ({ navigation }) => {
         .catch((error) => {
           console.log("Error updated the ID field:", error);
         });
-    };
+
+    }
+    navigation.navigate("Start");
+
+
   };
 
   const setProperty = () => {
@@ -175,6 +183,13 @@ const Register = ({ navigation }) => {
         value={checkpswd}
         onChangeText={setCheckPswd}
       />
+
+
+
+      
+      <View style={{ height: 25 }} />
+
+
       <Text style={styles.radioButtonText}>Choose Your Role:</Text>
       <View style={{ height: 10 }} />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
