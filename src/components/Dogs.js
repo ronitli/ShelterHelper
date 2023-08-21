@@ -88,7 +88,7 @@ const Dogs = ({ navigation }) => {
   const handleDocuments = () => {
     console.log("Add Documentsbutton pressed");
 
-    navigation.navigate("AddDocuments");
+    navigation.navigate("ManageDocuments");
   };
 
   const transferToArchive = async (dog) => {

@@ -12,13 +12,17 @@ import {
     Image,
     StyleSheet,
     Alert,
-    FlatList
+    FlatList,
   } from "react-native";
   import { styles } from '../styles';
   import Icon from "react-native-vector-icons/FontAwesome";
   import * as DocumentPicker from 'expo-document-picker';
   import { FileSystem } from 'expo';
-const AddDocuments = ({ route,navigation }) => {
+
+  import * as mime from 'react-native-mime-types';//
+  import { WebView } from 'react-native-webview';//
+
+const UploadNewDocument = ({ route,navigation }) => {
     const [fileUri, setFileUri] = useState(null);
     const [fileName, setFileName] = useState('');
 
@@ -75,8 +79,7 @@ const AddDocuments = ({ route,navigation }) => {
   }
 
     return (
-     <SafeAreaView >
-      <ScrollView >
+     
         <View style={styles.container}>
         <View style={{ height: 20 }} />
           <Icon name="file" size={50} color="sienna" />
@@ -90,11 +93,16 @@ const AddDocuments = ({ route,navigation }) => {
       </TouchableOpacity>
      
       {fileUri && (
+        
         <View style={styles.previewContainer}>
-          <Image source={{ uri: fileUri }} style={styles.previewImage} />
-         
-        </View>
+     {mime.lookup(fileUri) && mime.lookup(fileUri).startsWith('image/') ? (
+      <Image source={{ uri: fileUri }} style={styles.previewImage} />
+    ) : (
+      <Image source={require('../../assets/document.jpg' )} style={styles.webView} />
+    )}
+  </View>
       )}
+
       <View style={{ height: 20 }} />
        <TextInput style={styles.input} value={fileName} onChangeText={setFileName} placeholder='Document Name:' placeholderTextColor="#8B5A33"/>
       
@@ -106,9 +114,8 @@ const AddDocuments = ({ route,navigation }) => {
     </View>
 
 </View>
-</ScrollView>
- </SafeAreaView>
+
     );
 };
 
-export default AddDocuments;
+export default UploadNewDocument;

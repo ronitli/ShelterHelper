@@ -194,13 +194,16 @@ const Update_Dog_Details = ({ route, navigation }) => {
               </TouchableOpacity>
             ))}
           </View>
+
           <View style={{ height: 20 }} />
+
           <TouchableOpacity
             style={styles.loginButton}
             onPress={showDateTimePicker}
           >
             <Text style={styles.buttonText}>Change Birthday Date</Text>
           </TouchableOpacity>
+
           {showPicker && (
             <DateTimePicker
               value={birthday}
@@ -215,7 +218,9 @@ const Update_Dog_Details = ({ route, navigation }) => {
           <Text style={styles.radioButtonText}>
             Birthday: {birthday.toDateString()}
           </Text>
+
           <View style={{ height: 20 }} />
+          
           <TouchableOpacity
             style={styles.loginButton}
             onPress={showDateTimePicker}

@@ -20,13 +20,12 @@ const Register = ({ navigation }) => {
   const [lname, setLname]=React.useState('');
   const [checkpswd, setCheckPswd]=React.useState('');
   const [selectedOption, setSelectedOption] = React.useState('');
-  const [shelterName, setShelterName] = React.useState('');
 
   const Stack = createStackNavigator();
   const handleRegister = () => {
 
     if (username === '' || password === '' || email === '' || fname === ''
-    || lname === '' || checkpswd === '' || selectedOption ==='' || shelterName==='')
+    || lname === '' || checkpswd === '' || selectedOption ==='')
     {
       Alert.alert('Error','Please enter all the fields.');
     return;
@@ -94,6 +93,7 @@ const Register = ({ navigation }) => {
           console.log('Error updated the ID field:', error);
         });
     }
+    navigation.navigate("Start");
   };
 
  const setProperty= () =>{
@@ -161,21 +161,7 @@ const Register = ({ navigation }) => {
       />
 
 
-      <Text style={styles.radioButtonText}>Select Your Dog Shelter:</Text>
-      <Picker
-        selectedValue={shelterName}
-        onValueChange={(value) => setShelterName(value)}
-        style={styles.picker}
-        labelStyle={styles.pickerLabelStyle}
-        itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
-      >
-        <Picker.Item label="Select Your Option:" value='' color="#D3A297"/>
-        <Picker.Item label="Gilboa Loves Animals" value="Gilboa Loves Animals" color="#D3A297"/>
-        <Picker.Item label="Friends For Life" value="Friends For Life" color="#D3A297"/>
-        <Picker.Item label="Hadera Loves Animals" value="Hadera Loves Animals" color="#D3A297"/>
-        {/* Add more options as needed */}
-      </Picker>
-      <Text style={styles.radioButtonText}>Selected Option: {shelterName}</Text>
+      
       <View style={{ height: 25 }} />
 
 

@@ -49,12 +49,12 @@ const Home = ({ navigation }) => {
         <View style={{ height: 5 }} />
           <Text style={styles.radioButtonText}>     Check Notifications</Text></Surface>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DoneAlerts')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('DoneAlerts')}>
         <Surface style={styles.downsurface}>
         <Icon name="check" size={25} color='sienna' />
         <View style={{ height: 10 }} />
           <Text style={styles.radioButtonText}>  Completed Notifications</Text></Surface>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     
       <Image source={require('../../assets/try.jpg')} style={{ width: 350, height: 320  }}/>

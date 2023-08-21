@@ -18,14 +18,15 @@ import Update_medical_data from "./src/components/Update_medical_data";
 import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
-import AddDocuments from "./src/components/AddDocuments";
+import ManageDocuments from "./src/components/ManageDocuments";
 import Choose_New_Password from "./src/components/Choose_New_Password";
 import EventModal from "./src/components/EventModal";
 import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
 import EventListItem from "./src/components/EventListItem";
 import AddAlertModal from "./src/components/AddAlertModal";
-import DoneAlerts from "./src/components/DoneAlerts";
+import UploadNewDocument from "./src/components/UploadNewDocument";
+import AllDocuments from "./src/components/AllDocuments";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
@@ -133,8 +134,13 @@ function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="DoneAlerts"
-          component={DoneAlerts}
+          name="UploadNewDocument"
+          component={UploadNewDocument}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="AllDocuments"
+          component={AllDocuments}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -168,8 +174,8 @@ function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="AddDocuments"
-          component={AddDocuments}
+          name="ManageDocuments"
+          component={ManageDocuments}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

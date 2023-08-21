@@ -32,16 +32,16 @@ const Calender = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAllEventsModalVisible, setIsAllEventsModalVisible] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const q = collection(db, "Events");
-      const querySnapshot = await getDocs(q);
-      let eventsArray = querySnapshot.docs.map((doc) => doc.data());
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const q = collection(db, "Events");
+  //     const querySnapshot = await getDocs(q);
+  //     let eventsArray = querySnapshot.docs.map((doc) => doc.data());
 
-      setEvents(eventsArray);
-    };
-    fetchData();
-  }, [events]);
+  //     setEvents(eventsArray);
+  //   };
+  //   fetchData();
+  // }, [events]);
 
 
   
