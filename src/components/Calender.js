@@ -24,6 +24,7 @@ import {
   updateDoc,
   getDocs,
   deleteDoc,
+  QuerySnapshot,
 } from "firebase/firestore";
 
 const Calender = ({navigation}) => {
@@ -31,20 +32,43 @@ const Calender = ({navigation}) => {
   const [events, setEvents] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAllEventsModalVisible, setIsAllEventsModalVisible] = useState(false);
+  const [loadEvents, setLoadEvents] = useState(false);
+  const [eventsArray, setEventsArray] = useState({});
+  const [markedDates, setMarkedDates] = useState({});
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const q = collection(db, "Events");
-  //     const querySnapshot = await getDocs(q);
-  //     let eventsArray = querySnapshot.docs.map((doc) => doc.data());
+  useEffect(() => {
+    fetchEvents();
+  }, [loadEvents]);
 
-  //     setEvents(eventsArray);
-  //   };
-  //   fetchData();
-  // }, [events]);
+  useEffect(() => {
+    let tmpMarkedDates = {...markedDates};
+    
+    for (const date in eventsArray) {
+        tmpMarkedDates[date] = { marked: true, dotColor: 'sienna'};
+    };
+   
+    setMarkedDates(tmpMarkedDates);
+  }, [eventsArray]);
 
+  const fetchEvents = async () => {
+    const q = collection(db, "Events");
+    const querySnapshot = await getDocs(q);
+    const fetchedEvents = querySnapshot.docs.map((doc) => doc.data());
 
-  
+    const eventsDictionary = fetchedEvents.reduce((dictionary, obj) => { 
+      const name = obj.name;
+      const date = obj.date;
+      if (dictionary[date]) {
+        dictionary[date].push(name);
+      } else {
+        dictionary[date] = [name];
+      }
+      return dictionary;
+    }, {});
+    setEventsArray(eventsDictionary);
+ 
+  };
+
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
@@ -96,7 +120,10 @@ const handleCreateEvent = () => {
 };
 
 const handleSaveEvent = (newEvent) => {
-  
+  const eventObject = {
+    name: newEvent,
+    date:selectedDate
+   };
   // Save the new event in the events state using the selected date as the key
   // if (events[selectedDate]) {
   //   // If events exist, add the new event to the existing array of events for the selected date
@@ -107,9 +134,11 @@ const handleSaveEvent = (newEvent) => {
   //   setEvents({ ...events, [selectedDate]: [newEvent] });
   // }
 //save to database
-saveEventToDatabase(newEvent);
+saveEventToDatabase(eventObject);
 Alert.alert("Event created!","Successfully created an event.");
+setLoadEvents(!loadEvents);
 };
+
 const handleOpenAllEventsModal = () => {
   setIsAllEventsModalVisible(true);
 };
@@ -122,14 +151,7 @@ const handleCloseModal = () => {
   setIsModalVisible(false);
 };
 
-const markedDates = {};
 
-for (const date in events) {
-  if (events.hasOwnProperty(date)) {
-    markedDates[date] = { marked: true, dotColor: 'sienna'};
-  }
-  
-}
 
 const saveEventToDatabase = async (newEvent) => {
   let eventId;
@@ -156,6 +178,7 @@ const saveEventToDatabase = async (newEvent) => {
       alert("Error adding a new event:", error);
 
     });
+    
 };
 
 const deleteEvent = async (event) => {
@@ -204,12 +227,12 @@ const deleteEvent = async (event) => {
 
       {/* Display created events */}
       {isModalVisible ? null : (
-      events[selectedDate] && (
+      eventsArray[selectedDate] && (
         <View style={styles.eventListContainer}>
           
-        {events[selectedDate].slice(0, 4).map((event, index) => (
+        {eventsArray[selectedDate].slice(0, 4).map((event, index) => (
           <View key={index} style={styles.eventDetailsContainer}>
-            <Text style={styles.notificationTitle}>&#x00B7; {event.name}</Text>
+            <Text style={styles.notificationTitle}>&#x00B7; {event}</Text>
           </View>
         ))}
           </View >
@@ -255,7 +278,7 @@ const deleteEvent = async (event) => {
  <AllEventsModal
         isVisible={isAllEventsModalVisible}
         onClose={handleCloseAllEventsModal}
-        events={events[selectedDate]}
+        events={eventsArray[selectedDate]}
         selectedDate={selectedDate} 
         onDelete={handleDeleteEvent}
       />
