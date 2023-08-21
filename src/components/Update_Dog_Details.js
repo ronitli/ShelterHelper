@@ -39,15 +39,14 @@ const Update_Dog_Details = ({ route, navigation }) => {
   );
   const [colors, setColors] = React.useState(dog.colors);
   const [gender, setGender] = React.useState(dog.gender);
-  const [ageInYears, setAgeInYears] = React.useState(dog.ageInYears);
-  const [ageInMonths, setAgeInMonths] = React.useState(dog.ageInMonths);
   const [enterdate, setEnterdate] = React.useState(dog.enterdate.toDate());
   const [status, setStatus] = React.useState(dog.status);
+  const [cell, setCell] = React.useState(dog.cell);
   const [birthday, setBirthday] = React.useState(dog.birthday.toDate());
   const [info, setInfo] = React.useState(dog.info);
   const [showPicker, setShowPicker] = React.useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onChangeEnterDate = (event, selectedDate) => {
     const currentDate = selectedDate || enterdate;
     setShowPicker(false);
     setEnterdate(currentDate);
@@ -73,6 +72,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
       enterdate: enterdate,
       birthday: birthday,
       status: status,
+      cell: cell,
       info: info,
     };
     const dogsRef = collection(db, "Dogs");
@@ -138,7 +138,21 @@ const Update_Dog_Details = ({ route, navigation }) => {
             color="#8B5A33"
           />
           <View style={{ height: 10 }} />
-
+          <Text
+            style={[
+              styles.radioButtonText,
+              { textDecorationLine: "underline" },
+            ]}
+          >
+            Cell:
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={cell}
+            onChangeText={setCell}
+            color="#8B5A33"
+          />
+          <View style={{ height: 10 }} />
           <Text
             style={[
               styles.radioButtonText,
@@ -228,7 +242,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
               mode="date"
               is24Hour={true}
               display="default"
-              onChange={onChange}
+              onChange={onChangeEnterDate}
               maximumDate={new Date()}
             />
           )}
