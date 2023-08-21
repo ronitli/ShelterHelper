@@ -34,31 +34,53 @@ import {
   updateDoc,
   getDocs,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
+import { getAuth,sendPasswordResetEmail } from "firebase/auth";
 const Forgot_My_Password = ({ navigation }) => {
   const [Email, setEmail] = useState("");
   const handleForgotPassword = () => {
     if (Email != "") {
-      navigation.navigate("Reset_Password", { Email });
+        handleResetPssword(Email);
+      //navigation.navigate("Reset_Password", { Email });
     } else {
       Alert.alert(
         "Alert",
         "Please enter your email in order to reset your password.",
         [
           {
-            text: "OK",
+            text: "send email",
             onPress: async () => {
               console.log("OK Pressed");
             },
-            style: "OK",
+            style: "send email",
           },
         ],
         { cancelable: false }
       );
     }
   };
+
+  const handleResetPssword=(Email)=>{
+    //send reset password email
+    console.log(Email)
+    const auth = getAuth();
+    sendPasswordResetEmail(auth,Email).then(()=>{
+      alert("email sent")
+    }).catch((error)=>{
+      if (error == "FirebaseError: Firebase: Error (auth/user-not-found)."){
+      alert("Email doesn't exist in this shelter. You should register")
+      }
+      else{
+        alert(error)
+      }
+      console.log(error)
+        });
+  }
+
   return (
     <View style={styles.container}>
       <Icon name="user" size={50} color="sienna" />
@@ -74,7 +96,7 @@ const Forgot_My_Password = ({ navigation }) => {
         style={styles.registerButton}
         onPress={handleForgotPassword}
       >
-        <Text style={styles.buttonText}>OK</Text>
+        <Text style={styles.buttonText}>Send email</Text>
       </TouchableOpacity>
       <View style={{ height: 15 }} />
     </View>
