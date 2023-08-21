@@ -81,7 +81,10 @@ const Requests = ({ navigation }) => {
     //if admin:
     //if(user.isAdmin){}
     const dbRef = collection(db, "Users");
-    addDoc(dbRef, user)
+    setDoc(doc(db, "Users", user.id), {
+      ...user,
+    })
+      //addDoc(dbRef, user)
       .then((docRef) => {
         console.log("SUCCESS: User add to users table");
         alert("New user add to user list");
@@ -98,6 +101,7 @@ const Requests = ({ navigation }) => {
       await deleteDoc(q);
       setRequests(requests.filter((currUser) => currUser.id != user.id));
       console.log("SUCCESS: User deleted from wait list!");
+      navigation.navigate("Home");
     } catch (error) {
       console.error("Error removing User from wait list: ", error);
     }
