@@ -61,7 +61,8 @@ const AddDog = ({ route, navigation }) => {
   const [enterdate, setEnterdate] = React.useState(new Date());
   const [status, setStatus] = React.useState("");
   const [info, setInfo] = React.useState("");
-  const [showPicker, setShowPicker] = React.useState(false); //defalt val is flase
+  const [showEntrencePicker, setShowEntrencePicker] = React.useState(false);
+  const [showBirthdayPicker, setShowBirthdayPicker] = React.useState(false);
 
   const [rabiesVaccineDate, setRabiesVaccineDate] = useState("");
   const [chipDate, setChipDate] = useState("");
@@ -120,22 +121,16 @@ const AddDog = ({ route, navigation }) => {
       */
   }, [route.params]);
 
-  const onChange = (event, selectedDate) => {
-    // prperty
+  const onChangeEnetrDate = (event, selectedDate) => {
     const currentDate = selectedDate || enterdate;
-    setShowPicker(false);
+    setShowEntrencePicker(false);
     setEnterdate(currentDate);
   };
   const onChangeBirthday = (event, selectedDate) => {
     const currentDate = selectedDate || birthday;
-    setShowPicker(false);
+    setShowBirthdayPicker(false);
     setBirthday(currentDate);
   };
-
-  const showDateTimePicker = () => {
-    setShowPicker(true);
-  };
-
   const handleCreateProfile = async () => {
     //backend validation
     if (name === "" && !profilePicture) {
@@ -187,15 +182,16 @@ const AddDog = ({ route, navigation }) => {
         };
         // Reference to the storage location
         const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-        const response = await fetch(profilePicture)
-        const blob = await response.blob()
+        const response = await fetch(profilePicture);
+        const blob = await response.blob();
         // Upload the image bytes to the storage reference
-        await uploadBytes(imageRef, blob, metadata).then((snapshot)=>
-        {
-          console.log("successfully");
-        })
-        .catch((error)=>{console.log(error.massage)});
-
+        await uploadBytes(imageRef, blob, metadata)
+          .then((snapshot) => {
+            console.log("successfully");
+          })
+          .catch((error) => {
+            console.log(error.massage);
+          });
 
         // Get the download URL of the uploaded image
         imageUrl = await getDownloadURL(imageRef);
@@ -263,7 +259,7 @@ const AddDog = ({ route, navigation }) => {
 
     navigation.navigate("Home");
   };
-  
+
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -331,11 +327,11 @@ const AddDog = ({ route, navigation }) => {
           />
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setShowBirthdayPicker(true)}
           >
             <Text style={styles.buttonText}>Select Birthday Date</Text>
           </TouchableOpacity>
-          {showPicker && (
+          {showBirthdayPicker && (
             <DateTimePicker
               value={birthday}
               mode="date"
@@ -378,17 +374,17 @@ const AddDog = ({ route, navigation }) => {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={showDateTimePicker}
+            onPress={() => setShowEntrencePicker(true)}
           >
             <Text style={styles.buttonText}>Select Shelter Enrty Date</Text>
           </TouchableOpacity>
-          {showPicker && (
+          {showEntrencePicker && (
             <DateTimePicker
               value={enterdate}
               mode="date"
               is24Hour={true}
               display="default"
-              onChange={onChange}
+              onChange={onChangeEnetrDate}
               maximumDate={new Date()}
             />
           )}
@@ -420,7 +416,7 @@ const AddDog = ({ route, navigation }) => {
             placeholder="Additional information:"
             placeholderTextColor="#8B5A33"
           />
-          
+
           <TouchableOpacity
             style={styles.registerButton}
             onPress={handleCreateProfile}
