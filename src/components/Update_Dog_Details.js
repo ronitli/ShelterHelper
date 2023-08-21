@@ -98,6 +98,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
       });
 
     // Navigate back to the profile screen with the updated information
+    Alert.alert("Saved!", "The changes were saved successfully!");
     navigation.goBack();
   };
   const handlePickImage = async () => {
@@ -278,7 +279,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
           </Text>
 
           <View style={{ height: 20 }} />
-          
+
           <TouchableOpacity
             style={styles.loginButton}
             onPress={showDateTimePicker}
