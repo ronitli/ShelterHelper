@@ -28,7 +28,18 @@ import {
   addDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+  list,
+  getStorage,
+  deleteObject
+} from "firebase/storage";
+import { v4 } from "uuid";
 
 const Update_Dog_Details = ({ route, navigation }) => {
   const { dog } = route.params;
@@ -66,8 +77,8 @@ const Update_Dog_Details = ({ route, navigation }) => {
     const updateDetails = {
       name: name,
       breed: breed,
-      profilePicture: profilePicture,
       colors: colors,
+      profilePicture: profilePicture,
       gender: gender,
       enterdate: enterdate,
       birthday: birthday,
@@ -106,10 +117,43 @@ const Update_Dog_Details = ({ route, navigation }) => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setProfilePicture(result.assets[0].uri);
-    }
+    deleteOldImageFromStorage(dog);
+    uploadNewImage(result);
   };
+  const deleteOldImageFromStorage=async(dog)=>
+  {
+    const oldImagetRef = ref(storage, profilePicture);
+    deleteObject(oldImagetRef).then(() => {
+      console.log("old image deleted");
+    }).catch((error) => {
+     console.log("error delete old image:",error);
+    });
+
+  }
+
+  const uploadNewImage=async(result)=>
+  {
+    //replace image
+    if (!result.canceled) {
+      const uniqueFilename = v4(); // Generate a unique filename
+      const metadata = {
+        contentType: "image/jpeg",
+      }
+      const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
+        const response = await fetch(result.assets[0].uri)
+        const blob = await response.blob()
+        // Upload the image bytes to the storage reference
+        await uploadBytes(imageRef, blob, metadata).then((snapshot)=>
+        {
+          console.log("successfully");
+
+        })
+        .catch((error)=>{console.log(error.massage)});
+        imageUrl = await getDownloadURL(imageRef);
+          console.log("Image uploaded successfully. URL:", imageUrl);
+          setProfilePicture(imageUrl);
+    }
+  }
   const genders = [
     // array with two argu
     { label: "Male", value: "Male" },
