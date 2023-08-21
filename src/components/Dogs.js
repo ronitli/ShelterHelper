@@ -371,10 +371,10 @@ const Dogs = ({ navigation }) => {
                 <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() =>
-                    navigation.navigate("Update_Dog_Details", { dog })
+                    navigation.navigate("DogInfo", { dog })
                   }
                 >
-                  <Text style={styles.buttonText}>Update dog details</Text>
+                  <Text style={styles.buttonText}>More Information</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
@@ -382,20 +382,7 @@ const Dogs = ({ navigation }) => {
                 >
                   <Text style={styles.buttonText}>Manage Documents</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity
-                  style={styles.loginButton}
-                  onPress={() => navigation.navigate("Update_trip", { dog })}
-                >
-                  <Text style={styles.buttonText}>Update trip</Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity
-                  style={styles.loginButton}
-                  onPress={() => {
-                    navigation.navigate("Update_medical_data", { dog });
-                  }}
-                >
-                  <Text style={styles.buttonText}>Update medical data</Text>
-                </TouchableOpacity>
+          
                 <TouchableOpacity
                   style={styles.registerButton}
                   onPress={() => handleDelete(dog)}

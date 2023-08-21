@@ -27,6 +27,7 @@ import EventListItem from "./src/components/EventListItem";
 import AddAlertModal from "./src/components/AddAlertModal";
 import UploadNewDocument from "./src/components/UploadNewDocument";
 import AllDocuments from "./src/components/AllDocuments";
+import DogInfo from "./src/components/DogInfo";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
@@ -171,6 +172,11 @@ function App() {
         <Stack.Screen
           name="Update_Dog_Details"
           component={Update_Dog_Details}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="DogInfo"
+          component={DogInfo}
           options={{ headerShown: false }}
         />
         <Stack.Screen
