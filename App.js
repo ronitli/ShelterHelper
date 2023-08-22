@@ -28,6 +28,8 @@ import AddAlertModal from "./src/components/AddAlertModal";
 import UploadNewDocument from "./src/components/UploadNewDocument";
 import AllDocuments from "./src/components/AllDocuments";
 import DogInfo from "./src/components/DogInfo";
+import ManageUsers from "./src/components/ManageUsers";
+import DeleteUsers from "./src/components/DeleteUsers";
 //import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
@@ -179,9 +181,20 @@ function App() {
           component={DogInfo}
           options={{ headerShown: false }}
         />
+        
         <Stack.Screen
           name="ManageDocuments"
           component={ManageDocuments}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ManageUsers"
+          component={ManageUsers}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DeleteUsers"
+          component={DeleteUsers}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
