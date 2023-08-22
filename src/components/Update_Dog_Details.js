@@ -93,9 +93,9 @@ const Update_Dog_Details = ({ route, navigation }) => {
         console.error("Error updating document:", error);
       });
 
-    // Navigate back to the profile screen with the updated information
+    
     Alert.alert("Saved!", "The changes were saved successfully!");
-    navigation.goBack();
+    navigation.navigate('Home')
   };
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

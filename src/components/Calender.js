@@ -37,10 +37,12 @@ const Calender = ({navigation}) => {
   const [markedDates, setMarkedDates] = useState({});
 
   useEffect(() => {
+    //console.log("fetching events");
     fetchEvents();
   }, [loadEvents]);
 
   useEffect(() => {
+    //console.log("inside marked dates useEffect");
     let tmpMarkedDates = {...markedDates};
     
     for (const date in eventsArray) {
@@ -58,11 +60,13 @@ const Calender = ({navigation}) => {
     const eventsDictionary = fetchedEvents.reduce((dictionary, obj) => { 
       const name = obj.name;
       const date = obj.date;
+      const id = obj.id;
       if (dictionary[date]) {
-        dictionary[date].push(name);
+        dictionary[date].push([name, id]);
       } else {
-        dictionary[date] = [name];
+        dictionary[date] = [[name, id]];
       }
+      //console.log(dictionary);
       return dictionary;
     }, {});
     setEventsArray(eventsDictionary);
@@ -73,69 +77,25 @@ const Calender = ({navigation}) => {
     setSelectedDate(day.dateString);
   };
 
-  const handleDeleteEvent = (date, event) => {//func get (event) only 
-    const selectedDateEvents = events[date];
-  
-    // Create a copy of the events array and remove the event from it
-    const updatedEvents = selectedDateEvents.filter((item) => item !== event);
-  
-    // Update the events state with the modified array
-    const updatedEventsState = {
-      ...events,
-      [date]: updatedEvents,
-    };
-  
-    // Remove the date entry from the state if all events for that date are deleted
-    if (updatedEvents.length === 0) {
-      delete updatedEventsState[date];
-    }
-  
-    // Set the updated events state
-    setEvents(updatedEventsState);
-  
-    //delete event from database
-    deleteEvent(event);
-    // Close the AllEventsModal after deleting
-    //setIsAllEventsModalVisible(false);
+  const handleDeleteEvent = async (event) => {//func get (event) only 
+    await deleteEvent(event[1]);
+    setLoadEvents(!loadEvents);
   };
-  
-
-  // const handleDeleteEvent = (date, index) => {
-  // const selectedDateEvents = events[date];
-  // const updatedEvents = selectedDateEvents.filter((event, i) => i !== index);
-  // const updatedEventsState = {
-  //   ...events,
-  //   [date]: updatedEvents,
-  // };
-  // if (updatedEvents.length === 0) {
-  //   delete updatedEventsState[date];
-  // }
-  // setEvents(updatedEventsState);
-  // setIsModalVisible(false);
-  // };
 
 const handleCreateEvent = () => {
   // Show the event modal when the user clicks "Create Event"
   setIsModalVisible(true);
 };
 
-const handleSaveEvent = (newEvent) => {
+const handleSaveEvent = async (newEvent) => {
   const eventObject = {
     name: newEvent,
     date:selectedDate
    };
-  // Save the new event in the events state using the selected date as the key
-  // if (events[selectedDate]) {
-  //   // If events exist, add the new event to the existing array of events for the selected date
-  //   const newEvents = [...events[selectedDate], newEvent];
-  //   setEvents({ ...events, [selectedDate]: newEvents });
-  // } else {
-  //   // If events don't exist, create a new array with the new event as the first element
-  //   setEvents({ ...events, [selectedDate]: [newEvent] });
-  // }
+  
 //save to database
-saveEventToDatabase(eventObject);
-Alert.alert("Event created!","Successfully created an event.");
+await saveEventToDatabase(eventObject);
+
 setLoadEvents(!loadEvents);
 };
 
@@ -181,9 +141,9 @@ const saveEventToDatabase = async (newEvent) => {
     
 };
 
-const deleteEvent = async (event) => {
-  const q = doc(collection(db, "Events"), event.id);
-  console.log(q);
+const deleteEvent = async (eventID) => {
+  const q = doc(collection(db, "Events"), eventID);
+  //console.log(q);
   try {
     await deleteDoc(q);
     console.log("SUCCESS: Event deleted from events collection!");
@@ -229,10 +189,9 @@ const deleteEvent = async (event) => {
       {isModalVisible ? null : (
       eventsArray[selectedDate] && (
         <View style={styles.eventListContainer}>
-          
         {eventsArray[selectedDate].slice(0, 4).map((event, index) => (
-          <View key={index} style={styles.eventDetailsContainer}>
-            <Text style={styles.notificationTitle}>&#x00B7; {event}</Text>
+          <View key={index} style={styles.eventDetailsContainer}>        
+            <Text style={styles.notificationTitle}>&#x00B7; {event[0]}</Text>
           </View>
         ))}
           </View >
@@ -240,19 +199,7 @@ const deleteEvent = async (event) => {
       )}
 
 <View style={{ height: 10 }} />
-{/* {selectedDate && (
-  <View style={styles.createEventContainer}>
-    
-      <TouchableOpacity style={styles.loginButton} onPress={handleCreateEvent}>
-        <Text style={styles.buttonText}>Add Event </Text>
-      </TouchableOpacity>
-   
 
-    {isModalVisible && (
-      <EventModal isVisible={isModalVisible} onClose={handleCloseModal} onSave={handleSaveEvent} />
-    )}
-  </View>
-)} */}
 {!isModalVisible && selectedDate &&(
   
 <View style={styles.buttonContainer}>
