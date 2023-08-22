@@ -24,13 +24,13 @@ export const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: 200,
-    borderColor: '#sienna',
+    borderColor: "#sienna",
     borderWidth: 1,
   },
   pickerLabelStyle: {
-    fontSize: 18,         // Adjust the font size
-    color: 'blue',       // Change the text color
-    fontFamily: 'Arial', // Change the font family
+    fontSize: 18, // Adjust the font size
+    color: "blue", // Change the text color
+    fontFamily: "Arial", // Change the font family
   },
 
   filterOptionTextContainer: { display: "flex", justifyContent: "center" },
@@ -142,7 +142,6 @@ export const styles = StyleSheet.create({
   scrollContainer: {
     width: "100%",
     paddingHorizontal: 10,
-    
   },
 
   reqContainer: {
@@ -201,6 +200,15 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "#8B5A33",
     marginLeft: 5,
+  },
+  dropdownShelters: {
+    maxWidth: 300,
+    fontSize: 18,
+    fontFamily: "CormorantUpright-Bold",
+    color: "#8B5A33",
+    maxHeight: 900,
+    minHeight: 50,
+    minWidth: 300,
   },
   radioButtonTextRight: {
     marginLeft: 10,
@@ -280,11 +288,11 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     marginVertical: 30,
     borderBottomWidth: 1,
-    borderBottomColor: 'pink',
-    justifyContent: 'space-between',
+    borderBottomColor: "pink",
+    justifyContent: "space-between",
     //paddingHorizontal: 10,
-   paddingVertical: 5, 
-   //alignItems: 'center',
+    paddingVertical: 5,
+    //alignItems: 'center',
     flex: 1,
     //marginLeft: 10,
   },
@@ -362,15 +370,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   previewContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  
+
   previewImage: {
     width: 300,
     height: 400,
   },
-  
+
   webView: {
     width: 245,
     height: 200,
