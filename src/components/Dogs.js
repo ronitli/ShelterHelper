@@ -88,7 +88,7 @@ const Dogs = ({ navigation }) => {
   const handleDocuments = () => {
     console.log("Add Documentsbutton pressed");
 
-    navigation.navigate("ManageDocuments");
+    navigation.navigate("ManageDocuments", {dog});
   };
 
   const transferToArchive = async (dog) => {
@@ -378,7 +378,7 @@ const Dogs = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={handleDocuments}
+                  onPress={() => navigation.navigate("ManageDocuments", { dog })}
                 >
                   <Text style={styles.buttonText}>Manage Documents</Text>
                 </TouchableOpacity>
