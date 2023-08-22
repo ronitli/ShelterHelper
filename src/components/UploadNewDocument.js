@@ -18,6 +18,25 @@ import {
   import Icon from "react-native-vector-icons/FontAwesome";
   import * as DocumentPicker from 'expo-document-picker';
   import { FileSystem } from 'expo';
+  import {
+    collection,
+    doc,
+    getDoc,
+    setDoc,
+    addDoc,
+    updateDoc,
+    getDocs,
+    deleteDoc,
+  } from "firebase/firestore";
+  import { db, storage } from "../../firebase";
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
 
   import * as mime from 'react-native-mime-types';//
   import { WebView } from 'react-native-webview';//
@@ -70,6 +89,32 @@ const UploadNewDocument = ({ route,navigation }) => {
       return;
     }
     //save document to database
+
+    const documentName = `document_${Date.now()}`;
+    const storageRef = ref(storage,`dogs/${dog.id}/documents/${documentName}`);
+    
+    try {
+      const response = await fetch(fileUri);
+      const blob = await response.blob();
+  
+      // Upload the blob to the storage reference
+      await uploadBytes(storageRef, blob);
+  
+      const documentUrl = await getDownloadURL(storageRef);
+  
+      // Save the document details to the subcollection 'Documents' under the dog's document
+      const dogDocumentsRef = collection(db, 'Dogs', dogId, 'Documents');
+      await addDoc(dogDocumentsRef, {
+        documentName: fileName, // Save user-given file name
+        documentUrl: documentUrl,
+      });
+  
+      // ...other actions
+    } catch (error) {
+      console.log('Error uploading document:', error);
+    }
+
+
     Alert.alert('Document saved!',
     'Document was saved successfully.',
     );
