@@ -17,10 +17,10 @@ const Home = ({ navigation }) => {
     <Text style={styles.title}>Home Page</Text>
     
        <View style={styles.topRow}>
-        <TouchableOpacity onPress={() => navigation.navigate('Requests')}>
+        <TouchableOpacity onPress={() => navigation.navigate('ManageUsers')}>
         <Surface style={styles.surface} >
-        <Icon name="clipboard" size={25} color='sienna' />
-          <Text style={styles.radioButtonText}>Manage Requests</Text></Surface>
+        <Icon name="user" size={25} color='sienna' />
+          <Text style={styles.radioButtonText}>Manage Users</Text></Surface>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('AddDog')}>
         <Surface style={styles.surface}>
