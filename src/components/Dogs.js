@@ -92,6 +92,9 @@ const Dogs = ({ navigation }) => {
   };
 
   const transferToArchive = async (dog) => {
+
+    await addTimeStemp(dog);
+    //add to dog archive
     setDoc(doc(db, "DogsArchive", dog.id), {
       ...dog,
     })
@@ -109,7 +112,24 @@ const Dogs = ({ navigation }) => {
     await deleteDogFromDogsTable(dog);
   };
 
+  const addTimeStemp = async (dog) => {
+    //insert time stemp
+    try {
+      const q = doc(collection(db, "Dogs"), dog.id);
+      const deleteTimestamp = new Date();
+      const data = { deleteTimestamp: deleteTimestamp };
+      await setDoc(q, data);
+      console.log("deleteTimestamp has been updated successfully");
+      dog.deleteTimestamp = deleteTimestamp;
+      console.log(dog.deleteTimestamp);
+    } catch (error) {
+      console.log("Error updating deleteTimestamp:", error);
+    }
+  }
+
+
   const deleteDogFromDogsTable = async (dog) => {
+    //delete from dog table
     const q = doc(collection(db, "Dogs"), dog.id);
     console.log(q);
     try {
