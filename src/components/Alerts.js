@@ -51,71 +51,68 @@ const Item = ({title}) => (
     <Text style={style.title}>{title}</Text>
   </View>
 );
-// const notifications = [
-//   { id: 1, title: 'Adoption day!', icon: 'bell' },
-//   { id: 2, title: 'Bob Needs Rabies Vaccine!', icon: 'bell' },
-//   { id: 3, title: 'Nalla Needs Hexagonal Vaccine!', icon: 'bell' },
-//   { id: 4, title: 'Sandy Returns From Foster.', icon: 'bell' },
-//   { id: 5, title: 'Vet Appointment For Toto At 15:00.', icon: 'bell' },
-//   { id: 6, title: 'Charlie Needs Hexagonal Vaccine!', icon: 'bell' },
-//   { id: 7, title: 'Give Bath To Luna.', icon: 'bell' },
-//   { id: 8, title: 'Give Bath To Elvis.', icon: 'bell' },
-//   { id: 9, title: 'Give Bath To Elvis.', icon: 'bell' },
-//   { id: 10, title: 'Give Bath To Elvis.', icon: 'bell' },
- 
-// ];
+
 
 const Alerts = ({ navigation }) => {
   const [alerts, setAlerts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [notificationText, setNotificationText] = useState('');
   const [notifications, setNotifications] = useState([]);
+  const [loadAlert, setLoadAlerts] = useState(false);
+  const [alertsArray, setAlertsArray] = useState({});
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const q = collection(db, "Notifications");
-  //     const querySnapshot = await getDocs(q);
-  //     let alertsArray = querySnapshot.docs.map((doc) => doc.data());
+  useEffect(() => {
+    //console.log("fetching events");
+    fetchAlerts();
 
-  //     setAlerts(alertsArray);
-  //   };
-  //   fetchData();
-  // }, [alerts]);
+  }, [loadAlert]);
+
+
+  const fetchAlerts = async () => {
+      const q = collection(db, "Notifications");
+      const querySnapshot = await getDocs(q);
+      const fetchedAlerts = querySnapshot.docs.map((doc) => doc.data());
+
+      setAlertsArray(fetchedAlerts);
+
+  };
 
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
-  
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
-  
+
   const handleSaveNotification = async () => {
 
    if (notificationText.trim() === '') {
     Alert.alert('Empty Notification!','Notification text cannot be empty.');
     return;
   }
-  const newNotificationId = Date.now().toString();
-  const newNotification = {
-    id: newNotificationId,
-    title: notificationText,
-    icon: 'bell', // You can update the icon here as needed
-  };
+  //const newNotificationId = Date.now().toString();
+   const newNotification = {
+  //  // id: newNotificationId,
+     title: notificationText,
+  //   //icon: 'bell', // You can update the icon here as needed
+   };
 
   // Save the new notification to the notifications dictionary
-  onSave(newNotification);
+  await onSave(newNotification);
 
-  setNotifications([...notifications, newNotification]);
-  setNotificationText('');
-  Alert.alert('Notification saved!','');
-    console.log('Notification saved:', notificationText);
-  
+
+  // setNotifications([...notifications, newNotification]);
+  // setNotificationText('');
+  // Alert.alert('Notification saved!','');
+  //   console.log('Notification saved:', notificationText);
+
     // Close the modal after saving the notification
     handleCloseModal();
+    setLoadAlerts(!loadAlert);
   };
-  
+
   const onSave = async (newNotification) => {
 
     const dbRef = collection(db, 'Notifications');
@@ -129,7 +126,7 @@ const Alerts = ({ navigation }) => {
       .catch(error => {
           console.log(error);
       })
-      
+
         })
         .then(() => {
           console.log('Successfully updated the ID field of the document');
@@ -157,10 +154,10 @@ const Alerts = ({ navigation }) => {
         },
       ]
     );
-    
+
     await transferToCompletedNotification(notification);
     await deleteFromNotificationTable(notification);
-    
+
   };
 
   const handleDeleteNotification = async (notification) => {
@@ -177,10 +174,12 @@ const Alerts = ({ navigation }) => {
             // );
             // setNotifications(updatedNotifications);
             await deleteFromNotificationTable(notification);
+            setLoadAlerts(!loadAlert);
           },
         },
       ]
     );
+    
   };
 
   const transferToCompletedNotification = async (notification) => {
@@ -211,7 +210,7 @@ const Alerts = ({ navigation }) => {
   const deleteFromNotificationTable = async (notification) => {
     console.log(notification);
 
-    const q = doc(collection(db, "Notifications"), notification.firebaseID);
+    const q = doc(collection(db, "Notifications"), notification);
     console.log(q);
     try {
       await deleteDoc(q);
@@ -223,55 +222,34 @@ const Alerts = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-     
+
 <Pressable onPress={handleOpenModal} >
         <Text style={style.addNotification}>+ Add Notification</Text>
       </Pressable>
 
 
     <View style={{   marginTop: 50 }} />
-    
-    
 
-    
    <Icon name="bell" size={50} color='sienna' />
    <Text style={styles.title}>Notifications</Text>
-   <View style={{   marginTop: -65 }} />
-    <SafeAreaView style={style.container}>
-    <ScrollView style={styles.scrollContainer}>
-    {alerts.map((notification) => (
-        <View key={notification.id} style={styles.notificationItem}>
-          <Icon name={notification.icon} size={24} color="#D6A6A6" />
-          <View style={{   width: 20 }} />
-          <Text style={styles.notificationTitle}>{notification.title}</Text>
-          <View style={{   width: 30 }} />
-          <View style={style.buttonContainer}>
-          <TouchableOpacity
-              onPress={() => handleDeleteNotification(notification)}
-            >
-              
-              <Text style={style.deleteButton}>X</Text>
+   {/* <View style={{   marginTop: 165 }} /> */}
+  <ScrollView>
+   {(() => {
+      const textComponents = [];
+      for (let i = 0; i < alertsArray.length; i++) {
+        const singleAlert = alertsArray[i];
+        textComponents.push(
+          <View key={i} style={styles.notificationItem}>
+            <Text style={styles.notificationTitle}>{singleAlert.title}</Text>
+            <TouchableOpacity onPress={() => handleDeleteNotification(singleAlert.id)}>
+            <Text style={[styles.notificationTitle, { color: 'red' }]}>X</Text>
             </TouchableOpacity>
-            {/* <View style={{   width: 30 }} /> */}
-            <TouchableOpacity
-              onPress={() => handleMarkNotification(notification.id)}
-            >
-              <Icon name="check" size={20} color='green' />
-            </TouchableOpacity>
-            </View>
-
-        </View>
-        
-
-      ))}
-      {/* <FlatList
-        data={DATA}
-        renderItem={({item}) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
-      /> */}
-      </ScrollView>
-    </SafeAreaView>
-
+          </View>
+        );
+      }
+      return textComponents;
+    })()}
+    </ScrollView>
 
     <Modal visible={isModalVisible} animationType="slide">
         <View style={style.modalContainer}>
@@ -332,12 +310,12 @@ const style = StyleSheet.create({
    //right: 45,
     color:'white',
     fontFamily: "Mukta-Bold",
-   
+
     backgroundColor: "#D6A6A6",
     borderRadius: 15,
     paddingVertical: 8,
     paddingHorizontal: 12,
-   
+
   },
   modalContainer: {
     flex: 1,
@@ -360,7 +338,7 @@ const style = StyleSheet.create({
 
     borderWidth: 1,
     borderColor: '#FCEFEF',
-    
+
     borderRadius: 5,
     //padding: 10,
     //marginBottom: 10,
@@ -383,13 +361,13 @@ const style = StyleSheet.create({
     fontSize: 20,
     marginLeft: 'auto',
     marginRight: 10,
-   
+
   },
 
   markButton: {
     color: 'green',
     fontSize: 20,
-  
+
   },
 });
 

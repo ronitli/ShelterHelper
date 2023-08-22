@@ -19,7 +19,8 @@ import {
   import * as DocumentPicker from 'expo-document-picker';
   import { FileSystem } from 'expo';
 
-const AllDocuments = ({navigation}) => {
+const AllDocuments = ({route, navigation}) => {
+    const { dog } = route.params;
     return (
    
     <View style={styles.container}>
