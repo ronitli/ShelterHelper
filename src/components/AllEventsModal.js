@@ -18,9 +18,7 @@ const AllEventsModal = ({ isVisible, onClose, events, onDelete,selectedDate}) =>
         data={events}
         renderItem={({ item}) => (
           <View style={style.listItem}>
-           
-            <EventListItem event={item} onDelete={() => onDelete(selectedDate, item)} />
-            
+            <EventListItem event={item[0]} onDelete={() => onDelete(item)} />
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}

@@ -139,8 +139,8 @@ const Update_medical_data = ({ route, navigation }) => {
 
     console.log("in navigation");
     Alert.alert('Saved!','Medical Information was Saved Successfully!');
-    // Navigate back to the profile screen with the updated information
-    navigation.goBack();
+    
+    navigation.navigate('Home')
   };
   return (
     <SafeAreaView style={styles.tripContainer}>
