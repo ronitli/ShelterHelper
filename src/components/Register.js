@@ -12,6 +12,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../styles";
+import { Dropdown } from "react-native-element-dropdown";
 import { RadioButton } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 //import { auth } from 'firebase/app';
@@ -26,19 +27,29 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import { async } from "@firebase/util";
+import { useEffect } from "react";
 
 const Register = ({ navigation }) => {
-
- 
-
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [fname, setFname] = React.useState("");
   const [lname, setLname] = React.useState("");
+  const [isFocus, setIsFocus] = React.useState();
   const [checkpswd, setCheckPswd] = React.useState("");
   const [selectedOption, setSelectedOption] = React.useState("");
-  const [shelterName, setShelterName] = React.useState("");
+  const [shelterNames, setShelterNames] = React.useState();
+  const [selectedShelter, setSelectedShelter] = React.useState({});
+
+  useEffect(() => {
+    const getShelterNames = async () => {
+      const querySnapshot = await getDocs(collection(db, "Shelters"));
+      const data = querySnapshot.docs.map((doc) => doc.data());
+      setShelterNames(data);
+    };
+    getShelterNames();
+  }, []);
 
   const Stack = createStackNavigator();
   const handleRegister = () => {
@@ -49,13 +60,13 @@ const Register = ({ navigation }) => {
       fname === "" ||
       lname === "" ||
       checkpswd === "" ||
-      selectedOption === ""
+      selectedOption === "" ||
+      !selectedShelter.id
     ) {
       Alert.alert("Error", "Please enter all the fields.");
       return;
     } else if (password != checkpswd) {
       Alert.alert("Error", "The passwords do not match.");
-
       return;
     }
 
@@ -67,6 +78,8 @@ const Register = ({ navigation }) => {
       lname: lname,
       selectedOption: selectedOption,
       id: "",
+      shelterName: selectedShelter.name,
+      shelterId: selectedShelter.id,
     };
     //check if user already exist befor
     const usersCollection = collection(db, "Users");
@@ -114,11 +127,7 @@ const Register = ({ navigation }) => {
         .catch((error) => {
           console.log("Error updated the ID field:", error);
         });
-
-    }
-    navigation.navigate("Start");
-
-
+    };
   };
 
   const setProperty = () => {
@@ -183,13 +192,33 @@ const Register = ({ navigation }) => {
         value={checkpswd}
         onChangeText={setCheckPswd}
       />
-
-
-
-      
-      <View style={{ height: 25 }} />
-
-
+      <Text style={styles.reqText}>Shelter name:</Text>
+      {shelterNames ? (
+        <Dropdown
+          style={styles.dropdownShelters}
+          selectedTextStyle={styles.dropdownShelters}
+          placeholderStyle={styles.dropdownShelters}
+          containerStyle={styles.dropdownShelters}
+          fontFamily="CormorantUpright-Bold"
+          mode="modal"
+          data={shelterNames}
+          searchField="name"
+          labelField="name"
+          valueField="id"
+          search
+          placeholder={!isFocus ? "Select item" : "..."}
+          searchPlaceholder="Search..."
+          value={selectedShelter.id}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(item) => {
+            setSelectedShelter(item);
+            setIsFocus(false);
+          }}
+        />
+      ) : (
+        <Text style={styles.reqText}>Loading...</Text>
+      )}
       <Text style={styles.radioButtonText}>Choose Your Role:</Text>
       <View style={{ height: 10 }} />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
