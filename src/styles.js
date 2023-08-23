@@ -383,4 +383,35 @@ export const styles = StyleSheet.create({
     width: 245,
     height: 200,
   },
+
+  deleteButton: {
+    backgroundColor: "#E59C8A",
+    width: 100,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  userItem: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
+  approveButton: {
+    backgroundColor: "#B08975",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginRight: 10,
+  },
+  rejectButton: {
+    backgroundColor: "#B08975",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+
 });
