@@ -64,21 +64,35 @@ const Forgot_My_Password = ({ navigation }) => {
     }
   };
 
-  const handleResetPssword=(Email)=>{
+  const handleResetPssword=async(Email)=>{
     //send reset password email
-    console.log(Email)
-    const auth = getAuth();
-    sendPasswordResetEmail(auth,Email).then(()=>{
-      alert("email sent")
-    }).catch((error)=>{
-      if (error == "FirebaseError: Firebase: Error (auth/user-not-found)."){
-      alert("Email doesn't exist in this shelter. You should register")
-      }
-      else{
-        alert(error)
-      }
-      console.log(error)
-        });
+  
+    if (checkEmailAvailability(Email)) {
+      console.log(Email)
+      const auth = getAuth();
+      sendPasswordResetEmail(auth,Email).then(()=>{
+        alert("email sent")
+      }).catch((error)=>{
+        if (error == "FirebaseError: Firebase: Error (auth/user-not-found)."){
+        alert("Email doesn't exist in this shelter. You should register")
+        }
+        else{
+          alert(error)
+        }
+        console.log(error)
+          });
+        }
+        else{
+          alert("user dont exist in the system. please register")
+        }
+  }
+
+  async function checkEmailAvailability(email) {
+    const usersCollection = collection(db, "Users");
+    const q = query(usersCollection, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+
+    return !querySnapshot.empty;
   }
 
   return (

@@ -12,6 +12,19 @@ import { useNavigation } from "@react-navigation/native";
 import { auth, signInWithEmailAndPassword } from "../../firebase";
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { db } from "../../firebase";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  getDocs,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 
 const Start = () => {
   const [email, setEmail] = React.useState("");
@@ -19,13 +32,16 @@ const Start = () => {
   const navigation = useNavigation();
   // const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     console.log(`Email: ${email}, password: ${password}`);
     if (email === "" || password === "") {
       Alert.alert("Error", "Please enter both email and password.");
     }
 
-    signInWithEmailAndPassword(auth, email, password)
+    const exist = await checkEmailAvailability(email);
+    if(exist)
+    {
+       signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         console.log("loged in");
 
@@ -37,9 +53,25 @@ const Start = () => {
         console.error(err);
         alert(err.message);
       });
+    }
+
+    else{
+      alert("user does not exist. please register")
+    }
+
 
     return;
   };
+
+  
+  const checkEmailAvailability = async() => {
+    console.log("ggggiiii")
+    const usersCollection = collection(db, "Users");
+    const q = query(usersCollection, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+
+    return !querySnapshot.empty;
+  }
 
   const handleRegister = () => {
     console.log("Register button pressed");
