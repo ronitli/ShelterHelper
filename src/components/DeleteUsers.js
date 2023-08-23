@@ -83,7 +83,7 @@ const DeleteUsers = ({ route, navigation }) => {
             <Text>Email: {item.email}</Text>
             <Text>First Name: {item.fname}</Text>
             <Text>Last Name: {item.lname}</Text>
-            <Text>Selected Option: {item.selectedOption}</Text>
+            <Text>Role: {item.role}</Text>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() =>

@@ -13,13 +13,11 @@ import AddDog from "./src/components/AddDog";
 import Archive from "./src/components/Archive";
 import Alerts from "./src/components/Alerts";
 import Requests from "./src/components/Requests";
-import Reset_Password from "./src/components/Reset_Password";
 import Update_medical_data from "./src/components/Update_medical_data";
 import Dogs from "./src/components/Dogs";
 import Update_trip from "./src/components/Update_trip";
 import Calender from "./src/components/Calender";
 import ManageDocuments from "./src/components/ManageDocuments";
-import Choose_New_Password from "./src/components/Choose_New_Password";
 import EventModal from "./src/components/EventModal";
 import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
@@ -72,16 +70,6 @@ function App() {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Choose_New_Password"
-          component={Choose_New_Password}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Reset_Password"
-          component={Reset_Password}
           options={{ headerShown: false }}
         />
 
@@ -141,7 +129,7 @@ function App() {
           component={UploadNewDocument}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="AllDocuments"
           component={AllDocuments}
           options={{ headerShown: false }}
@@ -176,12 +164,12 @@ function App() {
           component={Update_Dog_Details}
           options={{ headerShown: false }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="DogInfo"
           component={DogInfo}
           options={{ headerShown: false }}
         />
-        
+
         <Stack.Screen
           name="ManageDocuments"
           component={ManageDocuments}
