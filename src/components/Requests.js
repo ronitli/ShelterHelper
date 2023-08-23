@@ -24,25 +24,32 @@ import {
   getFirestore,
   collection,
   setDoc,
+  query,
+  where,
   addDoc,
   getDocs,
 } from "firebase/firestore";
 import { auth, createUserWithEmailAndPassword, db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 
-const Requests = ({ navigation }) => {
+const Requests = ({ route, navigation }) => {
+  const logged_in_user = route.params;
   const [Name, setName] = React.useState(""); //properties of the component a change in here will run the return section again
   const [Email, setEmail] = React.useState("");
   const [Title, setTitle] = React.useState("");
   const [Request, setRequest] = React.useState("");
   const [requests, setRequests] = useState([]);
-
   useEffect(() => {
     //happens only at first upload of page
+    //give me wait list for shelter id same as the user logged in
     const fetchData = async () => {
-      const q = collection(db, "UsersWaitList");
-      const querySnapshot = await getDocs(q);
-      const requestsArray = querySnapshot.docs.map((doc) => doc.data());
+      const user_collection = collection(db, "UsersWaitList");
+      const querySnapShot = query(
+        user_collection,
+        where("shelterId", "==", logged_in_user.shelterId)
+      );
+      const q = await getDocs(querySnapShot);
+      const requestsArray = q.docs.map((doc) => doc.data());
       setRequests(requestsArray);
     };
     fetchData();
@@ -78,13 +85,10 @@ const Requests = ({ navigation }) => {
   };
 
   const insertUserToUsersTable = async (user) => {
-    //if admin:
-    //if(user.isAdmin){}
     const dbRef = collection(db, "Users");
     setDoc(doc(db, "Users", user.id), {
       ...user,
     })
-      //addDoc(dbRef, user)
       .then((docRef) => {
         console.log("SUCCESS: User add to users table");
         alert("New user add to user list");
@@ -101,12 +105,11 @@ const Requests = ({ navigation }) => {
       await deleteDoc(q);
       setRequests(requests.filter((currUser) => currUser.id != user.id));
       console.log("SUCCESS: User deleted from wait list!");
-      navigation.navigate("Home");
+      navigation.navigate("Home", logged_in_user);
     } catch (error) {
       console.error("Error removing User from wait list: ", error);
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>

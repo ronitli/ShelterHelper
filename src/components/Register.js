@@ -30,7 +30,6 @@ import {
 import { async } from "@firebase/util";
 import { useEffect } from "react";
 
-
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -77,7 +76,7 @@ const Register = ({ navigation }) => {
       email: email,
       fname: fname,
       lname: lname,
-      selectedOption: selectedOption,
+      role: selectedOption,
       id: "",
       shelterName: selectedShelter.name,
       shelterId: selectedShelter.id,
@@ -129,6 +128,7 @@ const Register = ({ navigation }) => {
           console.log("Error updated the ID field:", error);
         });
     };
+    navigation.navigate("Start");
   };
 
   const setProperty = () => {
