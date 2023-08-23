@@ -399,6 +399,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
+    borderColor: "sienna",
   },
   approveButton: {
     backgroundColor: "#B08975",
