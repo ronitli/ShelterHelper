@@ -30,6 +30,7 @@ import {
 import { async } from "@firebase/util";
 import { useEffect } from "react";
 
+
 const Register = ({ navigation }) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");

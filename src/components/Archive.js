@@ -49,6 +49,39 @@ const Archive = ({ navigation }) => {
     };
     fetchData(); // Call the fetchData function to fetch data when the component mounts
   }, []);
+
+const deleteOldDogsFromArchive= async()=>{
+
+  const q = collection(db, "DogsArchive");
+  const querySnapshot = await getDocs(q);
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 1); // 30 days ago
+
+  const deletePromises = [];
+
+  querySnapshot.forEach((doc) => {
+    const deleteTimestamp = doc.data().deleteTimestamp.toDate();
+
+    if (deleteTimestamp <= currentDate) {
+      deleteDogFromDogsArchiveTable(doc);
+      deleteOldImageFromStorage(doc);
+    }
+  });
+}
+
+  deleteOldDogsFromArchive();
+
+  const deleteOldImageFromStorage = async (dog) => {
+    const oldImagetRef = ref(storage, profilePicture);
+    deleteObject(oldImagetRef)
+      .then(() => {
+        console.log("old image deleted");
+      })
+      .catch((error) => {
+        console.log("error delete old image:", error);
+      });
+  };
+
   const handleImageError = (dogId) => {
     // Handle image loading errors here
     console.log("Image loading error for dog with ID:", dogId);

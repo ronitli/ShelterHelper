@@ -18,6 +18,25 @@ import {
   import Icon from "react-native-vector-icons/FontAwesome";
   import * as DocumentPicker from 'expo-document-picker';
   import { FileSystem } from 'expo';
+  import {
+    collection,
+    doc,
+    getDoc,
+    setDoc,
+    addDoc,
+    updateDoc,
+    getDocs,
+    deleteDoc,
+  } from "firebase/firestore";
+  import { db, storage } from "../../firebase";
+import {
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
 
   import * as mime from 'react-native-mime-types';//
   import { WebView } from 'react-native-webview';//
@@ -58,22 +77,61 @@ const UploadNewDocument = ({ route,navigation }) => {
     //   }
     // }
   };
-  const saveDocument = async () => {
+  const saveDocument = async (dog) => {
     //check that a document was added and given a name
     if (!fileUri) {
       Alert.alert('Error', 'Please pick a document before saving.');
       return;
     }
-  
+  console.log("1")
     if (!fileName.trim()) {
       Alert.alert('Error', 'Please enter a document name before saving.');
       return;
     }
+    console.log("2")
+
     //save document to database
-    Alert.alert('Document saved!',
-    'Document was saved successfully.',
-    );
-//reset
+    const metadata = {
+      contentType: "application/pdf",
+    };
+    const documentName = `document_${Date.now()}.pdf`;
+    const storageRef = ref(storage,`dogs/${dog.id}/documents/${documentName}`);
+
+    console.log("3")
+
+    try {
+      console.log(fileUri)
+      const response = await fetch(fileUri);
+      try {
+        if (!response.ok) {
+          throw new Error(`Fetch failed with status ${response.status}`);
+        }
+        const blob = await response.blob();
+
+        await uploadBytes(storageRef, blob, metadata).then((snapshot) => {
+          console.log("successfully upload file");
+          alert("file uploaded")
+        })
+        .catch((error) => {
+          console.log(error.massage);
+        });
+
+        const documentUrl = await getDownloadURL(storageRef);
+
+        // Save the document details to the subcollection 'Documents' under the dog's document
+        const dogDocumentsRef = collection(db, 'Dogs', dog.id, 'Documents');
+        await addDoc(dogDocumentsRef, {
+          documentName: fileName, // Save user-given file name
+          documentUrl: documentUrl,
+        });
+      } catch (error) {
+        console.log('Error uploading document:', error);
+      }
+        } catch (error) {
+        console.log('Error converting response to blob:', error);
+        }
+
+    //reset
     setFileUri(null);
     setFileName('');
   }
@@ -107,7 +165,7 @@ const UploadNewDocument = ({ route,navigation }) => {
        <TextInput style={styles.input} value={fileName} onChangeText={setFileName} placeholder='Document Name:' placeholderTextColor="#8B5A33"/>
       
       <View style={{ height: 20 }} />
-        <TouchableOpacity style={styles.registerButton} onPress={saveDocument}>
+        <TouchableOpacity style={styles.registerButton}   onPress={() => saveDocument(dog)}>
         <Text style={styles.buttonText}>Save Document</Text>
       </TouchableOpacity>
       
