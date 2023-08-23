@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Alert } from "react-native";
 import { db } from "../../firebase";
 import {
   collection,
@@ -15,34 +9,36 @@ import {
   addDoc,
   updateDoc,
   getDocs,
+  query,
+  where,
   deleteDoc,
 } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { styles } from "../styles";
-import { getAuth, deleteUser,getUserByEmail } from "firebase/auth";
+import { getAuth, deleteUser, getUserByEmail } from "firebase/auth";
 
-
-const DeleteUsers = ({ navigation }) => {
+const DeleteUsers = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
-
+  const logged_in_user = route.params;
   useEffect(() => {
     const fetchData = async () => {
-      const q = collection(db, "Users");
-      const querySnapshot = await getDocs(q);
-      let usersArray = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const users_collection = collection(db, "Users");
+      const querySnapShot = query(
+        users_collection,
+        where("shelterId", "==", logged_in_user.shelterId)
+      );
+      const q = await getDocs(querySnapShot);
+      let usersArray = q.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setUsers(usersArray);
     };
     fetchData();
   }, []);
 
   const handleDeleteUser = async (user) => {
-
-    await deleteUserFromUserTale(user);
-    //await deleteUserFromAuth(user.email);
+    await deleteUserFromUserTable(user);
   };
 
-
-  const deleteUserFromUserTale = async (user) => {
+  const deleteUserFromUserTable = async (user) => {
     try {
       await deleteDoc(doc(db, "Users", user.id));
       setUsers(users.filter((currentUser) => currentUser.id !== user.id));
@@ -51,20 +47,19 @@ const DeleteUsers = ({ navigation }) => {
       console.error("Error deleting user:", error);
       Alert.alert("Error", "An error occurred while deleting the user.");
     }
-  }
-
+  };
 
   const deleteUserFromAuth = async (email) => {
-    console.log(email)
-    console.log("1")
+    console.log(email);
+    console.log("1");
     const auth = getAuth(); // Get the authentication instance
-    console.log("2")
+    console.log("2");
     try {
       const user = await getUserByEmail(auth, email);
-      console.log("3")
+      console.log("3");
       if (user) {
         await deleteUser(user);
-        console.log("4")
+        console.log("4");
         console.log("User deleted successfully");
         // You can also perform additional actions after user deletion here
       } else {

@@ -32,71 +32,64 @@ const Start = () => {
   const navigation = useNavigation();
   // const navigation = useNavigation();
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     console.log(`Email: ${email}, password: ${password}`);
     if (email === "" || password === "") {
       Alert.alert("Error", "Please enter both email and password.");
     }
-
+    const usersCollection = collection(db, "Users");
+    const q = query(usersCollection, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    const logged_in_user = querySnapshot.docs[0].data();
     const exist = await checkEmailAvailability(email);
-    if(exist)
-    {
-       signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        console.log("loged in");
-
-        setEmail("");
-        setPassword("");
-        navigation.navigate("Home");
-      })
-      .catch((err) => {
-        console.error(err);
-        alert(err.message);
-      });
+    if (exist) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          console.log("logged in");
+          setEmail("");
+          setPassword("");
+          navigation.navigate("Home", {
+            id: logged_in_user?.id,
+            shelterId: logged_in_user?.shelterId,
+            role: logged_in_user?.role,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          alert(err.message);
+        });
+    } else {
+      alert("user does not exist. please register");
     }
-
-    else{
-      alert("user does not exist. please register")
-    }
-
 
     return;
   };
 
-  
-  const checkEmailAvailability = async() => {
-    console.log("ggggiiii")
+  const checkEmailAvailability = async () => {
+    console.log("ggggiiii");
     const usersCollection = collection(db, "Users");
     const q = query(usersCollection, where("email", "==", email));
     const querySnapshot = await getDocs(q);
 
     return !querySnapshot.empty;
-  }
+  };
 
   const handleRegister = () => {
     console.log("Register button pressed");
     setEmail("");
     setPassword("");
-
     navigation.navigate("Register");
   };
   const handleForgotPassword = () => {
     navigation.navigate("Forgot_My_Password");
   };
-
-  const handleHome = () => {
-    navigation.navigate("Home");
-  };
-
   return (
     <View style={styles.container}>
       <Icon name="paw" size={60} color="#A0522D" />
-
       <Text style={styles.title}>ShelterHelper</Text>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text style={[styles.label, { marginLeft: 10 }]}>Email:</Text>
       </View>
-
       <TextInput
         style={styles.input}
         placeholder="Enter your email:"
@@ -131,9 +124,6 @@ const Start = () => {
         onPress={handleForgotPassword}
       >
         <Text style={styles.buttonText}>I forgot my password</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.registerButton} onPress={handleHome}>
-        <Text style={styles.buttonText}>Home</Text>
       </TouchableOpacity>
     </View>
   );
