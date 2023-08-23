@@ -40,6 +40,7 @@ const Start = () => {
     const usersCollection = collection(db, "Users");
     const q = query(usersCollection, where("email", "==", email));
     const querySnapshot = await getDocs(q);
+    
     const logged_in_user = querySnapshot.docs[0].data();
     const exist = await checkEmailAvailability(email);
     if (exist) {

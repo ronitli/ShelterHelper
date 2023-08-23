@@ -20,6 +20,8 @@ import { getAuth, deleteUser, getUserByEmail } from "firebase/auth";
 const DeleteUsers = ({ route, navigation }) => {
   const [users, setUsers] = useState([]);
   const logged_in_user = route.params;
+  console.log(logged_in_user);
+
   useEffect(() => {
     const fetchData = async () => {
       const users_collection = collection(db, "Users");
@@ -29,7 +31,7 @@ const DeleteUsers = ({ route, navigation }) => {
       );
       const q = await getDocs(querySnapShot);
       let usersArray = q.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setUsers(usersArray);
+      setUsers(usersArray.filter((currentUser) => currentUser.id !== logged_in_user.id));
     };
     fetchData();
   }, []);
@@ -79,11 +81,12 @@ const DeleteUsers = ({ route, navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.userItem}>
-            <Text style={styles.username}>{item.username}</Text>
-            <Text>Email: {item.email}</Text>
-            <Text>First Name: {item.fname}</Text>
-            <Text>Last Name: {item.lname}</Text>
-            <Text>Role: {item.role}</Text>
+            <Text style={styles.label}>{item.username}</Text>
+            <Text style={styles.label}>Email: {item.email}</Text>
+            <Text style={styles.label}>First Name: {item.fname}</Text>
+            <Text style={styles.label}>First Name: {item.fname}</Text>
+            <Text style={styles.label}>Last Name: {item.lname}</Text>
+            <Text style={styles.label}>Role: {item.role}</Text>
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() =>
