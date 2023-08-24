@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Alert,
   FlatList,
+  Linking,
 } from "react-native";
 import { styles } from "../styles";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -33,8 +34,13 @@ import { ref, deleteObject } from "firebase/storage";
 
 
 const AllDocuments = ({ route, navigation }) => {
+  const [documents, setDocuments] = useState([]);
   const { dog, logged_in_user } = route.params;
 
+  useEffect(() => {
+    
+    showDocs();
+  }, []);
 
 const showDocs=async()=>
 {
@@ -42,15 +48,21 @@ const showDocs=async()=>
   
   // Query and retrieve all documents for the specified dog
   const querySnapshot = await getDocs(dogDocumentsRef);
-  
+    const documentsData = [];
   // Loop through the query snapshot to access each document's data
   querySnapshot.forEach((doc) => {
     const documentData = doc.data();
     //ronit here you present the doc
-    console.log("Document Name:", documentData.documentName);
-    console.log("Document URL:", documentData.documentUrl);
+    documentsData.push({
+      documentName: documentData.documentName,
+      documentUrl: documentData.documentUrl,
+      firestoreDocumentId: documentData.firestoreDocumentId,
+      StorageFileName: documentData.srorageFileName,
+    });
+   // console.log("Document Name:", documentData.documentName);
+   // console.log("Document URL:", documentData.documentUrl);
   });
-
+  setDocuments(documentsData);
 }
 
 const deleteDocument=async(firestoreDocumentId, srorageFileName)=>
@@ -90,12 +102,54 @@ const deleteDocumentFromFirestore=async(firestoreDocumentId)=>
   }
 }
 
+const renderItem = ({ item }) => (
+  <TouchableOpacity 
+  style={styles.userItem}
+  onPress={() => handleDocumentPress(item.documentUrl)}
+  >
+    <Text style={styles.label}>File Name:</Text>
+    <Text style={styles.registertitle}>{item.documentName}</Text>
+
+    <TouchableOpacity
+      style={styles.deleteButton}
+      onPress={() => 
+        Alert.alert(
+          "Confirm Deletion",
+          `Are you sure you want to delete ${item.documentName} file?`,
+          [
+            { text: "Cancel", style: "cancel" },
+            {
+              text: "Delete",
+              onPress: () =>  deleteDocument(item.firestoreDocumentId,item.StorageFileName),
+              style: "destructive",
+            },
+          ]
+        )
+      }
+       
+    >
+      <Text style={styles.buttonText}>Delete</Text>
+    </TouchableOpacity>
+  </TouchableOpacity>
+);
+
+const handleDocumentPress = (documentUrl) => {
+  // Open the document URL using the Linking API
+  Linking.openURL(documentUrl).catch((err) =>
+    console.error('An error occurred', err)
+  );
+};
 
   return (
     <View style={styles.container}>
       <View style={{ height: 40 }} />
       <Icon name="file" size={50} color="sienna" />
       <Text style={styles.title}>All Documents</Text>
+      <FlatList
+        data={documents}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.firestoreDocumentId}
+      />
       <View style={{ height: 20 }} />
     </View>
   );

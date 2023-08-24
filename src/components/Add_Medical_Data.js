@@ -92,7 +92,7 @@ const Add_Medical_Data = ({ route, navigation }) => {
           Alert.alert('Future Date','Entered dates can not be in the future.');
           alertShown=true;
         } else {
-          //Alert.alert('Valid Date', 'The entered date is valid and not in the future.');
+        
         }
       }
     } else {
