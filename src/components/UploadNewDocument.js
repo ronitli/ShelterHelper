@@ -123,10 +123,16 @@ const UploadNewDocument = ({ route, navigation }) => {
         const documentUrl = await getDownloadURL(storageRef);
         // Save the document details to the subcollection 'Documents' under the dog's document
         const dogDocumentsRef = collection(db, "Dogs", dog.id, "Documents");
-        await addDoc(dogDocumentsRef, {
+        const newDocumentRef=await addDoc(dogDocumentsRef, {
           documentName: fileName, // Save user-given file name
           documentUrl: documentUrl,
+          srorageFileName:uniqueFilename,
+          firestoreDocumentId: "",
         });
+          const newDocumentId = newDocumentRef.id;
+          await updateDoc(newDocumentRef, {
+            firestoreDocumentId: newDocumentId,
+          });
       } catch (error) {
         console.log("Error uploading document:", error);
       }
