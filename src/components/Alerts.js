@@ -16,6 +16,8 @@ import {
 import {
   collection,
   doc,
+  query,
+  where,
   getDoc,
   setDoc,
   addDoc,
@@ -66,10 +68,13 @@ const Alerts = ({ route, navigation }) => {
   }, [loadAlert]);
 
   const fetchAlerts = async () => {
-    const q = collection(db, "Notifications");
-    const querySnapshot = await getDocs(q);
-    const fetchedAlerts = querySnapshot.docs.map((doc) => doc.data());
-
+    const notifications_collection = collection(db, "Notifications");
+    const querySnapShot = query(
+      notifications_collection,
+      where("shelterId", "==", logged_in_user.shelterId)
+    );
+    const q = await getDocs(querySnapShot);
+    const fetchedAlerts = q.docs.map((doc) => doc.data());
     setAlertsArray(fetchedAlerts);
   };
 
@@ -86,22 +91,13 @@ const Alerts = ({ route, navigation }) => {
       Alert.alert("Empty Notification!", "Notification text cannot be empty.");
       return;
     }
-    //const newNotificationId = Date.now().toString();
     const newNotification = {
-      //  // id: newNotificationId,
       title: notificationText,
-      //   //icon: 'bell', // You can update the icon here as needed
+      shelterId: logged_in_user.shelterId,
     };
 
     // Save the new notification to the notifications dictionary
     await onSave(newNotification);
-
-    // setNotifications([...notifications, newNotification]);
-    // setNotificationText('');
-    // Alert.alert('Notification saved!','');
-    //   console.log('Notification saved:', notificationText);
-
-    // Close the modal after saving the notification
     handleCloseModal();
     setLoadAlerts(!loadAlert);
   };
@@ -147,7 +143,6 @@ const Alerts = ({ route, navigation }) => {
         },
       ]
     );
-
     await transferToCompletedNotification(notification);
     await deleteFromNotificationTable(notification);
   };
@@ -218,10 +213,11 @@ const Alerts = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={handleOpenModal}>
-        <Text style={style.addNotification}>+ Add Notification</Text>
-      </Pressable>
-
+      {logged_in_user.role == "Manager" && (
+        <Pressable onPress={handleOpenModal}>
+          <Text style={style.addNotification}>+ Add Notification</Text>
+        </Pressable>
+      )}
       <View style={{ marginTop: 50 }} />
 
       <Icon name="bell" size={50} color="sienna" />
@@ -237,13 +233,15 @@ const Alerts = ({ route, navigation }) => {
                 <Text style={styles.notificationTitle}>
                   {singleAlert.title}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => handleDeleteNotification(singleAlert.id)}
-                >
-                  <Text style={[styles.notificationTitle, { color: "red" }]}>
-                    X
-                  </Text>
-                </TouchableOpacity>
+                {logged_in_user.role == "Manager" && (
+                  <TouchableOpacity
+                    onPress={() => handleDeleteNotification(singleAlert.id)}
+                  >
+                    <Text style={[styles.notificationTitle, { color: "red" }]}>
+                      X
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             );
           }

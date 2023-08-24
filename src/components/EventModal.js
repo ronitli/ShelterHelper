@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-
-
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
 const EventModal = ({ isVisible, onClose, onSave }) => {
-  const [eventName, setEventName] = useState('');
- 
+  const [eventName, setEventName] = useState("");
   const handleSaveEvent = () => {
-    // Create a new event object with the provided details
-    //  const newEvent = {
-    //   name: eventName,
-    //  };
-     const trimmedEventName = eventName.trim();
-     if(trimmedEventName === '')
-     {
-        Alert.alert('Empty Event!','You can not create an empty event.');
-        return;
-     }
+    const trimmedEventName = eventName.trim();
+    if (trimmedEventName === "") {
+      Alert.alert("Empty Event!", "You can not create an empty event.");
+      return;
+    }
     // Call the onSave function to save the new event
     onSave(eventName);
-    
+
     // Clear the input fields
-    setEventName('');
-   
+    setEventName("");
+
     // Close the modal
     onClose();
   };
-
-
   return (
     <View style={styles.modalContainer}>
       {/* <Text style={styles.modalTitle}>Add Event</Text> */}
@@ -38,7 +35,7 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
         value={eventName}
         onChangeText={setEventName}
       />
-     
+
       <TouchableOpacity style={styles.saveButton} onPress={handleSaveEvent}>
         <Text style={styles.saveButtonText}>Save Event</Text>
       </TouchableOpacity>
@@ -51,40 +48,40 @@ const EventModal = ({ isVisible, onClose, onSave }) => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 5,
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#D6A6A6',
-    
+    borderColor: "#D6A6A6",
+
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
   },
   saveButton: {
-    backgroundColor: 'sienna',
+    backgroundColor: "sienna",
     padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   saveButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   cancelButton: {
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   cancelButtonText: {
-    color: 'sienna',
-    fontWeight: 'bold',
+    color: "sienna",
+    fontWeight: "bold",
   },
 });
 

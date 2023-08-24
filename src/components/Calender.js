@@ -28,6 +28,8 @@ import {
   collection,
   doc,
   getDoc,
+  query,
+  where,
   setDoc,
   addDoc,
   updateDoc,
@@ -38,6 +40,7 @@ import {
 
 const Calender = ({ route, navigation }) => {
   const logged_in_user = route.params;
+  //console.error(logged_in_user.role);
   const [selectedDate, setSelectedDate] = useState("");
   const [events, setEvents] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -52,7 +55,6 @@ const Calender = ({ route, navigation }) => {
   }, [loadEvents]);
 
   useEffect(() => {
-    //console.log("inside marked dates useEffect");
     let tmpMarkedDates = { ...markedDates };
 
     for (const date in eventsArray) {
@@ -63,9 +65,13 @@ const Calender = ({ route, navigation }) => {
   }, [eventsArray]);
 
   const fetchEvents = async () => {
-    const q = collection(db, "Events");
-    const querySnapshot = await getDocs(q);
-    const fetchedEvents = querySnapshot.docs.map((doc) => doc.data());
+    const events_collection = collection(db, "Events");
+    const querySnapShot = query(
+      events_collection,
+      where("shelterId", "==", logged_in_user.shelterId)
+    );
+    const q = await getDocs(querySnapShot);
+    const fetchedEvents = q.docs.map((doc) => doc.data());
 
     const eventsDictionary = fetchedEvents.reduce((dictionary, obj) => {
       const name = obj.name;
@@ -76,7 +82,6 @@ const Calender = ({ route, navigation }) => {
       } else {
         dictionary[date] = [[name, id]];
       }
-      //console.log(dictionary);
       return dictionary;
     }, {});
     setEventsArray(eventsDictionary);
@@ -96,16 +101,15 @@ const Calender = ({ route, navigation }) => {
     // Show the event modal when the user clicks "Create Event"
     setIsModalVisible(true);
   };
-
+  // come from event modal - when clicked save modal
   const handleSaveEvent = async (newEvent) => {
     const eventObject = {
+      shelterId: logged_in_user.shelterId,
       name: newEvent,
       date: selectedDate,
     };
-
     //save to database
     await saveEventToDatabase(eventObject);
-
     setLoadEvents(!loadEvents);
   };
 
@@ -149,7 +153,6 @@ const Calender = ({ route, navigation }) => {
 
   const deleteEvent = async (eventID) => {
     const q = doc(collection(db, "Events"), eventID);
-    //console.log(q);
     try {
       await deleteDoc(q);
       console.log("SUCCESS: Event deleted from events collection!");
@@ -218,12 +221,14 @@ const Calender = ({ route, navigation }) => {
       <View style={{ height: 10 }} />
       {selectedDate && (
         <View style={styles.createEventContainer}>
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={handleCreateEvent}
-          >
-            <Text style={styles.buttonText}>Add Event </Text>
-          </TouchableOpacity>
+          {logged_in_user.role == "Manager" && (
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleCreateEvent}
+            >
+              <Text style={styles.buttonText}>Add Event </Text>
+            </TouchableOpacity>
+          )}
 
           {isModalVisible && (
             <EventModal
@@ -236,6 +241,7 @@ const Calender = ({ route, navigation }) => {
       )}
       <AllEventsModal
         isVisible={isAllEventsModalVisible}
+        logged_in_user={logged_in_user}
         onClose={handleCloseAllEventsModal}
         events={eventsArray[selectedDate]}
         selectedDate={selectedDate}
