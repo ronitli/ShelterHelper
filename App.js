@@ -22,7 +22,6 @@ import EventModal from "./src/components/EventModal";
 import AllEventsModal from "./src/components/AllEventsModal";
 import Update_Dog_Details from "./src/components/Update_Dog_Details";
 import EventListItem from "./src/components/EventListItem";
-import AddAlertModal from "./src/components/AddAlertModal";
 import UploadNewDocument from "./src/components/UploadNewDocument";
 import AllDocuments from "./src/components/AllDocuments";
 import DogInfo from "./src/components/DogInfo";
@@ -132,11 +131,6 @@ function App() {
         <Stack.Screen
           name="AllDocuments"
           component={AllDocuments}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddAlertModal"
-          component={AddAlertModal}
           options={{ headerShown: false }}
         />
         <Stack.Screen
