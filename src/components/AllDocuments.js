@@ -27,6 +27,7 @@ import {
   addDoc,
   updateDoc,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { ref, deleteObject } from "firebase/storage";
@@ -76,7 +77,7 @@ const deleteDocumentFromStorage=async(dogId, srorageFileName)=>
   // Create a reference to the storage location of the document to be deleted
   const documentStorageRef = ref(
     storage,
-    `dogs/${dogId}/documents/${srorageFileName}`
+    `dogs/${dogId}/documents/${srorageFileName}.pdf`
   );
 
   try {

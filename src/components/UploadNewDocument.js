@@ -106,10 +106,11 @@ const UploadNewDocument = ({ route, navigation }) => {
     try {
       console.log(fileUri);
       const response = await fetch(fileUri);
-      try {
-        if (!response.ok) {
-          throw new Error(`Fetch failed with status ${response.status}`);
-        }
+      console.log(response);
+      // try {
+      //   if (!response.ok) {
+      //     throw new Error(`Fetch failed with status ${response.status}`);
+      //   }
         const blob = await response.blob();
         //upload to storage
         await uploadBytes(storageRef, blob, metadata)
@@ -136,9 +137,9 @@ const UploadNewDocument = ({ route, navigation }) => {
       } catch (error) {
         console.log("Error uploading document:", error);
       }
-    } catch (error) {
-      console.log("Error converting response to blob:", error);
-    }
+    // } catch (error) {
+    //   console.log("Error converting response to blob:", error);
+    // }
 
     //reset
     setFileUri(null);
