@@ -51,6 +51,18 @@ const Register = ({ navigation }) => {
     getShelterNames();
   }, []);
 
+
+  const validateEmail = (email) => {
+    // Regular expression for validating email
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    if (emailPattern.test(email)) {
+      return true; // Valid email
+    } else {
+      return false; // Invalid email
+    }
+  };
+
   const Stack = createStackNavigator();
   const handleRegister = () => {
     if (
@@ -67,6 +79,10 @@ const Register = ({ navigation }) => {
       return;
     } else if (password != checkpswd) {
       Alert.alert("Error", "The passwords do not match.");
+      return;
+    } else if(!validateEmail(email))
+    {
+      Alert.alert("Error", "Invalid email.");
       return;
     }
 
@@ -176,6 +192,7 @@ const Register = ({ navigation }) => {
         placeholderTextColor="sienna"
         value={email}
         onChangeText={setEmail}
+        type={"mail"}
       />
       <TextInput
         style={styles.input}

@@ -40,6 +40,7 @@ const Start = () => {
     const usersCollection = collection(db, "Users");
     const q = query(usersCollection, where("email", "==", email));
     const querySnapshot = await getDocs(q);
+
     let logged_in_user;
     if (!querySnapshot.empty) {
       logged_in_user = querySnapshot.docs[0].data();
