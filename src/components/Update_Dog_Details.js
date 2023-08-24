@@ -42,7 +42,7 @@ import {
 import { v4 } from "uuid";
 
 const Update_Dog_Details = ({ route, navigation }) => {
-  const { dog } = route.params;
+  const { dog, logged_in_user } = route.params;
   const [name, setName] = useState(dog.name);
   const [breed, setBreed] = React.useState(dog.breed); // return array with 2 att
   const [profilePicture, setProfilePicture] = React.useState(
@@ -93,9 +93,8 @@ const Update_Dog_Details = ({ route, navigation }) => {
         console.error("Error updating document:", error);
       });
 
-    
     Alert.alert("Saved!", "The changes were saved successfully!");
-    navigation.navigate('Home')
+    navigation.navigate("Home", logged_in_user);
   };
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();

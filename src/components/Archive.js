@@ -27,6 +27,8 @@ import { db } from "../../firebase";
 import {
   collection,
   doc,
+  where,
+  query,
   getDoc,
   setDoc,
   addDoc,
@@ -37,40 +39,39 @@ import {
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
 import Dogs from "./Dogs";
-//from home page
-const Archive = ({ navigation }) => {
+//from Dogs page
+const Archive = ({ route, navigation }) => {
+  const logged_in_user = route.params;
   const [dogs, setDogs] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const q = collection(db, "DogsArchive");
-      const querySnapshot = await getDocs(q);
-      let dogsArray = querySnapshot.docs.map((doc) => doc.data());
+      const dogs_collection = collection(db, "DogsArchive");
+      const querySnapShot = query(
+        dogs_collection,
+        where("shelterId", "==", logged_in_user.shelterId)
+      );
+      const q = await getDocs(querySnapShot);
+      let dogsArray = q.docs.map((doc) => doc.data());
       setDogs(dogsArray);
     };
     fetchData(); // Call the fetchData function to fetch data when the component mounts
   }, []);
 
-const deleteOldDogsFromArchive= async()=>{
-
-  const q = collection(db, "DogsArchive");
-  const querySnapshot = await getDocs(q);
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 1); // 30 days ago
-
-  const deletePromises = [];
-
-  querySnapshot.forEach((doc) => {
-    const deleteTimestamp = doc.data().deleteTimestamp.toDate();
-
-    if (deleteTimestamp <= currentDate) {
-      deleteDogFromDogsArchiveTable(doc);
-      deleteOldImageFromStorage(doc);
-    }
-  });
-}
-
+  const deleteOldDogsFromArchive = async () => {
+    const q = collection(db, "DogsArchive");
+    const querySnapshot = await getDocs(q);
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1); // 30 days ago
+    const deletePromises = [];
+    querySnapshot.forEach((doc) => {
+      const deleteTimestamp = doc.data().deleteTimestamp.toDate();
+      if (deleteTimestamp <= currentDate) {
+        deleteDogFromDogsArchiveTable(doc);
+        deleteOldImageFromStorage(doc);
+      }
+    });
+  };
   deleteOldDogsFromArchive();
-
   const deleteOldImageFromStorage = async (dog) => {
     const oldImagetRef = ref(storage, profilePicture);
     deleteObject(oldImagetRef)
@@ -115,9 +116,7 @@ const deleteOldDogsFromArchive= async()=>{
       console.error("Error removing Dog from Dogs Archive table: ", error);
     }
   };
-
   const handleReArchive = (dog) => {
-    //console.error("dog: " + dog);
     Alert.alert(
       "Alert",
       "Are you sure you want to send him back to the shelter data?",
@@ -134,6 +133,7 @@ const deleteOldDogsFromArchive= async()=>{
           onPress: async () => {
             console.log("OK Pressed");
             await transferToShelter(dog);
+            navigation.navigate("Home", logged_in_user);
           },
           style: "OK",
         },
@@ -141,7 +141,6 @@ const deleteOldDogsFromArchive= async()=>{
       { cancelable: false }
     );
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
