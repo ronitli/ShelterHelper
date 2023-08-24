@@ -34,7 +34,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 const Update_medical_data = ({ route, navigation }) => {
   let alertShown = false;
   // func declaration argugemnt navigation  function adddogs (navigation) {}
-  const { dog } = route.params;
+  const { dog, logged_in_user } = route.params;
   console.log(dog);
   const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
     dog.rabiesVaccineDate
@@ -148,7 +148,7 @@ const Update_medical_data = ({ route, navigation }) => {
     console.log("in navigation");
     Alert.alert("Saved!", "Medical Information was Saved Successfully!");
     // Navigate back to the profile screen with the updated information
-    navigation.goBack();
+    navigation.navigate("Dogs", logged_in_user);
   };
   return (
     <SafeAreaView style={styles.tripContainer}>

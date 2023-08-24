@@ -29,6 +29,8 @@ import {
   collection,
   doc,
   getDoc,
+  query,
+  where,
   setDoc,
   addDoc,
   updateDoc,
@@ -38,8 +40,8 @@ import {
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
 //from home page
-
-const Dogs = ({ navigation }) => {
+const Dogs = ({ route, navigation }) => {
+  const logged_in_user = route.params;
   const [dogs, setDogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState();
   const [activeFilter, setActiveFilter] = useState("");
@@ -47,28 +49,27 @@ const Dogs = ({ navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const q = collection(db, "Dogs");
-      const querySnapshot = await getDocs(q);
-      let dogsArray = querySnapshot.docs.map((doc) => doc.data());
-      //console.log("Fetched dogs data:", dogsArray); // Check if the profilePicture URLs are present
-      //console.log(dogsArray);
+      const dogs_collection = collection(db, "Dogs");
+      const querySnapShot = query(
+        dogs_collection,
+        where("shelterId", "==", logged_in_user.shelterId)
+      );
+      const q = await getDocs(querySnapShot);
+      let dogsArray = q.docs.map((doc) => doc.data());
       if (searchTerm) {
         dogsArray = dogsArray.filter((dog) =>
           dog.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
       }
-
       setDogs(dogsArray);
     };
     fetchData();
   }, [searchTerm, activeFilter, selectedFiletrs]);
 
   const getFilteredDogs = () => {
-    //console.log(selectedFiletrs, dogs);
     let filteredDogs = [...dogs];
     for (const filterKey in selectedFiletrs) {
       if (selectedFiletrs[filterKey]?.size === 0) continue;
-
       filteredDogs = filteredDogs.filter((dog) =>
         selectedFiletrs[filterKey]?.has(dog[filterKey])
       );
@@ -77,22 +78,12 @@ const Dogs = ({ navigation }) => {
     return filteredDogs;
   };
   const handleUploadDocuments = () => {}; //ronit here you wotk
-
-  //const deleteDog = async (dog) => {
-  // i need to get the specific dog
-  //  await transferToArchive(dog);
-  //need to wait (30)? days
-  //  await permanentlyDeleteFromArchive(dog);
-  //};
-
   const handleDocuments = () => {
     console.log("Add Documentsbutton pressed");
-
-    navigation.navigate("ManageDocuments", {dog});
+    navigation.navigate("ManageDocuments", { dog });
   };
 
   const transferToArchive = async (dog) => {
-
     await addTimeStemp(dog);
     //add to dog archive
     setDoc(doc(db, "DogsArchive", dog.id), {
@@ -108,12 +99,10 @@ const Dogs = ({ navigation }) => {
       .catch((error) => {
         console.log("Error adding Dog to dog archive: ", error);
       });
-
     await deleteDogFromDogsTable(dog);
   };
 
   const addTimeStemp = async (dog) => {
-    //insert time stemp
     try {
       const q = doc(collection(db, "Dogs"), dog.id);
       const deleteTimestamp = new Date();
@@ -125,11 +114,8 @@ const Dogs = ({ navigation }) => {
     } catch (error) {
       console.log("Error updating deleteTimestamp:", error);
     }
-  }
-
-
+  };
   const deleteDogFromDogsTable = async (dog) => {
-    //delete from dog table
     const q = doc(collection(db, "Dogs"), dog.id);
     console.log(q);
     try {
@@ -140,7 +126,6 @@ const Dogs = ({ navigation }) => {
       console.error("Error removing Dog from Dogs table: ", error);
     }
   };
-
   const permanentlyDeleteFromArchive = async (dog) => {
     const q = doc(collection(db, "DogsArchive"), dog.id);
     console.log(q);
@@ -166,12 +151,9 @@ const Dogs = ({ navigation }) => {
   };
   const getDate = (timeStamp) => {
     const date = timeStamp.toDate();
-    //console.log(date);
     return date;
   };
   const handleDelete = (dog) => {
-    // let needsToDelete = false; // Corrected variable name
-
     Alert.alert(
       "Alert",
       "Are you sure you want to send him to the archive?",
@@ -180,7 +162,6 @@ const Dogs = ({ navigation }) => {
           text: "Cancel",
           onPress: () => {
             console.log("Cancel Pressed");
-            //needsToDelete = false;
           },
           style: "cancel",
         },
@@ -188,7 +169,6 @@ const Dogs = ({ navigation }) => {
           text: "OK",
           onPress: async () => {
             console.log("OK Pressed");
-            //console.error(dog);
             await transferToArchive(dog);
           },
           style: "OK",
@@ -199,7 +179,6 @@ const Dogs = ({ navigation }) => {
   };
 
   const handleImageError = (dogId) => {
-    // Handle image loading errors here
     console.log("Image loading error for dog with ID:", dogId);
   };
 
@@ -352,12 +331,14 @@ const Dogs = ({ navigation }) => {
             </View>
           </View>
           <View>
-            <TouchableOpacity
-              style={styles.nowTripButton}
-              onPress={() => navigation.navigate("Archive")}
-            >
-              <Text style={styles.buttonText}> See dogs Archive</Text>
-            </TouchableOpacity>
+            {logged_in_user.role == "Manager" && (
+              <TouchableOpacity
+                style={styles.nowTripButton}
+                onPress={() => navigation.navigate("Archive", logged_in_user)}
+              >
+                <Text style={styles.buttonText}> See dogs Archive</Text>
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.reqContainer}>
             {getFilteredDogs().map((dog) => (
@@ -384,32 +365,48 @@ const Dogs = ({ navigation }) => {
                 </Text>
                 <TouchableOpacity
                   style={styles.loginButton}
-                  onPress={() => navigation.navigate("Update_trip", { dog })}
+                  onPress={() =>
+                    navigation.navigate("Update_trip", {
+                      dog: dog,
+                      logged_in_user: logged_in_user,
+                    })
+                  }
                 >
                   <Text style={styles.buttonText}>Update trip</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.loginButton}
                   onPress={() =>
-                    navigation.navigate("DogInfo", { dog })
+                    navigation.navigate("DogInfo", {
+                      dog: dog,
+                      logged_in_user: logged_in_user,
+                    })
                   }
                 >
                   <Text style={styles.buttonText}>More Information</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.loginButton}
-                  onPress={() => navigation.navigate("ManageDocuments", { dog })}
-                >
-                  <Text style={styles.buttonText}>Manage Documents</Text>
-                </TouchableOpacity>
-          
-                <TouchableOpacity
-                  style={styles.registerButton}
-                  onPress={() => handleDelete(dog)}
-                >
-                  <Text style={styles.buttonText}>Send To archive</Text>
-                </TouchableOpacity>
+                {logged_in_user.role == "Manager" && (
+                  <TouchableOpacity
+                    style={styles.loginButton}
+                    onPress={() =>
+                      navigation.navigate("ManageDocuments", {
+                        dog: dog,
+                        logged_in_user: logged_in_user,
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>Manage Documents</Text>
+                  </TouchableOpacity>
+                )}
 
+                {logged_in_user.role == "Manager" && (
+                  <TouchableOpacity
+                    style={styles.registerButton}
+                    onPress={() => handleDelete(dog)}
+                  >
+                    <Text style={styles.buttonText}>Send To archive</Text>
+                  </TouchableOpacity>
+                )}
                 <View style={styles.underline} />
               </View>
             ))}

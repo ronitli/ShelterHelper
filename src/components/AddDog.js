@@ -50,7 +50,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const AddDog = ({ route, navigation }) => {
   // func declaration argugemnt navigation  function adddogs (navigation) {}
-
+  const logged_in_user = route.params;
   const [name, setName] = React.useState(""); //properties of the component a change in here will run the return section again
   const [breed, setBreed] = React.useState(""); // return array with 2 att
   const [cell, setCell] = React.useState("");
@@ -63,64 +63,7 @@ const AddDog = ({ route, navigation }) => {
   const [info, setInfo] = React.useState("");
   const [showEntrencePicker, setShowEntrencePicker] = React.useState(false);
   const [showBirthdayPicker, setShowBirthdayPicker] = React.useState(false);
-
-  const [rabiesVaccineDate, setRabiesVaccineDate] = useState("");
-  const [chipDate, setChipDate] = useState("");
-  const [hexagonalVaccine, setHexagonalVaccine] = useState("");
-  const [spirocercaLupiDate, setSpirocercaLupi] = useState("");
-  const [castration, setCastration] = useState("");
-  const [dewormingDate, setDeworming] = useState("");
-  const [fleaTreatmentDate, setFleaTreatment] = useState("");
-  const [alergies, setAlergies] = useState("");
-  const [medications, setMedications] = useState("");
-  const [medicalTreatment, setTreatment] = useState("");
-
-  /* TODO:  Convert all above fields into one object for better code consistency
-    const [medicalData, setMedicalData] = useState({
-      rabiesVaccineDate : '',
-      chipDate : '',
-      hexagonalVaccine : '',
-      spirocercaLupiDate : '',
-      castration : '',
-      dewormingDate : '',
-      fleaTreatmentDate : '',
-      alergies : '',
-      medications : '',
-      medicalTreatment : '',
-    })
-    */
-
-  const {
-    paramRabies,
-    paramChip,
-    paramHex,
-    paramLupi,
-    paramCastration,
-    paramDeworming,
-    paramFlea,
-    paramAlergies,
-    paramMedications,
-    paramTreatment,
-  } = route.params ?? {};
-  useEffect(() => {
-    // console.log(`Inside useEffect ${JSON.stringify(paramAlergies)}`);
-    setRabiesVaccineDate(paramRabies);
-    setChipDate(paramChip);
-    //add here birthday?
-    setHexagonalVaccine(paramHex);
-    setSpirocercaLupi(paramLupi);
-    setCastration(paramCastration);
-    setDeworming(paramDeworming);
-    setFleaTreatment(paramFlea);
-    setAlergies(paramAlergies);
-    setMedications(paramMedications);
-    setTreatment(paramTreatment);
-    /* For object implementation
-      setMedicalData(route.params);
-      setMedicalData({...medicalData, hexagonalVaccine : ''});
-      */
-  }, [route.params]);
-
+  useEffect(() => {}, []);
   const onChangeEnetrDate = (event, selectedDate) => {
     const currentDate = selectedDate || enterdate;
     setShowEntrencePicker(false);
@@ -140,39 +83,7 @@ const AddDog = ({ route, navigation }) => {
       );
       return;
     }
-
-    //save to database & validate
-    //     let image;
-    //     const file = profilePicture;
-    //     const reader = new FileReader();
-    //     reader.onload = function(event) {
-    //     const dataURL = event.target.result;
-    //     image=dataURL;
-    // };
-    // reader.readAsDataURL(file);
     let imageUrl = null;
-    // try {
-    //   const uniqueFilename = v4(); // Generate a unique filename
-    //   console.log(storage)
-    //   const metadata  = {
-    //     contentType: "image/jpeg",
-    //   };
-    //   const imageRef = ref(storage, `dogProfileImages/${uniqueFilename}.jpg`);
-    //   await uploadBytes(imageRef, profilePicture, metadata);
-    //   imageUrl = await getDownloadURL(imageRef);
-    //   console.log("Image uploaded successfully. URL:", imageUrl);
-    //   setProfilePicture(imageUrl);
-    // } catch (error) {
-    //   console.error("Error uploading image:", error);
-    // }
-
-    // const res = await fetch(imagen.uri);
-    // const blob = await res.blob();
-    // const filename = imagen.uri.substring(imagen.uri.lastIndexOf('/')+1)
-
-    // // Upload file and metadata to the object 'images/mountains.jpg'
-    // const storageRef = ref(storage, `./images/${filename}` + filename);
-    // const uploadTask = uploadBytesResumable(storageRef, blob, profilePicture);
     try {
       // Check if a profile picture is available
       if (profilePicture) {
@@ -200,15 +111,12 @@ const AddDog = ({ route, navigation }) => {
         // Update the profile picture URL
         setProfilePicture(imageUrl);
       }
-
-      // ... (rest of your code)
     } catch (error) {
       console.error("Error uploading image:", error);
-      // Handle the error here
     }
-
     const newDog = {
       name: name,
+      shelterId: logged_in_user.shelterId,
       birthday: birthday,
       breed: breed,
       profilePicture: imageUrl,
@@ -222,7 +130,6 @@ const AddDog = ({ route, navigation }) => {
       tripTime: "",
       id: "",
     };
-
     let dogId;
     const dbRef = collection(db, "Dogs");
     await addDoc(dbRef, newDog)
@@ -256,13 +163,11 @@ const AddDog = ({ route, navigation }) => {
     setStatus("");
     setInfo("");
     setCell("");
-
-    navigation.navigate("Home");
+    //go back to home page
+    navigation.navigate("Home", logged_in_user);
   };
-
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (status !== "granted") {
       Alert.alert(
         "No permissions",
@@ -282,7 +187,6 @@ const AddDog = ({ route, navigation }) => {
     }
   };
   const genders = [
-    // array with two argu
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
   ];
@@ -393,7 +297,6 @@ const AddDog = ({ route, navigation }) => {
             Shelter Entery Date: {enterdate.toDateString()}
           </Text>
           <View style={{ height: 20 }} />
-
           <TextInput
             keyboardType="numeric"
             style={styles.input}
@@ -428,5 +331,4 @@ const AddDog = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-
 export default AddDog;

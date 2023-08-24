@@ -43,7 +43,6 @@ const Start = () => {
     let logged_in_user;
     if (!querySnapshot.empty) {
       logged_in_user = querySnapshot.docs[0].data();
-      console.error(logged_in_user);
     }
     const exist = await checkEmailAvailability(email);
     if (exist) {

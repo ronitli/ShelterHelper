@@ -1,5 +1,4 @@
-
-import React,{ useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -12,8 +11,8 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
-  Alert
-} from 'react-native';
+  Alert,
+} from "react-native";
 import {
   collection,
   doc,
@@ -26,37 +25,37 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { styles } from '../styles';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { styles } from "../styles";
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "First Item",
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    title: "Second Item",
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
   },
 ];
 
-const Item = ({title}) => (
+const Item = ({ title }) => (
   <View style={style.item}>
     <Text style={style.title}>{title}</Text>
   </View>
 );
 
-
-const Alerts = ({ navigation }) => {
+const Alerts = ({ route, navigation }) => {
+  const logged_in_user = route.params;
   const [alerts, setAlerts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [notificationText, setNotificationText] = useState('');
+  const [notificationText, setNotificationText] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [loadAlert, setLoadAlerts] = useState(false);
   const [alertsArray, setAlertsArray] = useState({});
@@ -64,19 +63,15 @@ const Alerts = ({ navigation }) => {
   useEffect(() => {
     //console.log("fetching events");
     fetchAlerts();
-
   }, [loadAlert]);
 
-
   const fetchAlerts = async () => {
-      const q = collection(db, "Notifications");
-      const querySnapshot = await getDocs(q);
-      const fetchedAlerts = querySnapshot.docs.map((doc) => doc.data());
+    const q = collection(db, "Notifications");
+    const querySnapshot = await getDocs(q);
+    const fetchedAlerts = querySnapshot.docs.map((doc) => doc.data());
 
-      setAlertsArray(fetchedAlerts);
-
+    setAlertsArray(fetchedAlerts);
   };
-
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -87,26 +82,24 @@ const Alerts = ({ navigation }) => {
   };
 
   const handleSaveNotification = async () => {
+    if (notificationText.trim() === "") {
+      Alert.alert("Empty Notification!", "Notification text cannot be empty.");
+      return;
+    }
+    //const newNotificationId = Date.now().toString();
+    const newNotification = {
+      //  // id: newNotificationId,
+      title: notificationText,
+      //   //icon: 'bell', // You can update the icon here as needed
+    };
 
-   if (notificationText.trim() === '') {
-    Alert.alert('Empty Notification!','Notification text cannot be empty.');
-    return;
-  }
-  //const newNotificationId = Date.now().toString();
-   const newNotification = {
-  //  // id: newNotificationId,
-     title: notificationText,
-  //   //icon: 'bell', // You can update the icon here as needed
-   };
+    // Save the new notification to the notifications dictionary
+    await onSave(newNotification);
 
-  // Save the new notification to the notifications dictionary
-  await onSave(newNotification);
-
-
-  // setNotifications([...notifications, newNotification]);
-  // setNotificationText('');
-  // Alert.alert('Notification saved!','');
-  //   console.log('Notification saved:', notificationText);
+    // setNotifications([...notifications, newNotification]);
+    // setNotificationText('');
+    // Alert.alert('Notification saved!','');
+    //   console.log('Notification saved:', notificationText);
 
     // Close the modal after saving the notification
     handleCloseModal();
@@ -114,37 +107,37 @@ const Alerts = ({ navigation }) => {
   };
 
   const onSave = async (newNotification) => {
-
-    const dbRef = collection(db, 'Notifications');
-      addDoc(dbRef, newNotification).then(docRef => {
+    const dbRef = collection(db, "Notifications");
+    addDoc(dbRef, newNotification)
+      .then((docRef) => {
         const newId = docRef.id;
         console.log("new Notifications add to Notificationss");
         const data = { ...newNotification, id: newId };
-        setDoc(docRef, data).then(docRef => {
-        console.log("id has been updated successfully");
+        setDoc(docRef, data)
+          .then((docRef) => {
+            console.log("id has been updated successfully");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
-      .catch(error => {
-          console.log(error);
+      .then(() => {
+        console.log("Successfully updated the ID field of the document");
       })
-
-        })
-        .then(() => {
-          console.log('Successfully updated the ID field of the document');
-        })
-        .catch((error) => {
-          console.log('Error updated the ID field:', error);
-        });
-        console.log()
+      .catch((error) => {
+        console.log("Error updated the ID field:", error);
+      });
+    console.log();
   };
 
   const handleMarkNotification = async (notificationId) => {
     Alert.alert(
-      'Confirm Check',
-      'Are you sure you want to complete this notification?',
+      "Confirm Check",
+      "Are you sure you want to complete this notification?",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'Yes', //save to database
+          text: "Yes", //save to database
           onPress: () => {
             const updatedNotifications = notifications.filter(
               (notification) => notification.id !== notificationId
@@ -157,17 +150,16 @@ const Alerts = ({ navigation }) => {
 
     await transferToCompletedNotification(notification);
     await deleteFromNotificationTable(notification);
-
   };
 
   const handleDeleteNotification = async (notification) => {
     Alert.alert(
-      'Confirm Delete',
-      'Are you sure you want to delete this notification?',
+      "Confirm Delete",
+      "Are you sure you want to delete this notification?",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'Yes',
+          text: "Yes",
           onPress: async () => {
             // const updatedNotifications = notifications.filter(
             //   (notification) => notification.id !== notificationId
@@ -179,7 +171,6 @@ const Alerts = ({ navigation }) => {
         },
       ]
     );
-    
   };
 
   const transferToCompletedNotification = async (notification) => {
@@ -189,7 +180,10 @@ const Alerts = ({ navigation }) => {
       .then((docRef) => {
         const newNotiID = docRef.id; // Retrieve the auto-generated ID
         firebaseNotiID = docRef.id;
-        console.log("Successfully transfer Notification with firebase ID:", newNotiID);
+        console.log(
+          "Successfully transfer Notification with firebase ID:",
+          newNotiID
+        );
         const data = { ...notification, firebaseID: newNotiID };
         setDoc(docRef, data)
           .then((docRef) => {
@@ -205,7 +199,6 @@ const Alerts = ({ navigation }) => {
       .catch((error) => {
         console.log("Error transfer Notification:", error);
       });
-
   };
   const deleteFromNotificationTable = async (notification) => {
     console.log(notification);
@@ -216,48 +209,55 @@ const Alerts = ({ navigation }) => {
       await deleteDoc(q);
       console.log("SUCCESS: Notification deleted from Notifications table!");
     } catch (error) {
-      console.error("Error removing Notification from Notifications table: ", error);
+      console.error(
+        "Error removing Notification from Notifications table: ",
+        error
+      );
     }
   };
 
   return (
     <View style={styles.container}>
-
-<Pressable onPress={handleOpenModal} >
+      <Pressable onPress={handleOpenModal}>
         <Text style={style.addNotification}>+ Add Notification</Text>
       </Pressable>
 
+      <View style={{ marginTop: 50 }} />
 
-    <View style={{   marginTop: 50 }} />
+      <Icon name="bell" size={50} color="sienna" />
+      <Text style={styles.title}>Notifications</Text>
+      {/* <View style={{   marginTop: 165 }} /> */}
+      <ScrollView>
+        {(() => {
+          const textComponents = [];
+          for (let i = 0; i < alertsArray.length; i++) {
+            const singleAlert = alertsArray[i];
+            textComponents.push(
+              <View key={i} style={styles.notificationItem}>
+                <Text style={styles.notificationTitle}>
+                  {singleAlert.title}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => handleDeleteNotification(singleAlert.id)}
+                >
+                  <Text style={[styles.notificationTitle, { color: "red" }]}>
+                    X
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }
+          return textComponents;
+        })()}
+      </ScrollView>
 
-   <Icon name="bell" size={50} color='sienna' />
-   <Text style={styles.title}>Notifications</Text>
-   {/* <View style={{   marginTop: 165 }} /> */}
-  <ScrollView>
-   {(() => {
-      const textComponents = [];
-      for (let i = 0; i < alertsArray.length; i++) {
-        const singleAlert = alertsArray[i];
-        textComponents.push(
-          <View key={i} style={styles.notificationItem}>
-            <Text style={styles.notificationTitle}>{singleAlert.title}</Text>
-            <TouchableOpacity onPress={() => handleDeleteNotification(singleAlert.id)}>
-            <Text style={[styles.notificationTitle, { color: 'red' }]}>X</Text>
-            </TouchableOpacity>
-          </View>
-        );
-      }
-      return textComponents;
-    })()}
-    </ScrollView>
-
-    <Modal visible={isModalVisible} animationType="slide">
+      <Modal visible={isModalVisible} animationType="slide">
         <View style={style.modalContainer}>
           <Text style={style.modalTitle}>Create New Notification</Text>
           <TextInput
             style={style.notificationInput}
             placeholder="Enter notification text..."
-            placeholderTextColor={'#D6A6A6'}
+            placeholderTextColor={"#D6A6A6"}
             value={notificationText}
             onChangeText={setNotificationText}
           />
@@ -277,7 +277,6 @@ const Alerts = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-
     </View>
   );
 };
@@ -285,14 +284,14 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor:'#FCEFEF',
+    backgroundColor: "#FCEFEF",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: "#f9c2ff",
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -301,80 +300,74 @@ const style = StyleSheet.create({
     fontSize: 32,
   },
   addNotification: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    position: 'absolute',
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    position: "absolute",
     top: 20,
     left: 45,
-   //right: 45,
-    color:'white',
+    //right: 45,
+    color: "white",
     fontFamily: "Mukta-Bold",
 
     backgroundColor: "#D6A6A6",
     borderRadius: 15,
     paddingVertical: 8,
     paddingHorizontal: 12,
-
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor:"#D6A6A6",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#D6A6A6",
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    color: 'white',
+    color: "white",
   },
   notificationInput: {
     width: 300,
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 10,
     marginBottom: 20,
 
     borderWidth: 1,
-    borderColor: '#FCEFEF',
+    borderColor: "#FCEFEF",
 
     borderRadius: 5,
     //padding: 10,
     //marginBottom: 10,
   },
   modalButtonsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   modalButton: {
-    backgroundColor: 'sienna',
+    backgroundColor: "sienna",
     padding: 10,
     marginHorizontal: 10,
     borderRadius: 5,
   },
   modalButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   deleteButton: {
-    color: 'red',
+    color: "red",
     fontSize: 20,
-    marginLeft: 'auto',
+    marginLeft: "auto",
     marginRight: 10,
-
   },
 
   markButton: {
-    color: 'green',
+    color: "green",
     fontSize: 20,
-
   },
 });
 
 export default Alerts;
-
-
-
 
 // import { Notifications } from 'expo';
 // import * as Permissions from 'expo-permissions';
@@ -413,4 +406,3 @@ export default Alerts;
 //     repeat: 'day', // Set the frequency to repeat the notification
 //   });
 // }
-

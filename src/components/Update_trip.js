@@ -32,7 +32,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 const Update_trip = ({ route, navigation }) => {
-  const { dog } = route.params;
+  const { dog, logged_in_user } = route.params;
   const [tripdate, setTripDate] = React.useState(new Date());
   const [tripTime, setTripTime] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false); //defalt val is flase
@@ -67,10 +67,8 @@ const Update_trip = ({ route, navigation }) => {
       .catch((error) => {
         console.error("Error updating document:", error);
       });
-    // Navigate back to the profile screen with the updated information
-    navigation.goBack();
+    navigation.navigate("Home", logged_in_user);
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
