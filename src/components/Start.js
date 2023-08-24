@@ -40,8 +40,12 @@ const Start = () => {
     const usersCollection = collection(db, "Users");
     const q = query(usersCollection, where("email", "==", email));
     const querySnapshot = await getDocs(q);
-    
-    const logged_in_user = querySnapshot.docs[0].data();
+
+    let logged_in_user;
+    if (!querySnapshot.empty) {
+      logged_in_user = querySnapshot.docs[0].data();
+      console.error(logged_in_user);
+    }
     const exist = await checkEmailAvailability(email);
     if (exist) {
       signInWithEmailAndPassword(auth, email, password)
@@ -62,16 +66,14 @@ const Start = () => {
     } else {
       alert("user does not exist. please register");
     }
-
     return;
   };
 
   const checkEmailAvailability = async () => {
-    console.log("ggggiiii");
+    //console.log("ggggiiii");
     const usersCollection = collection(db, "Users");
     const q = query(usersCollection, where("email", "==", email));
     const querySnapshot = await getDocs(q);
-
     return !querySnapshot.empty;
   };
 
