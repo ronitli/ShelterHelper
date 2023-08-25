@@ -67,6 +67,8 @@ const AllDocuments = ({ route, navigation }) => {
   const deleteDocument = async (firestoreDocumentId, srorageFileName) => {
     await deleteDocumentFromStorage(dog.id, srorageFileName);
     await deleteDocumentFromFirestore(firestoreDocumentId);
+    Alert.alert("Document Deleted!", "Document Deleted Successfully.");
+    navigation.goBack();
   };
 
   const deleteDocumentFromStorage = async (dogId, srorageFileName) => {
