@@ -20,13 +20,12 @@ import * as DocumentPicker from "expo-document-picker";
 import { FileSystem } from "expo";
 const ManageDocuments = ({ route, navigation }) => {
   const { dog, logged_in_user } = route.params;
-
+  //if reached this page means you are a manager
   return (
     <View style={styles.container}>
       <Icon name="file" size={50} color="sienna" />
       <Text style={styles.title}>Manage Documents</Text>
       <View style={{ height: 20 }} />
-
       <TouchableOpacity
         style={styles.loginButton}
         onPress={() =>
