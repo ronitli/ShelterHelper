@@ -50,7 +50,7 @@ const UploadNewDocument = ({ route, navigation }) => {
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: "*/*",
+        type: "application/pdf", // Only allow PDF files
       });
 
       if (!result.cancelled) {
@@ -138,7 +138,7 @@ const UploadNewDocument = ({ route, navigation }) => {
 
       <View>
         <TouchableOpacity style={styles.loginButton} onPress={pickDocument}>
-          <Text style={styles.buttonText}>Pick Document</Text>
+          <Text style={styles.buttonText}>Pick Document (PDF ONLY)</Text>
         </TouchableOpacity>
 
         {fileUri && (
