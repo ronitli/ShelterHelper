@@ -60,23 +60,6 @@ const UploadNewDocument = ({ route, navigation }) => {
       console.log("Error picking document", error);
     }
   };
-
-  const saveDocumentLocally = async () => {
-    // if (fileUri) {
-    //   const fileExtension = fileUri.split('.').pop(); // Get the file extension
-    //   const fileName = `file_${Date.now()}.${fileExtension}`; // Generate a unique file name
-    //   const newPath = FileSystem.documentDirectory + fileName;
-    //   try {
-    //     await FileSystem.copyAsync({
-    //       from: fileUri,
-    //       to: newPath,
-    //     });
-    //     console.log('File saved locally:', newPath);
-    //   } catch (error) {
-    //     console.log('Error saving file locally', error);
-    //   }
-    // }
-  };
   const saveDocument = async (dog) => {
     //check that a document was added and given a name
     if (!fileUri) {
@@ -106,39 +89,39 @@ const UploadNewDocument = ({ route, navigation }) => {
     try {
       console.log(fileUri);
       const response = await fetch(fileUri);
-      try {
-        if (!response.ok) {
-          throw new Error(`Fetch failed with status ${response.status}`);
-        }
-        const blob = await response.blob();
-        //upload to storage
-        await uploadBytes(storageRef, blob, metadata)
-          .then((snapshot) => {
-            console.log("successfully upload file");
-            alert("file uploaded");
-          })
-          .catch((error) => {
-            console.log(error.massage);
-          });
-        const documentUrl = await getDownloadURL(storageRef);
-        // Save the document details to the subcollection 'Documents' under the dog's document
-        const dogDocumentsRef = collection(db, "Dogs", dog.id, "Documents");
-        const newDocumentRef=await addDoc(dogDocumentsRef, {
-          documentName: fileName, // Save user-given file name
-          documentUrl: documentUrl,
-          srorageFileName:uniqueFilename,
-          firestoreDocumentId: "",
+      // try {
+      //   if (!response.ok) {
+      //     throw new Error(`Fetch failed with status ${response.status}`);
+      //   }
+      const blob = await response.blob();
+      //upload to storage
+      await uploadBytes(storageRef, blob, metadata)
+        .then((snapshot) => {
+          console.log("successfully upload file");
+          alert("file uploaded");
+        })
+        .catch((error) => {
+          console.log(error.massage);
         });
-          const newDocumentId = newDocumentRef.id;
-          await updateDoc(newDocumentRef, {
-            firestoreDocumentId: newDocumentId,
-          });
-      } catch (error) {
-        console.log("Error uploading document:", error);
-      }
+      const documentUrl = await getDownloadURL(storageRef);
+      // Save the document details to the subcollection 'Documents' under the dog's document
+      const dogDocumentsRef = collection(db, "Dogs", dog.id, "Documents");
+      const newDocumentRef = await addDoc(dogDocumentsRef, {
+        documentName: fileName, // Save user-given file name
+        documentUrl: documentUrl,
+        srorageFileName: uniqueFilename,
+        firestoreDocumentId: "",
+      });
+      const newDocumentId = newDocumentRef.id;
+      await updateDoc(newDocumentRef, {
+        firestoreDocumentId: newDocumentId,
+      });
     } catch (error) {
-      console.log("Error converting response to blob:", error);
+      console.log("Error uploading document:", error);
     }
+    // } catch (error) {
+    //   console.log("Error converting response to blob:", error);
+    // }
 
     //reset
     setFileUri(null);
