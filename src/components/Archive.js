@@ -38,7 +38,6 @@ import {
 } from "firebase/firestore";
 import { useEffect } from "react";
 import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
-import Dogs from "./Dogs";
 //from Dogs page
 const Archive = ({ route, navigation }) => {
   const logged_in_user = route.params;
