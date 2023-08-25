@@ -69,6 +69,7 @@ const Update_Dog_Details = ({ route, navigation }) => {
     setBirthday(currentBirthday);
   };
   const onSave = () => {
+    console.log(info);
     //save to database+alert acoordingly ---------------------------------->RAZ - update database
     const updateDetails = {
       name: name,

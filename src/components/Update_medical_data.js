@@ -35,25 +35,25 @@ const Update_medical_data = ({ route, navigation }) => {
   let alertShown = false;
   // func declaration argugemnt navigation  function adddogs (navigation) {}
   const { dog, logged_in_user } = route.params;
-  console.log(dog);
+  //console.log(dog);
   const [rabiesVaccineDate, setRabiesVaccine] = React.useState(
-    dog.rabiesVaccineDate
+    dog.rabiesVaccineDate ? dog.rabiesVaccineDate : ''
   );
-  const [chipDate, setChip] = React.useState(dog.chipDate);
+  const [chipDate, setChip] = React.useState(dog.chipDate ? dog.chipDate : '');
   const [spirocercaLupiDate, setSpirocercaLupi] = React.useState(
-    dog.spirocercaLupiDate
+    dog.spirocercaLupiDate ? dog.spirocercaLupiDate : ''
   );
   const [hexagonalVaccine, setHexagonalVaccine] = React.useState(
-    dog.hexagonalVaccine
+    dog.hexagonalVaccine ? dog.hexagonalVaccine : ''
   );
-  const [castration, setcastration] = React.useState(dog.castration);
-  const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate);
+  const [castration, setcastration] = React.useState(dog.castration ? dog.castration : '');
+  const [dewormingDate, setDeworming] = React.useState(dog.dewormingDate ? dog.dewormingDate : '');
   const [fleaTreatmentDate, setfleaTreatment] = React.useState(
-    dog.fleaTreatmentDate
+    dog.fleaTreatmentDate ? dog.fleaTreatmentDate : ''
   );
-  const [alergies, setAlergies] = React.useState(dog.alergies);
-  const [medications, setMedications] = React.useState(dog.medications);
-  const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment);
+  const [alergies, setAlergies] = React.useState(dog.alergies ? dog.alergies : '');
+  const [medications, setMedications] = React.useState(dog.medications ? dog.medications : '');
+  const [medicalTreatment, setTreatment] = React.useState(dog.medicalTreatment ? dog.medicalTreatment : '');
 
   const dateValidation = async (date) => {
     const regex = /^\d{2}\/\d{2}\/\d{4}$/; // Regular expression for DD/MM/YYYY format
@@ -109,8 +109,9 @@ const Update_medical_data = ({ route, navigation }) => {
       castration,
     ];
     dates.forEach((dateParam) => {
-      if (dateParam !== "") {
+      if (dateParam) {
         dateValidation(dateParam);
+        console.log(rabiesVaccineDate);
         if (alertShown === true) {
           return;
         }
@@ -148,7 +149,7 @@ const Update_medical_data = ({ route, navigation }) => {
     console.log("in navigation");
     Alert.alert("Saved!", "Medical Information was Saved Successfully!");
     // Navigate back to the profile screen with the updated information
-    navigation.navigate("Dogs", logged_in_user);
+    navigation.navigate("Home", logged_in_user);
   };
   return (
     <SafeAreaView style={styles.tripContainer}>
