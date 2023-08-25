@@ -27,8 +27,6 @@ import AllDocuments from "./src/components/AllDocuments";
 import DogInfo from "./src/components/DogInfo";
 import ManageUsers from "./src/components/ManageUsers";
 import DeleteUsers from "./src/components/DeleteUsers";
-//import Add_Medical_Data from "./src/components/Add_Medical_Data";
-import Add_Medical_Data from "./src/components/Add_Medical_Data";
 import * as Font from "expo-font";
 //import { loadFonts } from './styles';
 import AppLoading from "expo-app-loading";
@@ -102,11 +100,7 @@ function App() {
           component={Requests}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Add_Medical_Data"
-          component={Add_Medical_Data}
-          options={{ headerShown: false }}
-        />
+        
         {/* <Stack.Screen name="EventListItem" component={EventListItem} options={{headerShown:false}}/> */}
         <Stack.Screen
           name="Update_medical_data"

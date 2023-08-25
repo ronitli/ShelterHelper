@@ -11,6 +11,7 @@ import { List, MD3Colors, Divider, Surface } from "react-native-paper";
 
 const Home = ({ route, navigation }) => {
   const logged_in_user = route.params;
+  console.log(logged_in_user);
   return (
     <View style={styles.container}>
       <Icon name="home" size={60} color="#A0522D" />
