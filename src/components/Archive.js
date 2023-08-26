@@ -60,7 +60,7 @@ const Archive = ({ route, navigation }) => {
     const q = collection(db, "DogsArchive");
     const querySnapshot = await getDocs(q);
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - 1); // 30 days ago
+    currentDate.setDate(currentDate.getDate() - 30); // 30 days ago
     const deletePromises = [];
     querySnapshot.forEach((doc) => {
       const deleteTimestamp = doc.data().deleteTimestamp.toDate();

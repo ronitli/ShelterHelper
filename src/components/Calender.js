@@ -110,7 +110,7 @@ const Calender = ({ route, navigation }) => {
     };
     //save to database
     await saveEventToDatabase(eventObject);
-    Alert.alert("Event Deleted!", "Event Deleted Successfully.");
+    Alert.alert("Event Saved!", "Event Saved Successfully.");
     navigation.navigate("Home", logged_in_user);
   };
 
