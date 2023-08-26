@@ -1,6 +1,5 @@
 {
   "expo": {
-    
     "name": "DogShelter",
     "slug": "DogShelter",
     "version": "1.0.0",
@@ -13,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.DogShelter.DogShelter",
       "supportsTablet": true
@@ -25,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["android.permission.RECORD_AUDIO"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2611191d-b6c4-47d2-a973-44b0dec7c5d6"
+      }
     }
   }
 }
