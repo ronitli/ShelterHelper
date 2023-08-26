@@ -136,7 +136,7 @@ const AddDog = ({ route, navigation }) => {
         const newDogId = docRef.id; // Retrieve the auto-generated ID
         dogId = docRef.id;
         console.log("Successfully added a new dog with ID:", newDogId);
-        alert("Successfully added a new dog with ID: " + newDogId);
+        alert("Successfully added a new dog");
         const data = { ...newDog, id: newDogId };
         setDoc(docRef, data)
           .then((docRef) => {
