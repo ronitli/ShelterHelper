@@ -133,7 +133,6 @@ const Calender = ({ route, navigation }) => {
       .then((docRef) => {
         eventId = docRef.id;
         console.log("Successfully added a new evet with ID:", eventId);
-        alert("Successfully added a new event!");
         const data = { ...newEvent, id: eventId };
         setDoc(docRef, data)
           .then((docRef) => {
