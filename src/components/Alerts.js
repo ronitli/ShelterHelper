@@ -55,16 +55,17 @@ const Item = ({ title }) => (
 
 const Alerts = ({ route, navigation }) => {
   const logged_in_user = route.params;
-  const [alerts, setAlerts] = useState([]);
+  //const [alerts, setAlerts] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [notificationText, setNotificationText] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [alertsArray, setAlertsArray] = useState({});
+  const [loadAlerts, setLoadAlerts] = useState(false);
 
   useEffect(() => {
     //console.log("fetching events");
     fetchAlerts();
-  }, []);
+  }, [loadAlerts]);
 
   const fetchAlerts = async () => {
     const notifications_collection = collection(db, "Notifications");
@@ -99,7 +100,7 @@ const Alerts = ({ route, navigation }) => {
     await onSave(newNotification);
     handleCloseModal();
     Alert.alert("Notification Saved!", "Notification Saved Successfully.");
-    navigation.navigate("Home", logged_in_user);
+    setLoadAlerts(!loadAlerts);
   };
 
   const onSave = async (newNotification) => {
@@ -162,7 +163,7 @@ const Alerts = ({ route, navigation }) => {
             // setNotifications(updatedNotifications);
             await deleteFromNotificationTable(notification);
             Alert.alert("Notification Deleted!", "Notification Deleted Successfully.");
-            navigation.navigate("Home", logged_in_user);
+            setLoadAlerts(!loadAlerts);
           },
         },
       ]
