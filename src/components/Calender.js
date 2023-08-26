@@ -45,14 +45,13 @@ const Calender = ({ route, navigation }) => {
   const [events, setEvents] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAllEventsModalVisible, setIsAllEventsModalVisible] = useState(false);
-  const [loadEvents, setLoadEvents] = useState(false);
   const [eventsArray, setEventsArray] = useState({});
   const [markedDates, setMarkedDates] = useState({});
 
   useEffect(() => {
     //console.log("fetching events");
     fetchEvents();
-  }, [loadEvents]);
+  }, []);
 
   useEffect(() => {
     let tmpMarkedDates = { ...markedDates };
@@ -95,7 +94,7 @@ const Calender = ({ route, navigation }) => {
     //func get (event) only
     await deleteEvent(event[1]);
     Alert.alert("Event Deleted!", "Event Deleted Successfully.");
-    setLoadEvents(!loadEvents);
+    navigation.navigate("Home", logged_in_user);
   };
 
   const handleCreateEvent = () => {
@@ -111,8 +110,8 @@ const Calender = ({ route, navigation }) => {
     };
     //save to database
     await saveEventToDatabase(eventObject);
-    Alert.alert("Event Saved!", "Event Saved Successfully.");
-    setLoadEvents(!loadEvents);
+    Alert.alert("Event Deleted!", "Event Deleted Successfully.");
+    navigation.navigate("Home", logged_in_user);
   };
 
   const handleOpenAllEventsModal = () => {
