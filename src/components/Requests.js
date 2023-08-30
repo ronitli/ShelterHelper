@@ -122,7 +122,7 @@ const Requests = ({ route, navigation }) => {
                 <Text style={styles.reqText}>Name: {request.username}</Text>
                 <Text style={styles.reqText}>Email: {request.email}</Text>
                 <Text style={styles.reqText}>
-                  Title: {request.selectedOption}
+                  Title: {request.role}
                 </Text>
                 <View
                   style={{
