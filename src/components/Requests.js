@@ -121,9 +121,7 @@ const Requests = ({ route, navigation }) => {
                 <Text style={styles.reqText}>Request: {request.Request}</Text>
                 <Text style={styles.reqText}>Name: {request.username}</Text>
                 <Text style={styles.reqText}>Email: {request.email}</Text>
-                <Text style={styles.reqText}>
-                  Title: {request.selectedOption}
-                </Text>
+                <Text style={styles.reqText}>Title: {request.role}</Text>
                 <View
                   style={{
                     flexDirection: "row",

@@ -51,7 +51,6 @@ const Register = ({ navigation }) => {
     getShelterNames();
   }, []);
 
-
   const validateEmail = (email) => {
     // Regular expression for validating email
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -80,12 +79,13 @@ const Register = ({ navigation }) => {
     } else if (password != checkpswd) {
       Alert.alert("Error", "The passwords do not match.");
       return;
-    } else if(!validateEmail(email))
-    {
+    } else if (password.length < 6) {
+      Alert.alert("Error", "The password must be at least 6 characters.");
+      return;
+    } else if (!validateEmail(email)) {
       Alert.alert("Error", "Invalid email.");
       return;
     }
-
     const newUser = {
       username: username,
       password: password,
